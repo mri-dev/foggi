@@ -1,0 +1,24 @@
+[05-Oct-2016 20:02:16 Europe/Berlin] PHP Fatal error:  Uncaught exception 'FileManager\FileManagerException' with message 'FileManager\FileLister: a megadott elérési út (src/products) nem mappa!' in /home/mridevco/public_html/foggi/admin/application/libs/FileManager/FileLister.php:32
+Stack trace:
+#0 /home/mridevco/public_html/foggi/admin/application/libs/PortalManager/Portal.php(24): FileManager\FileLister->__construct('src/products')
+#1 /home/mridevco/public_html/foggi/admin/application/controllers/home.php(29): PortalManager\Portal->checkUnusedProductImage()
+#2 /home/mridevco/public_html/foggi/admin/application/libs/Start.php(29): home->__construct()
+#3 /home/mridevco/public_html/foggi/admin/index.php(17): Start->__construct()
+#4 {main}
+  thrown in /home/mridevco/public_html/foggi/admin/application/libs/FileManager/FileLister.php on line 32
+[05-Oct-2016 20:02:20 Europe/Berlin] PHP Fatal error:  Uncaught exception 'FileManager\FileManagerException' with message 'FileManager\FileLister: a megadott elérési út (src/products) nem mappa!' in /home/mridevco/public_html/foggi/admin/application/libs/FileManager/FileLister.php:32
+Stack trace:
+#0 /home/mridevco/public_html/foggi/admin/application/libs/PortalManager/Portal.php(24): FileManager\FileLister->__construct('src/products')
+#1 /home/mridevco/public_html/foggi/admin/application/controllers/home.php(29): PortalManager\Portal->checkUnusedProductImage()
+#2 /home/mridevco/public_html/foggi/admin/application/libs/Start.php(29): home->__construct()
+#3 /home/mridevco/public_html/foggi/admin/index.php(17): Start->__construct()
+#4 {main}
+  thrown in /home/mridevco/public_html/foggi/admin/application/libs/FileManager/FileLister.php on line 32
+[05-Oct-2016 20:02:49 Europe/Berlin] PHP Fatal error:  Uncaught exception 'FileManager\FileManagerException' with message 'FileManager\FileLister: a megadott elérési út (src/products) nem mappa!' in /home/mridevco/public_html/foggi/admin/application/libs/FileManager/FileLister.php:32
+Stack trace:
+#0 /home/mridevco/public_html/foggi/admin/application/libs/PortalManager/Portal.php(24): FileManager\FileLister->__construct('src/products')
+#1 /home/mridevco/public_html/foggi/admin/application/controllers/home.php(29): PortalManager\Portal->checkUnusedProductImage()
+#2 /home/mridevco/public_html/foggi/admin/application/libs/Start.php(29): home->__construct()
+#3 /home/mridevco/public_html/foggi/admin/index.php(17): Start->__construct()
+#4 {main}
+  thrown in /home/mridevco/public_html/foggi/admin/application/libs/FileManager/FileLister.php on line 32
