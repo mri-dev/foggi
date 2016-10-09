@@ -8,12 +8,8 @@ $color-sec: #d9d9d9;
 $color-gold: #F29F27;
 
 /* FONTS */
-$font-cond: 'Oswald', sans-serif;
-$font-sans-narrow: 'PT Sans Narrow', sans-serif;
-
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic);
-@import url(https://fonts.googleapis.com/css?family=Oswald:400,700,300&subset=latin,latin-ext);
-@import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700);
+$font-cond: 'Roboto', sans-serif;
+$font-sans-narrow: 'Open Sans', sans-serif;
 
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;

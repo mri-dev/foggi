@@ -1,12 +1,12 @@
 <div class="cart-float" id="mb-cart">
   <div mb-event="true" data-mb='{ "event": "toggleOnClick", "target" : "#mb-cart" }'>
     <div class="cart"><i class="fa fa-shopping-basket"></i></div>
-    <div class="item-nums"><span class="cart-item-num-v">A kosara üres.</span></div>
+    <div class="item-nums"><span id="cart-item-num">A kosara üres.</span></div>
     <div class="item-prices"><span class="cart-item-prices">0</span> Ft</div>
   </div>
   <div class="floating mobile-max-width">
     <div id="cartContent" class="overflowed">
-      <div class="noItem"><div class="inf">A kosár üres</div></div>
+      <div class="noItem"><div class="inf">Az Ön kosara üres.</div></div>
     </div>
     <div class="totals">
       <table width="100%">
@@ -17,7 +17,7 @@
           </tr>
           <tr>
             <td colspan="2" class="right">
-              <a href="/kosar">Megrendelés</a>
+              <a href="/kosar">Tovább a kosárba</a>
             </td>
           </tr>
         </tbody>

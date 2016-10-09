@@ -9,7 +9,7 @@
     <meta property="fb:app_id" content="<?=$this->settings['FB_APP_ID']?>" />
     <? $this->render('meta'); ?>
 </head>
-<body>
+<body class="<?=$this->bodyclass?>">
 <div ng-show="showed" ng-controller="popupReceiver" class="popupview" data-ng-init="init({'contentWidth': 1050, 'domain': '.mri-dev.com', 'receiverdomain' : '<?=POPUP_RECEIVER_URL?>', 'imageRoot' : '<?=POPUP_IMG_ROOT?>/'})"><ng-include src="'/<?=VIEW?>popupview.html'"></ng-include></div>
 <? if(!empty($this->settings[google_analitics])): ?>
 <script>
@@ -47,16 +47,16 @@
     </div>
     <div class="main-elements">
   		<div class="grid-layout grid-np">
-  			<div class="grid-row grid-row-20 center vra-bottom">
+  			<div class="grid-row grid-row-25 center vra-bottom">
   				<div class="logo"><a href="<?=$this->settings['page_url']?>"><img src="<? echo IMG.'foggi_logo_wtext_pink.svg'; ?>" alt="<?=$this->settings['page_title']?>"></a></div>
   			</div>
-  			<div class="grid-row grid-row-60 left vra-bottom">
+  			<div class="grid-row grid-row-50 left vra-bottom">
           <div class="header-top-center">
             <? $this->render('templates/header_contact'); ?>
             <? $this->render('templates/search'); ?>
           </div>
         </div>
-  			<div class="grid-row grid-row-30 center vra-bottom">
+  			<div class="grid-row grid-row-35 center vra-bottom">
           <? $this->render( 'templates/cart-top' ); ?>
   			</div>
   		</div>

@@ -1105,8 +1105,24 @@
 .cart-float {
 	position: relative;
 	cursor: pointer;
+	text-align: right;
 
-	.cart-item-num-v {
+	.item-nums {
+		color: $color-gold;
+		font-size: 1.1em;
+		line-height: 20px;
+	}
+	.item-prices {
+		color: darken(white, 30%);
+		font-size: 0.8em;
+		line-height: 20px;
+	}
+
+	.cart {
+		font-size: 25px;
+		float: right;
+		margin: 0 0 0 15px;
+		line-height: 40px;
 	}
 }
 .cart-float > div * {
@@ -1128,17 +1144,29 @@
 }
 .cart-float .floating {
 	display: none;
-	background: darken( $color-sec, 50%);
+	background: #ffffff;
 	position: absolute;
 	width: 450px;
 	height: auto;
 	right: 0;
-	top: 70px;
-	font-size:1.4em;
+	top: 40px;
+	font-size: 1.4em;
 	padding:0;
 	z-index: 9999;
-	color: white;
-	box-shadow: 0 0 10px -2px #888;
+	color: #333333;
+	-webkit-box-shadow: 5px 5px 14px -4px #000;
+	-moz-box-shadow: 5px 5px 14px -4px #000;
+	box-shadow: 5px 5px 14px -4px #000;
+
+	&:before {
+		content:"";
+		position: absolute;
+		top: -16px;
+		right: 5px;
+		border-style: solid;
+		border-color: transparent transparent #ffffff transparent;
+		border-width: 8px;
+	}
 }
 .cart-float:hover .floating,
 .cart-float.opened .floating {
@@ -2308,6 +2336,25 @@
 	}
 	ul li.active a {
 		border-left: 5px solid $color-pr;
+	}
+}
+.page {
+	.page-view {
+		padding: 0 25px 25px 25px;
+		color: #636161;
+		line-height: 1.6;
+
+		.title {
+			color: $color-pr;
+			margin: 10px 0 25px 0;
+			text-transform: uppercase;
+		}
+
+		.content {
+			p {
+				margin-bottom: 10px;
+			}
+		}
 	}
 }
 

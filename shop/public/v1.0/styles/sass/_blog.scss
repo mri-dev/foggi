@@ -3,7 +3,7 @@ body, html {
 	background-image: url('#{$imgroot}src/images/bg-overlay.svg');
 	background-repeat: no-repeat;
 	background-position: top center;
-	font-family: 'PT Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 	font-size: 1em;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
@@ -117,6 +117,11 @@ body, html {
   border-collapse: collapse;
 }
 
+h1,h2, h3, h4, h5, h6 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+}
+
 h4 {
   font-size: 110%;
 }
@@ -138,11 +143,12 @@ h1 {
 	float: right;
 	display: table-cell;
 	vertical-align: top;
-	padding-left: 25px; 
+	padding-left: 25px;
 }
 
 .inside-content {
 	min-height: 550px;
+	background-color: #fff;
 
 	.page-content {
 		padding: 25px;
@@ -166,5 +172,11 @@ h1 {
 				color: darken( $color-sec, 55% );
 			}
 		}
+	}
+}
+
+body.homepage {
+	.inside-content{
+		background-color: transparent;
 	}
 }
