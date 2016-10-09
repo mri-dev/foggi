@@ -34,87 +34,65 @@
 	<div class="pw">
     <div class="topper">
   		<div class="grid-layout grid-np">
-  			<div class="grid-row grid-row-70 left vra-middle"></div>
+  			<div class="grid-row grid-row-70 left vra-bottom"></div>
   			<div class="grid-row grid-row-30 center vra-top">
   				<div class="short-menu right hide-on-mobile">
   					<ul>
-              <li><a href="#">Regisztráció</a></li>
-              <li><a href="#">Bejelentkezés</a></li>
+              <li class="reg"><a href="/user/reg">Regisztráció</a></li>
+              <li class="login"><a href="/user/belepes"><i class="fa fa-user"></i> Bejelentkezés</a></li>
             </ul>
   				</div>
   			</div>
   		</div>
     </div>
-    <div class="topper">
+    <div class="main-elements">
   		<div class="grid-layout grid-np">
-  			<div class="grid-row grid-row-10 center vra-middle">
+  			<div class="grid-row grid-row-20 center vra-bottom">
   				<div class="logo"><a href="<?=$this->settings['page_url']?>"><img src="<? echo IMG.'foggi_logo_wtext_pink.svg'; ?>" alt="<?=$this->settings['page_title']?>"></a></div>
   			</div>
-  			<div class="grid-row grid-row-60 left vra-middle"><? $this->render('templates/casada_places_inheader'); ?></div>
-  			<div class="grid-row grid-row-30 center vra-top">
-  				<br><br>
-  				<div class="short-menu right hide-on-mobile">
-  					<ul>
-
-  				</div>
+  			<div class="grid-row grid-row-60 left vra-bottom">
+          <div class="header-top-center">
+            <? $this->render('templates/header_contact'); ?>
+            <? $this->render('templates/search'); ?>
+          </div>
+        </div>
+  			<div class="grid-row grid-row-30 center vra-bottom">
+          <? $this->render( 'templates/cart-top' ); ?>
   			</div>
   		</div>
     </div>
 	</div>
 </header>
-<? echo $this->templates->get('floating_contact_msg', array_merge((array)$this)); ?>
+
+<div class="pw">
+  <nav>
+      <ul class="menu">
+        <? foreach ( $this->menu_header->tree as $menu ): ?>
+          <li class="menu-item<?=(strpos($menu['css_class'],'icons') !== false || $menu['kep']) ? ' has-icon':''?><?=(strlen($menu['nev']) > 50)?' two-row':''?> <?=$menu['css_class']?>">
+          <? if( $menu['tipus'] == 'template' ): ?>
+            <? echo $this->templates->get($menu['data_value'], array_merge((array)$this)); ?>
+          <? else: ?>
+            <a href="<?=($menu['link']?:'')?>" style="<?=$menu['css_styles']?>">
+              <? if(strpos($menu['css_class'],'icons') !== false): ?><span class="ic"><i class="dashicons dashicons-<?=trim(str_replace('icons','',$menu['css_class']))?>"></i></span><? endif; ?>
+              <? if($menu['kep']): ?><span class="ic"><img src="<?=\PortalManager\Formater::sourceImg($menu['kep'])?>" alt="<?=$menu['nev']?>"></span><? endif; ?>
+              <span class="text"><?=$menu['nev']?></span>
+            </a>
+          <? endif; ?>
+          </li>
+        <? endforeach; ?>
+      </ul>
+  </nav>
+</div>
+
 <!-- Content View -->
 <div class="website">
 		<?=$this->gmsg?>
 		<div class="general-sidebar">
+			<ul class="cat-menu">
 
-			<ul class="menu">
-				<li class="menu-item show-on-mobile">
-					<div class="mobile-sharer">
-						<? echo $this->render('templates/sharer'); ?>
-					</div>
-				</li>
-				<li class="menu-item show-on-mobile"><a href="/"><i class="fa fa-arrow-left"></i> Webshop</a></li>
-				<? foreach ( $this->menu_header->tree as $menu ): ?>
-					<li class="menu-item <?=(strpos($menu['css_class'],'icons') !== false || $menu['kep']) ? 'has-icon':''?> <?=(strlen($menu['nev']) > 20)?'two-row':''?> <?=$menu['css_class']?>">
-					<? if( $menu['tipus'] == 'template' ): ?>
-						<? echo $this->templates->get($menu['data_value'], array_merge((array)$this)); ?>
-					<? else: ?>
-						<a href="<?=($menu['link']?:'')?>" style="<?=$menu['css_styles']?>">
-							<? if(strpos($menu['css_class'],'icons') !== false): ?><span class="ic"><i class="dashicons dashicons-<?=trim(str_replace('icons','',$menu['css_class']))?>"></i></span><? endif; ?>
-							<? if($menu['kep']): ?><span class="ic"><img src="<?=\PortalManager\Formater::sourceImg($menu['kep'])?>" alt="<?=$menu['nev']?>"></span><? endif; ?>
-							<span class="text"><?=$menu['nev']?></span>
-						</a>
-					<? endif; ?>
-					</li>
-				<? endforeach; ?>
 			</ul>
 		</div>
 		<div class="site-container <?=($this->gets[0]=='termek' || $this->gets[0]=='kosar' )?'productview':''?>">
-			<div class="cart-float" id="mb-cart">
-				<div mb-event="true" data-mb='{ "event": "toggleOnClick", "target" : "#mb-cart" }'><a href="/kosar" title="Tovább a kosárhoz"><img src="<?=IMG?>shopcart_white_30pxh.png" alt="<?=__('Kosár')?>"></a> <span class="cart-item-num-v">0</span></div>
-				<div class="floating mobile-max-width">
-					<div id="cartContent" class="overflowed">
-						<div class="noItem"><div class="inf">A kosár üres</div></div>
-					</div>
-					<div class="totals">
-						<table width="100%">
-							<tbody>
-								<tr>
-									<td class="left"><strong>Összesen: </strong></td>
-									<td class="right"><span id="cart-item-prices"></span> Ft</td>
-								</tr>
-								<tr>
-									<td colspan="2" class="right">
-										<a href="/kosar">Megrendelés</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
 			<? $this->render( 'templates/sharer' ); ?>
-			<? //$this->render( 'templates/casada_places' ); ?>
 			<div class="clr"></div>
 			<div class="inside-content">

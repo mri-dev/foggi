@@ -1,5 +1,8 @@
 body, html {
-	background-color: #212121; 
+	background-color: #212121;
+	background-image: url('#{$imgroot}src/images/bg-overlay.svg');
+	background-repeat: no-repeat;
+	background-position: top center;
 	font-family: 'PT Sans', sans-serif;
 	font-weight: 400;
 	font-size: 1em;
@@ -135,7 +138,7 @@ h1 {
 	float: right;
 	display: table-cell;
 	vertical-align: top;
-	border: 1px solid lighten( $color-sec, 1% );
+	padding-left: 25px; 
 }
 
 .inside-content {

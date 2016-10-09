@@ -2,91 +2,64 @@ header {
 	color: white;
 	font-weight: 400;
 
+	.topper{
+		padding: 10px 0 40px 0;
+	}
+
 	a, a:visited {
 		color: white;
 	}
 
 	.logo {
+		width: 100%;
+		max-width: 100%;
 		img {
-			max-height: 50px;
+			width: 100%;
 			max-width: 100%;
 		}
 
 		position: relative;;
 	}
 
-	.contact {
-		margin: 5px 0;
-		display: block;
-
-		span {
-			font-weight: bold;
-			margin-left: 15px;
-		}
-
-		a {
-			color: white;
-			text-decoration:none;
+	.main-elements{
+		.header-top-center{
+			padding-left: 25px;
 		}
 	}
+}
 
-	.short-menu {
-		li {
-			display: -moz-inline-stack;
-        	display: inline-block;
-        	*display: inline;
-        	zoom: 1;
-        	line-height: 36px;
-        	margin-left: 10px;
-		}
+.short-menu {
+	li {
+		display: -moz-inline-stack;
+		display: inline-block;
+		*display: inline;
+		zoom: 1;
+		line-height: 36px;
+		margin-left: 10px;
 
-		li a {
-			/*padding: 0 20px;
-			font-size: 0.9em;
-			line-height: 36px;*/
+		a {
 			padding: 0 5px;
-		    font-size: 0.90em;
-		    line-height: 34px;
+	    font-size: 0.90em;
+	    line-height: 34px;
 			display: block;
-			color: white;
+			color: black;
+			line-height: 1;
+			text-decoration: none;
 		}
 
-		li.cp {
-			position: relative;
-		}
+		&.reg {
+			a{
 
-		li.cp a {
-			background: darken($color-pr, 10%);
-			@include border-radius-top(8px);
-		}
-
-		li.cp .alerts {
-			position: absolute;
-			background: #00a1e3;
-			right: 0;
-			bottom: -14px;
-			border: 2px solid #fff;
-			font-weight: bold;
-		    line-height: 1;
-		    padding: 0;
-		    -moz-transform: translate(50%, 0);
-		    -webkit-transform: translate(50%, 0);
-		    transform: translate(50%, 0);
-
-		    @include border-radius(6px);
-
-			a {
-				background: transparent;
-				display: block;
-				color: white;
-				font-size: 1em;
-				line-height: 1.5;
-				font-weight: bold;
-				text-decoration: none;
-				padding: 0 8px;
 			}
 		}
-
+		&.login {
+			a{
+				padding: 10px 20px;
+				color: white;
+				background: $color-pr;
+				@include border-radius(5px);
+			}
+		}
 	}
 }
 
@@ -210,6 +183,45 @@ header {
 				vertical-align: middle;
 				line-height: 1;
 				padding-left: 8px;
+			}
+		}
+	}
+}
+
+nav{
+	margin: 15px 0;
+	padding: 0 10px;
+	background: #000;
+	@include border-radius(15px);
+
+	ul{
+		margin:0;
+		padding:0;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-around;
+    align-items: stretch;
+
+		li{
+			a{
+				text-decoration: none !important;
+				text-transform: uppercase;
+				font-size: 1.05em;
+				color: darken(white, 40%) !important;
+				display:block;
+				padding: 20px 15px;
+				border-bottom: 2px solid transparent;
+			}
+			&.active{
+				a{
+					color: $color-gold;
+					border-bottom: 2px solid $color-gold;
+				}
+			}
+
+			a:hover {
+				color: $color-gold !important;
+				border-bottom: 2px solid $color-gold;
 			}
 		}
 	}

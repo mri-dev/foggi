@@ -70,7 +70,7 @@
 		bottom: 50px;
 		left: 10px;
 	}
-	
+
 	.slick-dots {
 		position: absolute;
 		bottom: 15px;
@@ -296,12 +296,12 @@
 			.irow {
 				display: table;
 				width: 100%;
-				
+
 			}
 
 			.image, .details {
 				display: table-cell;
-				vertical-align: top;				
+				vertical-align: top;
 			}
 
 			.image {
@@ -471,16 +471,16 @@
 				zoom: 1;
 
 				div {
-					
-					text-align: center;					
+
+					text-align: center;
 					font-weight: bold;
-					width: 100%;					
+					width: 100%;
 					display: table;
 				}
 
 				.holder {
 					height: 100%;
-				}	
+				}
 
 				a {
 					display: table-cell;
@@ -509,7 +509,7 @@
 
 				.each {
 					display: table-cell;
-					vertical-align: top;	
+					vertical-align: top;
 					text-align: center;
 					font-size: 0.7em;
 					line-height: 20px;
@@ -702,7 +702,7 @@
 				}
 			}
 			.all {
-				width: 350px; 
+				width: 350px;
 				border: 25px solid rgba(0, 0, 0, 0);
 				border-top: none;;
 				border-bottom: none;
@@ -930,11 +930,11 @@
 
 			.old {
 				line-height: 35px;
-				
+
 				.price {
 					font-size: 0.9em;
 					color:black;
-					font-family: $font-cond;				
+					font-family: $font-cond;
 				}
 
 				.discount_percent{
@@ -1013,8 +1013,8 @@
 	.slides {
 		width: 209px;
 		margin: 0;
-		
-		.slide {	
+
+		.slide {
 			width: 100%;
 			max-width: 100%;
 
@@ -1091,7 +1091,7 @@
 	color: darken($color-sec, 25%);
 	line-height: 1.5;
 
-	strong { 
+	strong {
 		font-size: 1.4em;
 		color: $color-pr;
 	}
@@ -1103,25 +1103,10 @@
 }
 
 .cart-float {
-	position: absolute;
-	right: -81px;
+	position: relative;
 	cursor: pointer;
-	background: darken( $color-sec, 50%);
-	color: white;
-	line-height: 70px;
-	padding: 0 15px;
-	img {
-		vertical-align: middle;
-	}
 
 	.cart-item-num-v {
-		background: $color-pr;
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		line-height: 1;
-		padding: 2px 6px;		
-		@include border-radius(16px);
 	}
 }
 .cart-float > div * {
@@ -1150,7 +1135,7 @@
 	right: 0;
 	top: 70px;
 	font-size:1.4em;
-	padding:0;	
+	padding:0;
 	z-index: 9999;
 	color: white;
 	box-shadow: 0 0 10px -2px #888;
@@ -1182,7 +1167,7 @@
 
 	.noItem {
 		text-align: center;
-		padding: 40px 0 20px 0; 
+		padding: 40px 0 20px 0;
 	}
 	.noItem:before{
 		font-family: FontAwesome;
@@ -1190,7 +1175,7 @@
 		font-size: 48px;
 		color: #d7d7d7;
 	}
-	.noItem .inf{	
+	.noItem .inf{
 		font-family: 'Din Cond', sans-serif;
 		font-size: 1em;
 	}
@@ -1255,7 +1240,7 @@
 	.item:last-child {
 		border-bottom: none;
 	}
-	
+
 }
 
 .places-bar {
@@ -1265,7 +1250,7 @@
 
 	.search-places,
 	.current-place,
-	.webshop-btn 
+	.webshop-btn
 	{
 		display: table-cell;
 		vertical-align: middle;
@@ -1304,7 +1289,7 @@
 			text-align: left;
 			strong {
 				color: white;
-			}			
+			}
 		}
 		.trackto {
 			padding: 0 8px 0 0;
@@ -1318,7 +1303,7 @@
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b1b2b2', endColorstr='#5f6060',GradientType=0 ); /* IE6-9 */
 
 			.ico {
-				background: #545454;	
+				background: #545454;
 				padding: 0 5px;
 
 				border-radius: 5px 0 0 5px;
@@ -1340,7 +1325,7 @@
 		color: white;
 		text-align: center;
 		background: darken( $color-sec, 40%);
-		
+
 		color: white;
 		text-decoration: none;
 		text-transform: uppercase;
@@ -1352,7 +1337,7 @@
 			margin-right: 8px;
 		}
 	}
-} 
+}
 
 .places-bar-inheader {
 	display: table;
@@ -1362,7 +1347,7 @@
 
 	.search-places,
 	.current-place,
-	.webshop-btn 
+	.webshop-btn
 	{
 		display: table-cell;
 		vertical-align: middle;
@@ -1398,7 +1383,7 @@
 			text-align: left;
 			strong {
 				color: white;
-			}			
+			}
 		}
 		.trackto {
 			padding: 0 8px 0 0;
@@ -1412,7 +1397,7 @@
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b1b2b2', endColorstr='#5f6060',GradientType=0 ); /* IE6-9 */
 
 			.ico {
-				background: #545454;	
+				background: #545454;
 				padding: 0 5px;
 
 				border-radius: 5px 0 0 5px;
@@ -1434,7 +1419,7 @@
 		color: white;
 		text-align: center;
 		background: darken( $color-sec, 40%);
-		
+
 		color: white;
 		text-decoration: none;
 		text-transform: uppercase;
@@ -1446,7 +1431,7 @@
 			margin-right: 8px;
 		}
 	}
-} 
+}
 
 .recall {
 	h3 {
@@ -1586,7 +1571,7 @@
 	border-bottom:1px solid #eee;
 }
 .cartItems .item > div[class*=col-] {
-	padding: 8px 0; 
+	padding: 8px 0;
 }
 .cartItems .item > div[class*=col-] span {
 	line-height: 85px;
@@ -1649,7 +1634,7 @@
 .nextOrded .steps {
 	display: none;
 	background-color: #fff;
-	padding: 15px; 
+	padding: 15px;
 
 	.input-fields {
 		.row {
@@ -1942,7 +1927,7 @@
 	font-size: 1em;
 }
 .nextOrded .topDiv h4 + div {
-	padding: 8px 0; 
+	padding: 8px 0;
 }
 
 .nextOrded .steps .price{
@@ -2006,7 +1991,7 @@
 .nextOrded .step0 .col2{
 	display: table;
 	text-align: center;
-} 
+}
 .nextOrded .step0 .col2 .col2In{
 	vertical-align: middle;
 	display: table-cell;
@@ -2072,7 +2057,7 @@
 		width: 75px;
 		margin: 0 10px 0 0;
 	}
-	.items .name a { 
+	.items .name a {
 		font-family: $font-cond;
 		text-transform: uppercase;
 		font-size:1.2em;
@@ -2125,7 +2110,7 @@
 		}
 	}
 	.items td {
-		vertical-align: middle;	
+		vertical-align: middle;
 	}
 	.datas {
 		.data {
@@ -2135,14 +2120,14 @@
 				background: green;
 				color: white;
 				font-size: 0.9em;
-				padding: 2px 5px; 
+				padding: 2px 5px;
 				line-height: 1.4;
 			}
 			.payu-paidonly {
 				background: orange;
 				color: white;
 				font-size: 0.9em;
-				padding: 2px 5px; 
+				padding: 2px 5px;
 				line-height: 1.4;
 			}
 		}
@@ -2347,7 +2332,7 @@ input[type=checkbox] + label:before {
 	border-radius: 5px;
 	-moz-box-shadow:inset 0 2px 0 #a5a5a5;
 	-webkit-box-shadow:inset 0 2px 0 #a5a5a5;
-	box-shadow:inset 0 2px 0 #a5a5a5,inset 0 0 2px #888;	
+	box-shadow:inset 0 2px 0 #a5a5a5,inset 0 0 2px #888;
 }
 input[type=checkbox]:checked + label:before {
 	content: "\f00c";
@@ -2510,7 +2495,7 @@ input[type=checkbox]:checked + label:before {
     		color: #5c5c5c;
     		margin-top: 15px;
     		text-align: justify;
-    		line-height: 135%; 
+    		line-height: 135%;
 
     		strong {
     			color: black;
@@ -2544,7 +2529,7 @@ input[type=checkbox]:checked + label:before {
 
 		.total {
 			border: 1px solid #ECECEC;
-			
+
 			padding: 8px;
 			font-size: 1.1em;
 
@@ -2637,14 +2622,14 @@ input[type=checkbox]:checked + label:before {
 			font-size: 28px;
 			width: 30px;
 		}
-	}	
+	}
 
 	.ico i {
 		font-size: 34px;
 		width: 35px;
 		text-align: center;
 		float: left;
-		margin: 0 15px 0 0; 
+		margin: 0 15px 0 0;
 	}
 }
 .partner-box:before {
@@ -2656,7 +2641,7 @@ input[type=checkbox]:checked + label:before {
 	right: 30px;
 	border-style: solid;
 	border-width: 13px;
-	
+
 }
 
 .partner-box.partner-valid {
@@ -2756,7 +2741,7 @@ input[type=checkbox]:checked + label:before {
 		padding: 10px;
 		color: black;
 		margin-top: 8px;
-		font-size: 0.9em;		
+		font-size: 0.9em;
 		line-height: 1.5;
 
 		@include border-radius(3px);
@@ -2776,7 +2761,7 @@ input[type=checkbox]:checked + label:before {
 		font-family: 'FontAwesome';
 		float: left;
 		font-size: 22px;
-		
+
 		color: #8DDEFF;
 	}
 
@@ -2790,7 +2775,7 @@ input[type=checkbox]:checked + label:before {
 		font-family: 'FontAwesome';
 		float: left;
 		font-size: 22px;
-		
+
 		color: #FF9CA0;
 	}
 
@@ -2827,7 +2812,7 @@ input[type=checkbox]:checked + label:before {
 			font-size: 1.8em;
 			font-weight: bold;
 		}
-	}	
+	}
 }
 
 .casada-pont {
@@ -2847,7 +2832,7 @@ input[type=checkbox]:checked + label:before {
 
 	* input[type=text],
 	* input[type=tel],
-	* input[type=email], 
+	* input[type=email],
 	textarea {
 		font-size: 0.95em;
 		border: 1px solid #d9d9d9 !important;
@@ -2948,7 +2933,7 @@ input[type=checkbox]:checked + label:before {
 
 		.when {
 			color: white;
-			width: 40%;			
+			width: 40%;
 			padding-right: 10px;
 
 			.text {
@@ -3013,7 +2998,7 @@ input[type=checkbox]:checked + label:before {
 			color: #a1a1a1;
 		}
 	}
-	
+
 }
 
 input[type=text][required].ng-invalid + span:before,
@@ -3021,8 +3006,8 @@ input[type=tel][required].ng-invalid + span:before,
 input[type=email][required].ng-invalid + span:before
 {
 	background: #e31f24;
-	color: white;	
-	font-size: 10px;	
+	color: white;
+	font-size: 10px;
 	width: 18px;
 	height: 18px;
 	font-family: 'FontAwesome';
@@ -3035,7 +3020,7 @@ input[type=email][required].ng-invalid + span:before
 	text-align:center;
     z-index: 999;
 
-	@include border-radius(20px); 
+	@include border-radius(20px);
 }
 input[type=text][required].ng-touched.ng-valid + span:before,
 input[type=tel][required].ng-touched.ng-valid + span:before,
@@ -3055,7 +3040,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
     top: 4px;
     z-index: 999;
 
-	@include border-radius(20px); 
+	@include border-radius(20px);
 }
 
 .need-fill-form {
@@ -3077,7 +3062,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 
 		padding: 10px;
 		line-height: 1.4;
-		
+
 		-webkit-box-shadow: 0 0 15px 0 #aaa;
 		-moz-box-shadow: 0 0 15px 0 #aaa;
 		box-shadow: 0 0 15px 0 #aaa;
@@ -3246,7 +3231,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 			font-size: 0.8em;
 			line-height: 135%;
 		}
-		
+
 		.place-details {
 			.head {
 				font-size: 0.85em;
@@ -3347,9 +3332,9 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		line-height: 130%;
 
 		.name {
-			font-weight: bold;	
+			font-weight: bold;
 			font-size: 1.1em;
-			color:black;		
+			color:black;
 		}
 
 		.face {
@@ -3364,7 +3349,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		}
 
 		.phone {
-			font-weight: bold;	
+			font-weight: bold;
 			color: $color-pr;
 			margin-top:5px;
 
@@ -3401,8 +3386,8 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	}
 }
 
-.product-ajanlott, 
-.related-products 
+.product-ajanlott,
+.related-products
 {
 	h3 {
 		color: #73737b;
@@ -3414,7 +3399,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	.items {
 		position: relative;
 		width: 100%;
-	
+
 		.item {
 			float: left;
 			width: 33.33333333333%;
@@ -3488,7 +3473,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 				width: 50%;
 				vertical-align: middle;
 				text-align: center;
-				
+
 				padding: 5px 10px;
 			}
 			.info-row-bottom > div:first-child {
@@ -3526,7 +3511,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 			.prices > div:not(.clr)  {
 				float: left;
 				width: 50%;
-				padding: 0 4px;				
+				padding: 0 4px;
 			}
 
 			.prices {
@@ -3573,8 +3558,8 @@ input[type=email][required].ng-touched.ng-valid + span:before
 }
 
 .share-box {
-	position: absolute;
-	right: -65px;
+	position: fixed;
+	right:0;
 	top: 80px;
 
 	div {
@@ -3605,7 +3590,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		margin: 20px;
 	}
 
-	
+
 	.pagination>li>a, .pagination>li>span {
 		color: $color-pr;
 	}
@@ -3619,7 +3604,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 .not-enought-price-for-order {
 	background: #EC4E4E;
 	padding: 5px 10px;
-	font-size: 0.9em; 
+	font-size: 0.9em;
 	color: white;
 	margin-bottom: 10px;
 }
@@ -3690,7 +3675,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 
 		.code {
 			color: $color-pr;
-			text-transform: uppercase;			
+			text-transform: uppercase;
 			font-family: $font-cond;
 		}
 	}
@@ -3699,7 +3684,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		background: $color-pr;
 		color: white;
 		font-size: 1.1em;
-		font-weight: normal;		
+		font-weight: normal;
 		font-family: $font-cond;
 
 		a {
@@ -3710,12 +3695,12 @@ input[type=email][required].ng-touched.ng-valid + span:before
 
 
 	.referer-user {
-		font-size: 1.5em; 
+		font-size: 1.5em;
 		font-family: $font-cond;
 
 		.partner {
 			color: $color-pr;
-			font-size: 1.6em; 
+			font-size: 1.6em;
 			text-transform: uppercase;
 		}
 
@@ -3752,7 +3737,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
     	line-height: 1.3;
 	}
 
-	
+
 
 	.shower > a > img {
 		border: 1px solid $color-sec;
@@ -3787,7 +3772,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	}
 
 	.larger {
-		font-size: 1.1em;		
+		font-size: 1.1em;
 		font-family: $font-cond;
 	}
 
@@ -3821,7 +3806,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 
 	.simple-information {
 		border: 2px solid $color-sec;
-	
+
 		.head {
 			background: $color-sec;
 			padding: 10px;
@@ -3847,7 +3832,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		}
 		.simple-info-footer {
 			background: lighten($color-sec, 10%);
-			padding: 4px 10px;			
+			padding: 4px 10px;
 			font-size: 0.85em;
 			line-height: 30px;
 
@@ -3874,7 +3859,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	position: fixed;
 	right: 0;
 	top: 0;
-	z-index: 100;	
+	z-index: 100;
 }
 
 .floating-box.contact-msg {
@@ -3893,7 +3878,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	box-shadow: 5px 5px 25px -10px #000;
 
 	-webkit-transform: translate(0, -50%);
-	-moz-transform: translate(0, -50%);	
+	-moz-transform: translate(0, -50%);
 	transform: translate(0, -50%);
 
 	-webkit-transition:.4s;
@@ -3960,7 +3945,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 				text-transform: uppercase;
 				margin: 8px 0;
 				font-size: 1.25em;
-				font-weight: bold;	
+				font-weight: bold;
 
 				@include border-radius(8px);
 			}
@@ -3972,8 +3957,8 @@ input[type=email][required].ng-touched.ng-valid + span:before
 				line-height: 1.3;
 				margin: 4px 0;
 				color: $color-pr;
-				border: 1px solid $color-sec; 		
-				width: 100%;	
+				border: 1px solid $color-sec;
+				width: 100%;
 				@include border-radius(5px);
 			}
 			textarea {
@@ -4096,7 +4081,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		background: #fafafa;
 		padding: 15px;
 
-		
+
 	}
 
 	.tab-content.show {
@@ -4164,7 +4149,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 				-moz-box-shadow:inset -3px 4px 11px 1px #D0CCCC;
 				box-shadow:inset -3px 4px 11px 1px #D0CCCC;
 				border: 1px solid #fff;
-				color: #418330;    
+				color: #418330;
 				line-height: 1.2;
 
 				ul {
@@ -4209,7 +4194,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	.head {
 		color: white;
 		text-shadow: none;
-		padding: 10px; 
+		padding: 10px;
 		padding-top: 0;
 		background: green;
 		font-size: 1.45em;
@@ -4295,7 +4280,7 @@ a.cetelem-startrans {
     	}
 
     	a.trans {
-			background: orange;    
+			background: orange;
 			padding: 5px 10px;
     		line-height: 2.2;
     		text-decoration: none;
@@ -4346,7 +4331,7 @@ a.cetelem-startrans {
     	}
     }
 
-    .statusdesc {    	
+    .statusdesc {
     	color: black;
     	line-height: 1.4;
 
@@ -4391,7 +4376,7 @@ a.cetelem-startrans {
 			padding: 0 10px;
 			margin: 8px 0;
 			font-size: 0.85em;
-	
+
 			.img {
 				img {
 					width: 100%;
@@ -4474,7 +4459,7 @@ a.cetelem-startrans {
 			display: block;
 		}
 
-		.constuction{			
+		.constuction{
 			float: right;
 			font-weight: bold;
 			letter-spacing: -1px;

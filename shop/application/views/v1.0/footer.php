@@ -6,7 +6,7 @@
 	<footer>
 		<div class="pw">
 			<div class="grid-layout grid-np">
-				<div class="grid-row grid-row-25">
+				<div class="grid-row grid-row-20">
 					<div class="cont-info">
 						<div class="logo">
 							<img src="<?=IMG?>foggi_logo_pink.svg" alt="<?=$this->settings[page_title]?>" />
@@ -51,7 +51,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="grid-row grid-row-25">
+				<div class="grid-row grid-row-30">
 					<? if(!empty($this->settings[social_facebook_link])):?>
 					<div class="fb-page-title">
 						Kövess minket Facebook oldalunkon!
