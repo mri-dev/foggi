@@ -1,5 +1,4 @@
 <?
-use ShopManager\Categories;
 use ProductManager\Products;
 use PortalManager\Template;
 
@@ -9,7 +8,6 @@ class home extends Controller{
 			parent::$pageTitle = '';
 
 			$temp 			= new Template( VIEW . 'templates/' );
-			$categories 	= new Categories( array( 'db' => $this->db ));
 
 			$order = array(
 				'by' => 'sorrend',
@@ -48,7 +46,7 @@ class home extends Controller{
 			$this->out( 'products', 	$products );
 			$this->out( 'product_list', $products->getList() );
 			$this->out( 'slideshow', 	$this->Portal->getSlideshow( 'Home' ) );
-			$this->out( 'categories', 	$categories->getTree( false, array( 'id_set' => array( 1, 5, 6, 7 ) ) ) );
+
 			if(isset($_GET['m'])) {
 				$this->out( 'gmsg', 		Helper::makeAlertMsg('pSuccess', $_GET['m']));
 			}
@@ -56,7 +54,7 @@ class home extends Controller{
 			// SEO Információk
 			$SEO = null;
 			// Site info
-			$this->out( 'bodyclass', 'homepage' );	
+			$this->out( 'bodyclass', 'homepage' );
 			$SEO .= $this->view->addMeta('description', $this->view->settings['page_description']);
 			$SEO .= $this->view->addMeta('keywords','ajánló rendszer kód kedvezmény vásárlás ingyen');
 			$SEO .= $this->view->addMeta('revisit-after','3 days');

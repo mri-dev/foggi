@@ -24,6 +24,38 @@ header {
 	.main-elements{
 		.header-top-center{
 			padding-left: 25px;
+			.top-contact{
+				margin-bottom: 25px;
+				.contacts,
+				.opens-data{
+					display: inline-block;
+					*display: inline;
+					zoom: 1;
+					vertical-align: bottom;
+					margin: 0 -2px;
+					border:none;
+				}
+
+				.contacts {
+					width: 65%;
+					padding-right: 25px;
+					font-size: 0.95em;
+					line-height: 20px;
+
+					.line {
+						margin-top: 15px;
+						.ico {
+							width: 25px;
+							font-size: 20px;
+							float: left;
+							margin-right: 10px;
+						}
+					}
+				}
+				.opens-data {
+					width: 35%;
+				}
+			}
 		}
 	}
 }
@@ -39,8 +71,7 @@ header {
 
 		a {
 			padding: 0 5px;
-	    font-size: 0.90em;
-	    line-height: 34px;
+	    font-size: 0.75em;
 			display: block;
 			color: black;
 			line-height: 1;
@@ -66,29 +97,28 @@ header {
 .searchform {
 	input[type=text] {
 		background: #fff;
-		border: 2px solid $color-sec;
+		border: 5px solid #3e3e3e;
+		border-right: none;
 		width: 85%;
 		color: $color-pr;
-
-		@include border-radius-left(5px);
 	}
 
 	input[type=text],
 	button {
-		line-height: 30px;
+		line-height: 40px;
 		padding: 0 14px;
 	}
 
 	button {
-		background: darken( $color-sec, 10% );
+		background: $color-pr;
 		color: white;
-		border: 2px solid  $color-sec;
+		border: 5px solid #3e3e3e;
 		border-left: none;
-		padding: 0 8px;
+		padding: 0 12px;
+		line-height: 40px;
+		font-size: 24px;
 		vertical-align: middle;
 		cursor: pointer;
-
-		@include border-radius-right(5px);
 	}
 }
 
@@ -98,94 +128,45 @@ header {
 	display: table-cell;
 	vertical-align: top;
 
-	.menu {
-		li.menu-item {
-			display: table;
-			width: 100%;
-			margin: 0 -1px -1px 0;
-			border: 1px solid lighten( $color-sec, 1% );
-			background: lighten( $color-sec, 9%);
-
-			a {
-				display: table-cell;
-				font-size: 1.1em;
-				line-height: 1.5;
-				text-transform: uppercase;
-				color: darken( $color-sec, 50%);
-				font-family: $font-sans-narrow;
-				font-weight: 700;
-				padding: 5px 10px;
-				vertical-align:middle;
-				text-decoration: none;
-
-				img {
-					float: left;
-					margin-right: 5px;
-					vertical-align: middle;
-				}
-
-				i {
-					width: 25px;
-					height: 25px;
-					font-size: 25px;
-				}
-
-				span {
-					line-height: 25px;
-				}
+	.cat-menu{
+		li {
+			&.title {
+				color: darken(white, 40%);
+				padding: 10px;
+				font-size: 0.8em;
 			}
 
-			span.icon {
-				width: 35px;
-				text-align:center;
-				display: table-cell;
-				vertical-align:middle;
-				padding-left: 8px;
-			}
-
-			i.dashicons {
-				line-height: 28px;
-    			font-size: 1.2em;
-			}
-		}
-		li.text-thin a {
-			font-weight: 400;
-		    font-size: 1.2em;
-		    display: block;
-		    padding-left: 15px;
-		    width: 100%;
-		    text-transform: lowercase;
-		}
-		.webshop-cat-items {
-
-			li.cat-item{
-				border-bottom: 1px solid #DCDCDC;
-
-				a {
-					font-weight: 400;
-					font-size: 1.2em;
+			&.cat {
+				a{
+					position: relative;
 					display: block;
-					padding-left: 15px;
-					width: 100%;
-
-					text-transform: lowercase;
+					padding: 8px 10px;
+					font-size: 1.3em;
+					text-transform: uppercase;
+					text-decoration: none;
+					color: saturate($color-pr, 10);
 				}
 			}
-		}
 
-		li.menu-item.has-icon.two-row:not(.text-thin) {
-			span.ic {
-				display: table-cell;
-				vertical-align: middle;
-			}
-			span.text {
-				display: table-cell;
-				vertical-align: middle;
-				line-height: 1;
-				padding-left: 8px;
+			&:hover, &.active {
+				a{
+					background: saturate($color-pr, 10);
+					color: white;
+
+					&:after {
+						content: "";
+						position: absolute;
+						border-style: solid;
+						border-width: 18px;
+						right: -36px;
+						top: 0;
+						border-color: transparent transparent transparent $color-pr;
+					}
+				}
 			}
 		}
 	}
+
 }
 
 nav{

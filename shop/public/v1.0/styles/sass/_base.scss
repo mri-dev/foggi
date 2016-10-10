@@ -13,7 +13,7 @@
 .slideShow {
 	position: relative;
 	background: #FFFFFF;
-	width: 838px;
+	width: 815px;
 
 	.info-box {
 		position: absolute;
@@ -530,9 +530,25 @@
 	h1.stitle, h3.stitle {
 		text-transform: uppercase;
 		font-size: 1.6em;
-		font-weight: bold;
-		margin: 10px;
-		color: darken( $color-sec, 40%);
+		margin: 30px 0;
+		text-align: center;
+		font-weight: normal;
+		font-family: $font-sans-narrow;
+		color: white;
+		position: relative;
+
+		&:after {
+			content:"";
+			position: absolute;
+			margin: 0 auto;
+			bottom: -10px;
+			left: 50%;
+			border-bottom: 1px solid $color-pr;
+			width: 150px;
+			-webkit-transform: translateX(-50%);
+			-moz-transform: translateX(-50%);
+			transform: translateX(-50%);
+		}
 	}
 }
 
@@ -1106,6 +1122,7 @@
 	position: relative;
 	cursor: pointer;
 	text-align: right;
+	padding: 5px;
 
 	.item-nums {
 		color: $color-gold;
@@ -1123,6 +1140,13 @@
 		float: right;
 		margin: 0 0 0 15px;
 		line-height: 40px;
+	}
+	&.opened, &:hover {
+		background: $color-pr;
+
+		.item-nums, .item-prices {
+			color: white !important;
+		}
 	}
 }
 .cart-float > div * {
@@ -1149,7 +1173,7 @@
 	width: 450px;
 	height: auto;
 	right: 0;
-	top: 40px;
+	top: 50px;
 	font-size: 1.4em;
 	padding:0;
 	z-index: 9999;
@@ -1162,7 +1186,7 @@
 		content:"";
 		position: absolute;
 		top: -16px;
-		right: 5px;
+		right: 11px;
 		border-style: solid;
 		border-color: transparent transparent #ffffff transparent;
 		border-width: 8px;
