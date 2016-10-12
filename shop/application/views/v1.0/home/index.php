@@ -14,7 +14,7 @@
 	</div>
 	<? endif; ?>
 
-	<? if( count($this->product_list) > 0): ?>
+	<? if( count($this->product_discount_list) > 0): ?>
 	<div class="webshop-product-discount">
 		<div class="head">
 			<h3 class="stitle"><?=__('Akciós termékek')?></h3>
