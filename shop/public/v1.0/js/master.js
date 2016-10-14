@@ -85,8 +85,6 @@ $(function(){
 
 	} );
 
-
-
 	$('.social-fb-box').bind({
 		mouseenter: function(){
 			$(this).animate({
@@ -570,11 +568,12 @@ function searchFilters(){
 
 	$('button[cart-data]').click(function(){
 
+
 		var key = $(this).attr('cart-data');
 		var rem = $(this).attr('cart-remsg');
 		var me 	= $('input[type=text][cart-count='+key+']').val();
 
-		//if(typeof me === 'undefined'){ me = 0; }
+		if(typeof me === 'undefined'){ me = 1; }
 
 		$('#'+rem).html('<i class="fa fa-spin fa-spinner"></i> folyamatban...');
 
@@ -615,7 +614,7 @@ function getCartInfo(callback){
 function refreshCart(p){
 	$('#cart-item-num').text( (p.itemNum == 0 ) ? 'Az Ön kosara üres.' : p.itemNum+' db tétel.');
 	$('.cart-item-num').text(p.itemNum);
-	$('#cart-item-prices').text(p.totalPriceTxt);
+	$('#cart-item-prices, .cart-item-prices').text(p.totalPriceTxt);
 }
 function addToCart(termekID, me, callback){
 
@@ -625,6 +624,7 @@ function addToCart(termekID, me, callback){
 		t 	 : termekID,
 		m    : me
 	},function(d){
+		console.log(d);
 		var p = $.parseJSON(d);
 		if(p.success == 1){
 			getCartInfo(function(e){

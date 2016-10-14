@@ -1,7 +1,7 @@
 <div class="home">
 	<? $this->render('templates/slideshow'); ?>
 	<? if( count($this->product_list) > 0): ?>
-	<div class="webshop-product-top">
+	<div class="webshop-product-top products">
 		<div class="head">
 			<h3 class="stitle"><?=__('Kiemelt termékek')?></h3>
 			<div class="clr"></div>
@@ -13,9 +13,8 @@
 		</div>
 	</div>
 	<? endif; ?>
-
 	<? if( count($this->product_discount_list) > 0): ?>
-	<div class="webshop-product-discount">
+	<div class="webshop-product-discount products">
 		<div class="head">
 			<h3 class="stitle"><?=__('Akciós termékek')?></h3>
 			<div class="clr"></div>
