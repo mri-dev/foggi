@@ -5,7 +5,7 @@ use ShopManager\Category;
 
 /**
 * class Categories
-* @package ShopManager 
+* @package ShopManager
 * @version 1.0
 */
 class Categories
@@ -44,7 +44,7 @@ class Categories
 		}
 
 		if ( !$name ) {
-			throw new \Exception( "Kérjük, hogy adja meg a kategória elnevezését!" );			
+			throw new \Exception( "Kérjük, hogy adja meg a kategória elnevezését!" );
 		}
 
 		$this->db->insert(
@@ -83,7 +83,7 @@ class Categories
 		}
 
 		if ( !$name ) {
-			throw new \Exception( "Kérjük, hogy adja meg a kategória elnevezését!" );			
+			throw new \Exception( "Kérjük, hogy adja meg a kategória elnevezését!" );
 		}
 
 		$category->edit(array(
@@ -118,14 +118,14 @@ class Categories
 
 		// Legfelső színtű kategóriák
 		$qry = "
-			SELECT 			* 
-			FROM 			shop_termek_kategoriak 
+			SELECT 			*
+			FROM 			shop_termek_kategoriak
 			WHERE 			1=1 ";
-		
+
 		if ( !$top_category_id ) {
 			$qry .= " and szulo_id IS NULL ";
 		} else {
-			$qry .= " and  szulo_id = ".$top_category_id;
+			$qry .= " and szulo_id = ".$top_category_id;
 		}
 
 		// ID SET
@@ -134,20 +134,20 @@ class Categories
 			$qry .= " and ID IN (".implode(",",$arg['id_set']).") ";
 		}
 
-		$qry .= " ORDER BY 		sorrend ASC, ID ASC;";
-		
-		$top_cat_qry 	= $this->db->query($qry);
-		$top_cat_data 	= $top_cat_qry->fetchAll(\PDO::FETCH_ASSOC); 
+		$qry .= " ORDER BY sorrend ASC, ID ASC;";
 
-		if( $top_cat_qry->rowCount() == 0 ) return $this; 
-		
+		$top_cat_qry 	= $this->db->query($qry);
+		$top_cat_data = $top_cat_qry->fetchAll(\PDO::FETCH_ASSOC);
+
+		if( $top_cat_qry->rowCount() == 0 ) return $this;
+
 		foreach ( $top_cat_data as $top_cat ) {
 			$this->tree_items++;
 
 			$top_cat['link'] = DOMAIN.'termekek/'.\PortalManager\Formater::makeSafeUrl($top_cat['neve'],'_-'.$top_cat['ID']);
 
 			$this->tree_steped_item[] = $top_cat;
-			
+
 			// Alkategóriák betöltése
 			$top_cat['child'] = $this->getChildCategories($top_cat['ID']);
 			$tree[] = $top_cat;
@@ -160,15 +160,15 @@ class Categories
 
 	/**
 	 * Végigjárja az összes kategóriát, amit betöltöttünk a getFree() függvény segítségével. while php függvénnyel
-	 * járjuk végig. A while függvényen belül használjuk a the_cat() objektum függvényt, ami az aktuális kategória 
+	 * járjuk végig. A while függvényen belül használjuk a the_cat() objektum függvényt, ami az aktuális kategória
 	 * adataiat tartalmazza tömbbe sorolva.
 	 * @return boolean
 	 */
 	public function walk()
-	{	
+	{
 		if( !$this->tree_steped_item ) return false;
-		
-		$this->current_category = $this->tree_steped_item[$this->walk_step];		
+
+		$this->current_category = $this->tree_steped_item[$this->walk_step];
 
 		$this->walk_step++;
 
@@ -180,12 +180,12 @@ class Categories
 			return false;
 		}
 
-		return true;	
+		return true;
 	}
 
 	/**
 	 * A walk() fgv-en belül visszakaphatjuk az aktuális kategória elem adatait tömbbe tárolva.
-	 * @return array 
+	 * @return array
 	 */
 	public function the_cat()
 	{
@@ -196,7 +196,7 @@ class Categories
 	{
 		if ( $field ) {
 			return $this->parent_data[$field];
-		} else 
+		} else
 		return $this->parent_data;
 	}
 
@@ -209,26 +209,26 @@ class Categories
 	{
 		$tree = array();
 
-	
+
 		// Gyerek kategóriák
 		$child_cat_qry 	= $this->db->query( sprintf("
-			SELECT 			* 
-			FROM 			shop_termek_kategoriak 
+			SELECT 			*
+			FROM 			shop_termek_kategoriak
 			WHERE 			szulo_id = %d
 			ORDER BY 		sorrend ASC, ID ASC;", $parent_id));
-		$child_cat_data	= $child_cat_qry->fetchAll(\PDO::FETCH_ASSOC); 
+		$child_cat_data	= $child_cat_qry->fetchAll(\PDO::FETCH_ASSOC);
 
-		if( $child_cat_qry->rowCount() == 0 ) return false; 
+		if( $child_cat_qry->rowCount() == 0 ) return false;
 		foreach ( $child_cat_data as $child_cat ) {
 			$this->tree_items++;
 			$child_cat['link'] 	= DOMAIN.'termekek/'.\PortalManager\Formater::makeSafeUrl($child_cat['neve'],'_-'.$child_cat['ID']);
 			$child_cat['kep'] 	= ($child_cat['kep'] == '') ? '/src/images/no-image.png' : $child_cat['kep'];
 			$this->tree_steped_item[] = $child_cat;
-			
+
 			$child_cat['child'] = $this->getChildCategories($child_cat['ID']);
 			$tree[] = $child_cat;
 		}
-		
+
 		return $tree;
 
 	}
@@ -251,7 +251,7 @@ class Categories
 
 		while( $has_parent && $limit > 0 ) {
 			$q 		= "SELECT ".$return_row.", szulo_id, deep FROM shop_termek_kategoriak WHERE ID = ".$sid.";";
-			$qry 	= $this->db->query($q); 
+			$qry 	= $this->db->query($q);
 			$data 	= $qry->fetch(\PDO::FETCH_ASSOC);
 
 			$sid = $data['szulo_id'];
@@ -263,15 +263,12 @@ class Categories
 			if( (int)$data['deep'] >= $deep_allow_under ) {
 				$row[] = $data[$return_row];
 			}
-			
+
 			$limit--;
 		}
 
 		return $row;
 	}
-
-
-
 	public function killDB()
 	{
 		$this->db = null;

@@ -2,7 +2,7 @@ $(function(){
 	searchFilters();
 	getLocation();
 
-	$.cookieAccepter('http://casada.hu/altalanos-szerzodesi-feltetelek/');
+	$.cookieAccepter('/p/mukodesi-szabalyzat');
 
 	var transports_c 			= $('.transports');
 
@@ -360,6 +360,55 @@ function initRanges(){
 	});
 }
 
+function SystemMsg(){
+	var container = 'systemmsg';
+	var sysmsg = '';
+	var timmer = null;
+	var _ = this;
+
+	this.showAlert = function(msg, time){
+		this.sysMsg(msg, 'info', time);
+	}
+	this.showSuccess = function(msg, time){
+		this.sysMsg(msg, 'positive', time);
+	}
+	this.showError = function(msg, time){
+		this.sysMsg(msg, 'negative', time);
+	}
+
+	this.sysMsg = function(msg, type, time)
+	{
+		sysmsg = '';
+		time = (typeof time === 'undefined') ? 5000 : parseInt(time);
+		sysmsg += '<div class="wrapper '+type+'">'+msg+'</div>';
+
+		this.clearSys();
+
+		$('#'+container)
+			.html(sysmsg)
+			.addClass('showed');
+		this.setCloser(time);
+	}
+
+	this.setCloser = function(t){
+		timmer = setInterval(function(){
+			$('#'+container)
+				.html('')
+				.removeClass('showed');
+			sysmsg = '';
+			clearInterval(timmer);
+		}, t);
+	}
+
+	this.clearSys = function(){
+		clearInterval(timmer);
+		$('#'+container)
+			.html('')
+			.removeClass('showed');
+	}
+}
+var systemmsg = new SystemMsg();
+
 function Cart(){
 	this.content = "#cartContent";
 	this.push = function(i){
@@ -400,8 +449,9 @@ function Cart(){
 					refreshCart(e);
 					parent.reLoad(e);
 				});
+				systemmsg.showSuccess(p.msg, 5000);
 			}else{
-				aler(p.msg);
+				systemmsg.showError(p.msg, 5000);
 			}
 		},"html");
 	}
@@ -418,8 +468,9 @@ function Cart(){
 					refreshCart(e);
 					parent.reLoad(e);
 				});
+				systemmsg.showSuccess(p.msg, 5000);
 			}else{
-				aler(p.msg);
+				systemmsg.showError(p.msg, 5000);
 			}
 		},"html");
 	}
@@ -446,8 +497,9 @@ function Cart(){
 					refreshCart(e);
 					parent.reLoad(e);
 				});
+				systemmsg.showSuccess(p.msg, 2000);
 			}else{
-				aler(p.msg);
+				systemmsg.showError(p.msg, 5000);
 			}
 		},"html");
 	}
@@ -493,8 +545,6 @@ function openCloseBox(elem, flag){
 		localStorage.setItem(flag,11);
 		$(elem).toggle("slide");
 	}
-
-	console.log(flagState);
 }
 function removeFilterItem(e){
 	var key = e.attr('key');
@@ -579,9 +629,9 @@ function searchFilters(){
 
 		addToCart(key, me, function(success, msg){
 			if (success == 1) {
-				$('#'+rem).html('<div class="success">'+msg+'</div>');
+				systemmsg.showSuccess(msg, 5000);
 			} else {
-				$('#'+rem).html('<div class="error">'+msg+'</div>');
+				systemmsg.showError(msg, 5000);
 			}
 
 		} );
@@ -617,14 +667,12 @@ function refreshCart(p){
 	$('#cart-item-prices, .cart-item-prices').text(p.totalPriceTxt);
 }
 function addToCart(termekID, me, callback){
-
 	$.post('/ajax/post/',{
 		type : 'cart',
 		mode : 'add',
 		t 	 : termekID,
 		m    : me
 	},function(d){
-		console.log(d);
 		var p = $.parseJSON(d);
 		if(p.success == 1){
 			getCartInfo(function(e){

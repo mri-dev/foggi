@@ -172,10 +172,46 @@ h1 {
 			}
 		}
 	}
+
+	.page {
+		& > div {
+			display: inline-block;
+			*display: inline;
+			zoom: 1;
+			vertical-align: top;
+			margin: 0 -2px;
+		}
+
+		.responsive-view {
+			width: 80%;
+		}
+
+		.side-menu{
+			width: 20%;
+			margin-left: -5px;
+		}
+	}
 }
 
 body.homepage {
 	.inside-content{
 		background-color: transparent;
+	}
+}
+body.pageview {
+	.inside-content{
+		background-color: #ffffff;
+	}
+}
+
+body.pageview.no-sidemenu{
+	.responsive-view {
+		width: 100%;
+		display: block;
+		margin: 0;
+	}
+
+	.page-view{
+		padding-top: 15px;
 	}
 }

@@ -10,6 +10,7 @@
     <? $this->render('meta'); ?>
 </head>
 <body class="<?=$this->bodyclass?>">
+<div id="systemmsg"></div>
 <div ng-show="showed" ng-controller="popupReceiver" class="popupview" data-ng-init="init({'contentWidth': 1050, 'domain': '.mri-dev.com', 'receiverdomain' : '<?=POPUP_RECEIVER_URL?>', 'imageRoot' : '<?=POPUP_IMG_ROOT?>/'})"><ng-include src="'/<?=VIEW?>popupview.html'"></ng-include></div>
 <? if(!empty($this->settings[google_analitics])): ?>
 <script>

@@ -146,9 +146,18 @@ header {
 					text-decoration: none;
 					color: saturate($color-pr, 10);
 				}
+
+				&.lvl-1{
+					a{
+						text-transform: none;
+						font-size: 0.9em;
+						padding-left: 25px;
+					}
+				}
 			}
 
-			&:hover, &.active {
+			&.lvl-0:hover,
+			&.lvl-0.active {
 				a{
 					background: saturate($color-pr, 10);
 					color: white;
@@ -163,6 +172,23 @@ header {
 						border-color: transparent transparent transparent $color-pr;
 					}
 				}
+			}
+
+			&.lvl-1{
+				display:none;
+
+				a{
+					color: #a9285d !important;
+				}
+
+				&.current a{
+					font-weight: bold;
+					color: $color-pr !important;
+				}
+			}
+
+			&.active{
+				display: block;
 			}
 		}
 	}
