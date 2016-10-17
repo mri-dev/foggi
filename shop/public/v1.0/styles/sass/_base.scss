@@ -408,7 +408,7 @@
 
 	    .cetelem-calc-box {
 			position: absolute;
-		    background: rgba(42,117,45,0.91);
+		    background: rgba(42,117,45,0.9);
 		    bottom: 0;
 		    right: 100%;
 		    width: 300px;
@@ -558,6 +558,41 @@
 
 	.info {
 		padding: 5px 0 0 5px;
+		color: #848484;
+
+		.product-desc{
+			font-size: 0.85em;
+			line-height: 1.55;
+
+			p{
+				margin-bottom: 10px;
+			}
+		}
+
+		.parameters{
+			& > div {
+				margin: 5px 0;
+				border-bottom: 1px solid darken(desaturate($color-pr, 20), 16%);
+
+				.grid-row{
+					padding: 5px 0 !important;
+    			line-height: 1.2;
+				}
+
+				.param-var{
+					color: white;
+					font-weight: bold;
+				}
+			}
+			& > div:last-child {
+				border-bottom: none !important;
+			}
+		}
+
+		h2, h3{
+			color: #cccccc;
+			margin-bottom: 30px;
+		}
 
 		table, table td {
 			border: 1px solid #ddd;
@@ -629,21 +664,9 @@
 		}
 	}
 
-	.switcherView {
-		font-size: 0.8em;
-		line-height: 135%;
-
-		h1, h2, h3, h4 {
-			font-family: $font-cond;
-			margin: 0 0 8px 0;
-			font-weight: bold;
-			color:black;
-		}
-
-	}
-
 	.data-view {
 		padding-left: 15px;
+		color: #bbbbbb;
 
 		.cimkek {
 			float: right;
@@ -651,15 +674,18 @@
 		}
 
 		h1 {
-			margin: 15px 0 8px 0;
+			margin: 0 0 8px 0;
 			font-weight: bold;
-			color: black;
-			font-size: 2.8em;
+			color: $color-pr;
+			font-size: 2.4em;
+			text-transform: uppercase;
 		}
 		.cat {
-			color: $color-pr;
+			color: #ffffff;
 			font-weight: bold;
-			font-size: 1.3em;
+			font-size: 1.2em;
+			margin-bottom: 25px;
+
 		}
 
 		.rack {
@@ -677,25 +703,17 @@
 					vertical-align: middle;
 				}
 				.year {
-					color: $color-pr;
+
 				}
 			}
-
-			.status {
-				font-size: 1.1em;
-				line-height: 1.2;
-			}
-
 			.in_stock {
 				font-size: 0.8em;
-			    color: #000;
 			}
 		}
 
 		.action-bar {
 			a {
 				display: block;
-				color: #454545;
 				font-family: $font-cond;
 				line-height: 180%;
 				font-size:0.8em;
@@ -704,38 +722,148 @@
 		}
 
 		.current-variation {
-			font-weight: bold;
-			color: darken($color-sec, 50%);
-			font-size:1.2em;
+			font-size:1.3em;
 			margin-bottom: 20px;
+			text-align: center;
 
 			strong {
 				font-family: $font-cond;
-				color:black;
 			}
 			.title {
 				font-size: 0.7em;
+				color: #888888;
+				margin-bottom: 10px;
 			}
 		}
 
-		.gift {
+		.add-to-card{
 			margin-top: 15px;
-			font-size: 1.3em;
-			font-weight: bold;
-			color:black;
 
-			img {
+			.item-count{
+				z-index: 100;
+				margin-right: -28px;
+				height: 55px;
+		    line-height: 55px;
+		    padding: 0 22px;
+		    font-size: 1.1em;
+		    color: #000000;
+				-webkit-border-radius: 50px 0 0 50px;
+				-moz-border-radius: 50px 0 0 50px;
+				border-radius: 50px 0 0 50px;
+
+				.dropdown-list-selecting {
+					left: 25px;
+					right: 25px;
+    			top: 55px;
+				}
+
+				.dropdown-list-selecting > div {
+					font-size: 0.8em;
+			    height: auto;
+			    line-height: 2;
+				}
+			}
+			#addtocart{
+				z-index: 200;
+				position: relative;
+			}
+		}
+
+		.color-variants{
+			margin: 0 -3px;
+
+			.clabel{
+				text-align: left;
+				font-size: 0.8em;
+				padding: 5px 0;
+			}
+			.c{
+				display: inline-block;
+				*display: inline;
+				zoom: 1;
 				float: left;
-			    margin: 0 15px 15px 0;
-			    vertical-align: middle;
-			    height: 40px;
+				width: 20%;
+				margin: 0 -2px;
+
+				.cwrap{
+					padding: 5px;
+					text-align: center;
+
+					a{
+						text-decoration: none;
+					}
+
+					.img{
+						width: 100%;
+
+						img{
+							max-width: 100%;
+							width: 100%;
+						}
+					}
+
+					.text{
+						position: relative;
+						background: $color-pr;
+				    color: white;
+				    line-height: 1.4;
+				    width: 100%;
+				    font-size: 0.9em;
+
+						&:before{
+							border-style: solid;
+							border-color: transparent transparent $color-pr transparent;
+							border-width: 10px;
+							content:"";
+							position: absolute;
+							left: 50%;
+							top: -20px;
+							pointer-events:none;
+							-webkit-transform: translateX(-50%);
+							-moz-transform: translateX(-50%);
+							transform: translateX(-50%);
+						}
+					}
+
+				}
+			}
+		}
+
+		.size-selector{
+			background: #000000;
+			border: 1px solid desaturate(darken($color-pr, 20%), 10);
+			.dropdown-list-title{
+				color: $color-sec;
+				font-size: 1.4em;
+				line-height: 25px;
+
+				strong{
+					color: $color-pr;
+				}
+			}
+
+			.dropdown-list-selecting{
+				top: 53px;
+				z-index: 99999;
+				background: $color-sec;
+				color: $color-pr;
+			}
+		}
+
+		.status{
+			font-size: 1.2em;
+			padding-left: 15px;
+			line-height: 1.4;
+
+			.in_stock{
+				font-size: 0.8em;
+				color: #888888;
 			}
 		}
 
 		.prices {
 			.price-head {
 				font-weight: bold;
-				color: $color-pr;
 			}
 
 			.old {
@@ -743,7 +871,6 @@
 
 				.price {
 					font-size: 0.9em;
-					color:black;
 					font-family: $font-cond;
 				}
 
@@ -768,17 +895,16 @@
 			}
 
 			.current {
+				color: $color-gold;
 				font-size: 2.4em;
 				font-weight:bold;
 				font-family: $font-cond;
-				color: $color-pr;
 			}
 
 			.partner-price {
 				font-size: 1.4em;
 				font-weight:bold;
 				font-family: $font-cond;
-				color: darken($color-sec,30%);
 
 				strong {
 					font-weight: 400;
@@ -788,20 +914,27 @@
 			}
 		}
 
-		.add-to-card button {
-			margin-top: 15px;
-			background: $color-pr;
-			border: none;
-			color: white;
-			text-align: center;
-			line-height: 75px;
-			display: block;
-			width: 100%;
-			font-size: 1.15em;
-			font-weight: bold;
+		.add-to-card {
+			button {
+				background: $color-pr;
+				border: none;
+				color: white;
+				text-align: center;
+				line-height: 50px;
+				display: block;
+				width: 100%;
+				font-size: 1.2em;
+				font-weight: bold;
+				@include border-radius(50px);
+				text-transform: uppercase;
 
-			img { vertical-align: middle; }
+				i {
+					font-size: 22px;
+					margin-left: 10px;
+				}
+			}
 		}
+
 	}
 }
 

@@ -20,7 +20,7 @@ time, mark, audio, video, embed{
 	font-size: 100%;
 	}
 /* HTML5 reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 	}
@@ -147,7 +147,7 @@ body, html {
     .grid-row {
     	display: table-cell;
     	vertical-align: top;
-    	direction: ltr; 	
+    	direction: ltr;
     }
 
     .grid-row:not(.grid-np) {
@@ -290,7 +290,6 @@ img.aw {
 }
 
 .product-view .product-desc {
-  width: 398px !important;
 
   img {
     max-width: 100%;
