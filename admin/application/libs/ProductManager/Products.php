@@ -14,7 +14,7 @@ class Products
 	private $user = null;
 	private $products = null;
 	private $products_number = 0;
-	private $product_limit_per_page = 50; 
+	private $product_limit_per_page = 50;
 	private $max_page = 1;
 	private $current_page = 1;
 	private $avaiable_sizes = array();
@@ -43,11 +43,11 @@ class Products
 		if( !$product->getStatusId() ) throw new \Exception('Állapotot kötelező kiválasztani!');
 		if( !$product->getCategoryList() ) throw new \Exception('Termék kategória kiválasztása kötelező!');
 		if( !$product->getPrice() ) throw new \Exception('Termék árát kötelező megadni!');
-			
+
 		if( true ){
 			$cikkszam 		= $product->getItemNumber();
-			$marka 			= $product->getManufacturerId(); 
-			$lathato 		= $product->isVisible(); 
+			$marka 			= $product->getManufacturerId();
+			$lathato 		= $product->isVisible();
 			$pickpackszallitas 	= ( !$product->isAllowToPickPackPont() ) ? 0 : 1;
 			$akcios 		= ( !$product->isDiscounted() ) ? 0 : 1;
 			$netto_ar 		= $product->getPrice( 'netto' );
@@ -60,7 +60,7 @@ class Products
 			$kiemelt 		= ( !$product->getVariable('kiemelt')) ? 0 : 1;
 			$ajanlorendszer_kiemelt = ( !$product->getVariable('ajanlorendszer_kiemelt')) ? 0 : 1;
 			$show_stock 	= ( !$product->getVariable('show_stock')) ? 0 : 1;
-			
+
 			$nev 			= addslashes( $product->getName() );
 			$raktar_keszlet = $product->getStockNumber();
 			$leiras 		= addslashes( $product->getDescription() );
@@ -93,15 +93,15 @@ class Products
 				}
 				$linkek = rtrim( $linkek, '||' );
 			}
-			
+
 			$this->db->insert(
 				'shop_termekek',
 				array(
 					'cikkszam' => $cikkszam,
 					'marka' => $marka,
 					'nev' => $nev,
-					'leiras' => $leiras,	
-					'bankihitel_leiras' => $bankihitel_leiras,									
+					'leiras' => $leiras,
+					'bankihitel_leiras' => $bankihitel_leiras,
 					'marketing_leiras' => $marketing_leiras,
 					'letoltesek' => $letoltesek,
 					'rovid_leiras' => $rovid_leiras,
@@ -118,7 +118,7 @@ class Products
 					'argep' => $argep,
 					'arukereso' => $arukereso,
 					'garancia_honap' => $garancia,
-					'linkek' => $linkek,	
+					'linkek' => $linkek,
 					'raktar_keszlet' => $raktar_keszlet,
 					'raktar_articleid' => $raktar_articleid,
 					'raktar_variantid' => $raktar_variantid,
@@ -128,7 +128,7 @@ class Products
 					'ajandek' => $ajandek,
 					'termek_site_url' => $termek_site_url,
 					'lathato' => $lathato,
-					'kiemelt'=> $kiemelt,					
+					'kiemelt'=> $kiemelt,
 					'ajanlorendszer_kiemelt' => $ajanlorendszer_kiemelt,
 					'referer_price_discount' => $referer_price_discount,
 					'sorrend' => $sorrend,
@@ -165,12 +165,12 @@ class Products
 					'fileName' => $imgName,
 					'maxFileSize' => 1024
 				));
-				
-				/* 
+
+				/*
 				$upDir 		= str_replace(array('../img/'),array(''),$img[dir]);
 				$upProfil 	= str_replace(array('../img/'),array(''),$img[file]);
 				*/
-			
+
 				$upDir 		= $img[dir];
 				$upProfil 	= $img[file];
 
@@ -182,7 +182,7 @@ class Products
 					),
 					"ID = $uploadedProductId"
 				);
-				
+
 				foreach( $img['allUploadedFiles'] as $kep ){
 					$this->addImageToProduct( $uploadedProductId, $kep );
 				}
@@ -192,50 +192,50 @@ class Products
 			// Kategóriákba sorolás
 			if ( $product->getCategoryList() ) {
 			 	$this->doCategoryConnect( $uploadedProductId, $product->getCategoryList() );
-			} 
-			
-			// Regiszterek 
+			}
+
+			// Regiszterek
 			if($pickpackszallitas == 1)
 				setcookie("cr_pickpackszallitas","on",time()+3600*30,"/termekek");
 			else
 				setcookie("cr_pickpackszallitas",false,time()-3600,"/termekek");
-				
-		
+
+
 			if($akcios == 1)
 				setcookie("cr_akcios","on",time()+3600*30,"/termekek");
 			else
 				setcookie("cr_akcios",false,time()-3600,"/termekek");
-				
+
 			if($szuper_akcios == 1)
 				setcookie("cr_szuper_akcios","on",time()+3600*30,"/termekek");
 			else
 				setcookie("cr_szuper_akcios",false,time()-3600,"/termekek");
-				
+
 			if($ujdonsag == 1)
 				setcookie("cr_ujdonsag","on",time()+3600*30,"/termekek");
 			else
 				setcookie("cr_ujdonsag",false,time()-3600,"/termekek");
-				
+
 			if($argep == 1)
 				setcookie("cr_argep","on",time()+3600*30,"/termekek");
 			else
 				setcookie("cr_argep",false,time()-3600,"/termekek");
-				
+
 			if($arukereso == 1)
 				setcookie("cr_arukereso","on",time()+3600*30,"/termekek");
 			else
 				setcookie("cr_arukereso",false,time()-3600,"/termekek");
-				
+
 			if($szallitasID)
 				setcookie("cr_szallitasID",$szallitasID,time()+3600*30,"/termekek");
 			else
 				setcookie("cr_szallitasID",false,time()-3600,"/termekek");
-				
+
 			if($keszletID)
 				setcookie("cr_keszletID",$keszletID,time()+3600*30,"/termekek");
 			else
 				setcookie("cr_keszletID",false,time()-3600,"/termekek");
-		
+
 			return 'Termék sikeresen létrehozva! ';
 		}
 
@@ -257,11 +257,11 @@ class Products
 		if( !$product->getTransportTimeId() ) throw new \Exception('Szállítási időt kötelező kiválasztani!');
 		if( !$product->getStatusId() ) throw new \Exception('Állapotot kötelező kiválasztani!');
 		if( !$product->getCategoryList() ) throw new \Exception('Termék kategória kiválasztása kötelező!');
-			
+
 		if( true ){
 			$cikkszam 		= $product->getItemNumber();
-			$marka 			= $product->getManufacturerId(); 
-			$lathato 		= $product->isVisible(); 
+			$marka 			= $product->getManufacturerId();
+			$lathato 		= $product->isVisible();
 			$pickpackszallitas 	= ( !$product->isAllowToPickPackPont() ) ? 0 : 1;
 			$akcios 		= ( !$product->isDiscounted() ) ? 0 : 1;
 			$netto_ar 		= $product->getPrice( 'netto' );
@@ -274,7 +274,7 @@ class Products
 			$kiemelt 		= ( !$product->getVariable('kiemelt')) ? 0 : 1;
 			$ajanlorendszer_kiemelt 		= ( !$product->getVariable('ajanlorendszer_kiemelt')) ? 0 : 1;
 			$show_stock 	= ( !$product->getVariable('show_stock')) ? 0 : 1;
-			
+
 			$nev 			= addslashes( $product->getName() );
 			$raktar_keszlet = $product->getStockNumber();
 			$leiras 		= addslashes( $product->getDescription() );
@@ -331,7 +331,7 @@ class Products
 					'arukereso' => $arukereso,
 					'garancia_honap' => $garancia,
 					'kulcsszavak' => $kulcsszavak,
-					'linkek' => $linkek,	
+					'linkek' => $linkek,
 					'raktar_keszlet' => $raktar_keszlet,
 					'meret' => $meret,
 					'szin' => $szin,
@@ -356,8 +356,8 @@ class Products
 			// Kategóriákba sorolás
 			if ( $product->getCategoryList() ) {
 			 	$this->doCategoryConnect( $product->getId(), $product->getCategoryList() );
-			} 
-			
+			}
+
 			// Árváltozások módosítása
 				// Sima ár változtatása
 				if( $product->getVariable('ar_by') ) {
@@ -369,9 +369,9 @@ class Products
 						$donot_ar = true;
 					}
 				}
-				
-				// Akciós ár változtatás	
-				if( $product->getVariable('akcios_ar_by') ) {		
+
+				// Akciós ár változtatás
+				if( $product->getVariable('akcios_ar_by') ) {
 					if( $product->getVariable('akcios_ar_by') == 'netto' ){
 						$akcios_b_ar = $akcios_n_ar * 1.27;
 					}else if( $product->getVariable('akcios_ar_by') == 'brutto' ){
@@ -391,7 +391,7 @@ class Products
 						sprintf("ID = %d", $product->getId())
 					);
 				}
-				
+
 				if(!$donot_akcios_ar){
 					if ( $akcios_n_ar == 0 || $akcios_b_ar == 0 ) {
 						$this->db->update(
@@ -412,7 +412,7 @@ class Products
 						sprintf("ID = %d", $product->getId())
 					);
 				};
-		
+
 			return 'Termék adatok sikeresen módosítva! ';
 		}
 
@@ -453,7 +453,7 @@ class Products
 			}
 		}
 
-		$admin_listing = ( $arg['admin'] ) ? true : false; 
+		$admin_listing = ( $arg['admin'] ) ? true : false;
 
 		/*==========  Lekérdezés  ==========*/
 		$qry = "
@@ -486,16 +486,16 @@ class Products
 								p.garancia_honap,
 								p.termek_site_url,
 								p.ajandek,
-								IF(p.egyedi_ar IS NOT NULL, 
-									p.egyedi_ar, 
+								IF(p.egyedi_ar IS NOT NULL,
+									p.egyedi_ar,
 									getTermekAr(p.marka, IF(p.akcios,p.akcios_brutto_ar,p.brutto_ar))
 								) as ar,
-								
+
 								p.fotermek,
 								(SELECT GROUP_CONCAT(kategoria_id) FROM shop_termek_in_kategoria WHERE termekID = p.ID ) as in_cat,
 								(SELECT neve FROM shop_termek_kategoriak WHERE ID = p.alapertelmezett_kategoria ) as alap_kategoria
 		FROM					shop_termekek as p
-		WHERE 					1 = 1 
+		WHERE 					1 = 1
 		";
 
 		$whr = '';
@@ -507,7 +507,7 @@ class Products
 			$add = " and p.lathato = 1 and p.profil_kep IS NOT NULL ";
 			$whr .= $add;
 			$size_whr .= $add;
-			
+
 			if(!empty($arg['meret']) && $arg['meret'][0] != ''){
 				$add = " and p.meret IN ('".trim(implode("','",$arg['meret']))."') ";
 				$whr .= $add;
@@ -515,7 +515,7 @@ class Products
 				/* $add = " and p.fotermek = 1 ";
 				$whr .= $add;*/
 			}
-			
+
 		}
 
 		// WHERE
@@ -564,7 +564,7 @@ class Products
 
 		if ( !empty($arg['meret']) && $arg['meret'][0] != '' ) {
 			$this->selected_sizes = $arg['meret'];
-			
+
 			$add = " and (";
 			foreach ( $arg['meret'] as $size ) {
 				if( $size == "" ) continue;
@@ -576,7 +576,7 @@ class Products
 			$whr .= $add;
 		}
 
-		// Excepts		
+		// Excepts
 		if( $arg['except'] ) {
 			foreach ($arg['except'] as $key => $value) {
 				if( is_array($value) ) {
@@ -595,7 +595,7 @@ class Products
 					$add = " and p.".$key." != '".$value."' ";
 					$whr .= $add;
 					$size_whr .= $add;
-				}				
+				}
 			}
 		}
 
@@ -630,11 +630,11 @@ class Products
 						$size_whr .= $add;
 					break;
 					case 'nev':
-						$add = " and p.".$key." LIKE '%".$v."%' ";						
+						$add = " and p.".$key." LIKE '%".$v."%' ";
 						$whr .= $add;
 						$size_whr .= $add;
 					break;
-					default: 
+					default:
 						if( is_array($v) ) {
 							$value_set = false;
 
@@ -651,18 +651,18 @@ class Products
 							$add = " and ".$key." = '".$v."' ";
 							$whr .= $add;
 							$size_whr .= $add;
-						}	
-						
-					break;	
+						}
+
+					break;
 				}
-				
-			}	
+
+			}
 		}
 		$qry .= $whr;
 
-		// GROUP BY 
+		// GROUP BY
 		if (!$admin_listing ) {
-			if( !empty($arg['meret']) ) {				
+			if( !empty($arg['meret']) ) {
 				$qry .= "GROUP BY p.raktar_articleid";
 			} else {
 				$qry .= "GROUP BY p.raktar_articleid";
@@ -671,14 +671,14 @@ class Products
 
 		// ORDER
 
-		if ( isset($arg['customorder'])) 
+		if ( isset($arg['customorder']))
 		{
 			switch ($arg['customorder']['by']) {
 				case 'popular':
 				 $qry .= " ORDER BY (SELECT SUM(me) as total FROM `stat_nezettseg_termek` WHERE termekID = p.ID GROUP BY termekID) ".$arg['customorder']['how'];
 				break;
 			}
-		} else 
+		} else
 		{
 			if( $arg['order'] ) {
 				$qry .= " ORDER BY ".$arg['order']['by']." ".$arg['order']['how'];
@@ -686,10 +686,10 @@ class Products
 				$qry .= " ORDER BY nev ASC, fotermek DESC, ID DESC ";
 			}
 		}
-		
-		
 
-		// LIMIT 
+
+
+		// LIMIT
 		$current_page = ($arg['page'] ?: 1);
 		$start_item = $current_page * $this->product_limit_per_page - $this->product_limit_per_page;
 		$qry .= " LIMIT ".$start_item.",".$this->product_limit_per_page.";";
@@ -699,7 +699,7 @@ class Products
 		$this->qry_str = $qry;
 
 		$get = $this->db->query( $qry );
-		
+
 		$data =  $get->fetchAll(\PDO::FETCH_ASSOC);
 
 		$this->products_number = $this->db->query("SELECT FOUND_ROWS();")->fetch(\PDO::FETCH_COLUMN);
@@ -709,21 +709,21 @@ class Products
 
 		// Get sizes
 		$sqry = "
-		SELECT 		p.meret 
+		SELECT 		p.meret
 		FROM 		shop_termekek as p
 		WHERE 		p.ID IS NOT NULL
 		";
 		$sqry .= $size_whr;
-		/* $sqry .= " ORDER BY 
-		IF(	
-			p.meret RLIKE '[a-z]', 
+		/* $sqry .= " ORDER BY
+		IF(
+			p.meret RLIKE '[a-z]',
 			IF(	p.meret RLIKE '[1-9]{1}[a-z]',
 				-1,
 				-3
 			), -10) ASC,
 		CAST(p.meret as unsigned) ASC ";*/
-		$sqry .= " ORDER BY 
-		(CASE 
+		$sqry .= " ORDER BY
+		(CASE
 			WHEN p.meret RLIKE '^[0-9]{1,3}$' THEN 0
 			WHEN p.meret RLIKE '^XXS$' THEN 1
 			WHEN p.meret RLIKE '^XS$' THEN 2
@@ -742,35 +742,35 @@ class Products
 		$s_qry_data = $this->db->query( $sqry )->fetchAll(\PDO::FETCH_ASSOC);
 
 		foreach ( $s_qry_data as $s ) {
-			if($s['meret'] == '') continue; 
+			if($s['meret'] == '') continue;
 			if (!in_array($s['meret'], $this->avaiable_sizes)) {
-				$this->avaiable_sizes[] = $s['meret'];				
+				$this->avaiable_sizes[] = $s['meret'];
 			}
 		}
 
 		$bdata = array();
-		
+
 		foreach($data as $d){
 			$brutto_ar 			= $d['brutto_ar'];
 			$akcios_brutto_ar 	= $d['akcios_brutto_ar'];
 
 			$kep = $d['profil_kep'];
-			$d['profil_kep'] 		=  \PortalManager\Formater::productImage( $kep, false, self::TAG_IMG_NOPRODUCT ); 
-			$d['profil_kep_small'] 	=  \PortalManager\Formater::productImage( $kep, 75, self::TAG_IMG_NOPRODUCT ); 
-			
+			$d['profil_kep'] 		=  \PortalManager\Formater::productImage( $kep, false, self::TAG_IMG_NOPRODUCT );
+			$d['profil_kep_small'] 	=  \PortalManager\Formater::productImage( $kep, 75, self::TAG_IMG_NOPRODUCT );
+
 			$arInfo 		= $this->getProductPriceCalculate( $d['marka_id'], $brutto_ar );
 			$akcios_arInfo 	= $this->getProductPriceCalculate( $d['marka_id'], $akcios_brutto_ar );
-			
+
 			if( $d['akcios'] == '1') {
 				$arInfo['ar'] = $arInfo['ar'];
 			}
-			
+
 			$arInfo['ar'] 			= ($this->settings['round_price_5'] == '1') ? round($arInfo['ar'] / 5) * 5 : $arInfo['ar'] ;
 			$akcios_arInfo['ar'] 	= ($this->settings['round_price_5'] == '1') ? round($akcios_arInfo['ar'] / 5) * 5 : $akcios_arInfo['ar'] ;
 
 			// Kategória lista, ahol szerepel a termék
 			$in_cat = $this->getCategoriesWhereProductIn( $d['product_id'] );
-			
+
 			$d['link'] 				= DOMAIN.'termek/'.\PortalManager\Formater::makeSafeUrl( $d['product_nev'], '_-'.$d['product_id'] );
 			$d['hasonlo_termek_ids']= $this->getProductRelatives( $d['product_id'] );
 			$d['parameters'] 		= $this->getParameters( $d['product_id'], $d['alapertelmezett_kategoria'] );
@@ -779,10 +779,10 @@ class Products
 			$d['akcios_fogy_ar']	= $akcios_arInfo['ar'];
 			$d['arres_szazalek'] 	= $arInfo['arres'];
 
-			$bdata[]	 			= $d;	
+			$bdata[]	 			= $d;
 		}
-		
-		$this->products = $bdata;		
+
+		$this->products = $bdata;
 
 		return $this;
 	}
@@ -802,10 +802,10 @@ class Products
 		$re[info] =  array();
 		$re[arres] = 0;
 		$re[ar]   =  $bruttoAr;
-		
+
 		// Márka adatok
 		$marka = $this->db->query("SELECT fix_arres FROM shop_markak WHERE ID = $markaID")->fetch(\PDO::FETCH_ASSOC);
-		
+
 		if( !is_null($marka['fix_arres']) ) {
 			// Fix árrés
 			$re[info] 	= 'FIX : '.$marka[fix_arres].'%';
@@ -819,7 +819,7 @@ class Products
 				$min = $s[ar_min];
 				$max = $s[ar_max];
 				$max = (is_null($max)) ? 999999999999999 : $max;
-				
+
 				if( $bruttoAr >= $min && $bruttoAr <= $max ) {
 					$re[info] 	= $min.' - '.$max.' : '.$s[arres].'%';
 					$re[arres] 	= $s[arres];
@@ -828,9 +828,9 @@ class Products
 				} else {
 					$re[info] 	= $min.' - '.$max.' : '.$s[arres].'%';
 					$re[arres] 	= $s[arres];
-					$re[ar] 	= round($bruttoAr * ($s[arres]/100+1));	
+					$re[ar] 	= round($bruttoAr * ($s[arres]/100+1));
 				}
-				
+
 			}
 		}
 
@@ -843,7 +843,7 @@ class Products
 	}
 
 	public function getParameters($termekID, $katID = false){
-		$q = "SELECT 
+		$q = "SELECT
 			p.* ,
 			pm.parameter as neve,
 			pm.mertekegyseg as me
@@ -866,10 +866,10 @@ class Products
 	/**
 	 * Termék kategóriákba való becsatolása/kicsatolás
 	 * A program megvizsgálja a már becsatolt kategóriákat a terméknél. Ha a listában nem szerepel egy kategória ID, ami a már becsatoltak közt van, akkor azt eltávolítja.
-	 * 
-	 * @param  int $product_id 
+	 *
+	 * @param  int $product_id
 	 * @param  array $cat_list   kategória ID lista
-	 * @return boolean             
+	 * @return boolean
 	 */
 	public function doCategoryConnect( $product_id, $cat_list )
 	{
@@ -898,7 +898,7 @@ class Products
 
 	/**
 	 * Termék eltávolítás kategóriákból
-	 * @param  int $product_id   
+	 * @param  int $product_id
 	 * @param  array $category_list kategória ID lista, ahonnan ki szeretnénk szedni a termékeket
 	 * @return void
 	 */
@@ -911,7 +911,7 @@ class Products
 		}
 
 		$katliststr = implode(',', $category_list);
-		
+
 		$dq = "DELETE FROM shop_termek_in_kategoria WHERE termekID = $product_id and kategoria_id IN ($katliststr)";
 
 		$this->db->query( $dq );
@@ -919,14 +919,14 @@ class Products
 
 	/**
 	 * Termék becsatolása egy adott kategóriába
-	 * @param int $product_id 
+	 * @param int $product_id
 	 * @param int $cat_id
 	 */
 	public function addProductToCategory( $product_id, $cat_id )
 	{
 		$this->db->insert(
 			'shop_termek_in_kategoria',
-			array( 
+			array(
 				'kategoria_id' => $cat_id,
 				'termekID' => $product_id,
 			)
@@ -934,7 +934,7 @@ class Products
 	}
 	/**
 	 * Egy adott termék kategória ID listája, ahova be van csatolva
-	 * @param  int $product_id 
+	 * @param  int $product_id
 	 * @return array             Kategória ID lista, ahova be lett csatolva a termék
 	 */
 	public function getProductInCategory( $product_id, $get_names = false )
@@ -949,12 +949,12 @@ class Products
 								kat.hashkey,
 								kat.oldal_hashkeys
 			FROM 				shop_termek_in_kategoria as k
-			LEFT OUTER JOIN 	shop_termek_kategoriak as kat ON kat.ID = k.kategoria_id 
-			LEFT OUTER JOIN 	shop_termek_kategoriak as p ON p.ID = kat.szulo_id 
+			LEFT OUTER JOIN 	shop_termek_kategoriak as kat ON kat.ID = k.kategoria_id
+			LEFT OUTER JOIN 	shop_termek_kategoriak as p ON p.ID = kat.szulo_id
 			WHERE 				k.termekID = %d
 			ORDER BY 			p.sorrend ASC, kat.sorrend ASC", $product_id ) );
 
-		if( $qry->rowCount() == 0 ) return $cat_ids; 
+		if( $qry->rowCount() == 0 ) return $cat_ids;
 
 		$data = $qry->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -972,7 +972,7 @@ class Products
 			} else {
 				$cat_ids[] = $v['kategoria_id'];
 			}
-			
+
 		}
 
 		$cat_ids['page_hashkeys'] = ltrim( $page_hashkeys, ',' );
@@ -990,12 +990,12 @@ class Products
 			SELECT  			c.kategoria_id as id,
 								IF(cat.szulo_id IS NOT NULL, CONCAT(pc.neve,' / ', cat.neve), cat.neve) as neve
 			FROM 				shop_termek_in_kategoria as c
-			LEFT OUTER JOIN 	shop_termek_kategoriak as cat ON cat.ID = c.kategoria_id 
+			LEFT OUTER JOIN 	shop_termek_kategoriak as cat ON cat.ID = c.kategoria_id
 			LEFT OUTER JOIN 	shop_termek_kategoriak as pc ON pc.ID = cat.szulo_id
 			WHERE 				c.termekID = %d
 			ORDER BY			cat.deep ASC, cat.sorrend ASC", $product_id ) );
 
-		if( $qry->rowCount() == 0 ) return $cat_ids; 
+		if( $qry->rowCount() == 0 ) return $cat_ids;
 
 		$data = $qry->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -1006,30 +1006,30 @@ class Products
 	/**
 	 * Márka neve, ID alapján
 	 * @param  int $id márka id
-	 * @return string  
+	 * @return string
 	 */
 	public function getManufacturName( $id ) {
 		$nev = '';
 		if($id == '') return $nev;
-		
-		$q = $this->db->query("SELECT neve FROM shop_markak WHERE ID = $id")->fetch(\PDO::FETCH_COLUMN);	
+
+		$q = $this->db->query("SELECT neve FROM shop_markak WHERE ID = $id")->fetch(\PDO::FETCH_COLUMN);
 		$nev = $q;
 
 		return $nev;
 	}
 	/**
 	 * Termékkép mentése adatbázisba
-	 * @param int  $termekID 
+	 * @param int  $termekID
 	 * @param string  $kep 	kép elérhetősége
 	 * @param int $sorrend  kép sorrend
 	 */
 	public function addImageToProduct( $termekID, $kep, $sorrend = 0 ) {
 		$this->db->insert(
 			'shop_termek_kepek',
-			array( 
-				'termekID' => $termekID, 
-				'kep' => $kep, 
-				'sorrend' => $sorrend 
+			array(
+				'termekID' => $termekID,
+				'kep' => $kep,
+				'sorrend' => $sorrend
 			)
 		);
 	}
@@ -1048,14 +1048,14 @@ class Products
 		if ( !$termekID ) {
 			return false;
 		}
-		
+
 		$this->db->query("UPDATE shop_termekek SET profil_kep = '$kep' WHERE ID = $termekID;");
 	}
 
 	public function getAllProductImages()
 	{
 		$imgs = array();
-		$data = $this->db->query("SELECT kep FROM shop_termek_kepek;")->fetchAll(\PDO::FETCH_ASSOC);	
+		$data = $this->db->query("SELECT kep FROM shop_termek_kepek;")->fetchAll(\PDO::FETCH_ASSOC);
 
 		foreach ($data as $kep ) {
 			$img = $kep['kep'];
@@ -1063,9 +1063,9 @@ class Products
 			$img = preg_replace('/\/{2,}/', '/', $img);
 
 			if ( !in_array($img, $imgs)) {
-				$imgs[] = $img;	
+				$imgs[] = $img;
 			}
-				
+
  		}
 
 		return $imgs;
@@ -1079,14 +1079,14 @@ class Products
 			return $imgs;
 		}
 
-		$data = $this->db->query("SELECT kep FROM shop_termek_kepek WHERE termekID = $product_id ORDER BY sorrend ASC;")->fetchAll(\PDO::FETCH_ASSOC);	
+		$data = $this->db->query("SELECT kep FROM shop_termek_kepek WHERE termekID = $product_id ORDER BY sorrend ASC;")->fetchAll(\PDO::FETCH_ASSOC);
 
 		foreach ($data as $kep ) {
 			$img = $kep['kep'];
 
 			$img = preg_replace('/\/{2,}/', '/', $img);
 
-			$imgs[] = $kep['kep'];		
+			$imgs[] = $kep['kep'];
  		}
 
 		return $imgs;
@@ -1103,11 +1103,11 @@ class Products
 							t.fotermek,
 							t.szin,
 							t.profil_kep,
-							t.meret 
+							t.meret
 			FROM 			shop_termek_kapcsolatok as r
-			LEFT OUTER JOIN shop_termekek as t ON t.ID = r.termek_to 
+			LEFT OUTER JOIN shop_termekek as t ON t.ID = r.termek_to
 			WHERE 			r.termek_from = $product_id and t.ID IS NOT NULL
-			ORDER BY 		t.meret ASC;")->fetchAll(\PDO::FETCH_ASSOC);	
+			ORDER BY 		t.meret ASC;")->fetchAll(\PDO::FETCH_ASSOC);
 		*/
 
 		$q .= "
@@ -1116,13 +1116,13 @@ class Products
 						t.fotermek,
 						t.szin,
 						t.profil_kep,
-						t.meret 
+						t.meret
 		FROM 			shop_termekek as t
-		WHERE 			t.lathato = 1 and profil_kep IS NOT NULL and t.raktar_articleid = (SELECT raktar_articleid FROM shop_termekek WHERE ID = $product_id) 
+		WHERE 			t.lathato = 1 and profil_kep IS NOT NULL and t.raktar_articleid = (SELECT raktar_articleid FROM shop_termekek WHERE ID = $product_id)
 		";
 
-		$q .= " ORDER BY 
-		(CASE 
+		$q .= " ORDER BY
+		(CASE
 			WHEN t.meret RLIKE '^[0-9]{1,3}$' THEN 0
 			WHEN t.meret RLIKE '^XXS$' THEN 1
 			WHEN t.meret RLIKE '^XS$' THEN 2
@@ -1139,14 +1139,14 @@ class Products
 		CAST(t.meret as unsigned) ASC";
 
 		$data = $this->db->query( $q )->fetchAll(\PDO::FETCH_ASSOC);
-		
+
 		$color_set = array();
 
 		foreach ($data as $id ) {
 			if( (!empty($this->selected_sizes) && in_array($id['meret'], $this->selected_sizes ) ) || empty($this->selected_sizes)){
 				$id['link'] = DOMAIN.'termek/'.\PortalManager\Formater::makeSafeUrl($id['nev'],'_-'.$id['termek_to']);
-				$set['ids'][] = $id['termek_to'];	
-				$set['set'][$id['termek_to']] = $id; 
+				$set['ids'][] = $id['termek_to'];
+				$set['set'][$id['termek_to']] = $id;
 
 				// Color stack
 				if (!array_key_exists( $id['szin'], $color_set )) {
@@ -1178,12 +1178,12 @@ class Products
 	 * Termék adatainak lekérése ID alapján
 	 * @param  int $product_id
 	 * @param  array  $opt        Opcionális paraméterek:
-	 *                            string rows vesszővel elválasztva, visszaadja a kívánt rekordokat                            
+	 *                            string rows vesszővel elválasztva, visszaadja a kívánt rekordokat
 	 * @return array
 	 */
 	public function get( $product_id, array $opt = array() ) {
 		if( $product_id === '' || !isset( $product_id ) ) return false;
-		
+
 		$row = "t.*";
 
 		if (isset($opt['rows'])) {
@@ -1193,12 +1193,12 @@ class Products
 		$q = $this->db->query("
 			SELECT 			$row,
 							k.neve as kategoriaNev,
-							ta.elnevezes as keszletNev 
+							ta.elnevezes as keszletNev
 			FROM 			shop_termekek as t
 			LEFT OUTER JOIN shop_termek_kategoriak as k ON k.ID = t.alapertelmezett_kategoria
 			LEFT OUTER JOIN shop_termek_allapotok as ta ON ta.ID = t.keszletID
 			WHERE 			t.ID = $product_id
-			
+
 		");
 
 		$data = $q->fetch(\PDO::FETCH_ASSOC);
@@ -1208,19 +1208,19 @@ class Products
 		$akcios_brutto_ar 	= $data['akcios_brutto_ar'];
 
 		$kep = $data['profil_kep'];
-		$data['profil_kep'] 		=  \PortalManager\Formater::productImage( $kep, false, self::TAG_IMG_NOPRODUCT ); 
-		$data['profil_kep_small'] 	=  \PortalManager\Formater::productImage( $kep, 75, self::TAG_IMG_NOPRODUCT ); 
-		
+		$data['profil_kep'] 		=  \PortalManager\Formater::productImage( $kep, false, self::TAG_IMG_NOPRODUCT );
+		$data['profil_kep_small'] 	=  \PortalManager\Formater::productImage( $kep, 75, self::TAG_IMG_NOPRODUCT );
+
 		$arInfo 		= $this->getProductPriceCalculate( $data['marka'], $brutto_ar );
 		$akcios_arInfo 	= $this->getProductPriceCalculate( $data['marka'], $akcios_brutto_ar );
-		
+
 		if( $d['akcios'] == '1') {
 			$arInfo['ar'] = $arInfo['ar'];
 		}
-		
+
 		$arInfo['ar'] 			= ($this->settings['round_price_5'] == '1') ? round($arInfo['ar'] / 5) * 5 : $arInfo['ar'] ;
 		$akcios_arInfo['ar'] 	= ($this->settings['round_price_5'] == '1') ? round($akcios_arInfo['ar'] / 5) * 5 : $akcios_arInfo['ar'] ;
-		
+
 		$data['rovid_leiras'] 		= $this->addLinkToString( $data, $data['rovid_leiras'] );
 		$data['ar'] 				= $arInfo['ar'];
 		$data['akcios_fogy_ar']		= $akcios_arInfo['ar'];
@@ -1238,19 +1238,18 @@ class Products
 		$keszlet_info = 			$data['keszletNev'];
 		switch( $keszlet_info ) {
 			case 'Raktáron':
-				$keszlet_info = '<span style="color:green;">'.$keszlet_info.'</span>';
+				$keszlet_info = '<span style="color:#77bb3a;">'.$keszlet_info.'</span>';
 			break;
 			case 'Elfogyott':
-				$keszlet_info = '<span style="color:red;">'.$keszlet_info.'</span>';
+				$keszlet_info = '<span style="color:#b52222;">'.$keszlet_info.'</span>';
 			break;
 			case 'Rendelhető':
-				$keszlet_info = '<span style="color:orange;">'.$keszlet_info.'</span>';
+				$keszlet_info = '<span style="color:#de7d01;">'.$keszlet_info.'</span>';
 			break;
 			default:
 			break;
 		}
 		$data['keszlet_info'] 		= $keszlet_info;
-
 
 		// Linkek
 		$data['link_lista']			= $this->getProductLinksFromStr( $data['linkek'] );
@@ -1272,7 +1271,7 @@ class Products
 			return false;
 		}
 
-		foreach ($q->fetchAll(\PDO::FETCH_ASSOC) as $d ) 
+		foreach ($q->fetchAll(\PDO::FETCH_ASSOC) as $d )
 		{
 			$ids[] = $d['target_id'];
 		}
@@ -1290,7 +1289,7 @@ class Products
 
 		$q = $this->db->query("
 		SELECT 				t.*, t.ID as termekID
-		FROM 				shop_termekek as t 
+		FROM 				shop_termekek as t
 		WHERE 				t.ID = $product_id");
 
 		return $q->fetch(\PDO::FETCH_ASSOC);
@@ -1305,7 +1304,7 @@ class Products
 		if ( $each[0] == '' ) {
 			return $links;
 		}
-		
+
 		foreach ($each as $value) {
 			$link = explode("==>", $value);
 			$links[] = array(
@@ -1344,13 +1343,13 @@ class Products
 	 * Oldal hivatkozások kategóriához csatolt hashkey-ekből
 	 * */
 	public function getProductLinksFromCategoryHashkeys( $hashkeys, &$linkset )
-	{	
+	{
 		$title_in = array();
 		$hashkeys = explode( ",", $hashkeys );
 		// Linkek begyűjtése
 		foreach ( $hashkeys as $link_key ) {
 			$eleres = $this->db->query("SELECT eleres FROM oldalak WHERE hashkey = '$link_key' and hashkey IS NOT NULL and lathato = 1;")->fetchColumn();
-			
+
 			$title = $this->hashkeyRewrite( $link_key );
 
 			if( $eleres ){
@@ -1364,7 +1363,7 @@ class Products
 				}
 			}
 		}
-		
+
 		unset($title_in);
 	}
 
@@ -1417,10 +1416,10 @@ class Products
 					'hash' => $qd['hashkey']
 				);
 				$cat_id = $qd['szulo_id'];
-			}			
+			}
 		}
 
-		
+
 
 
 		return $set;
@@ -1433,19 +1432,19 @@ class Products
 
 		$gender = '';
 
-		if( 
+		if(
 			strpos( strtolower($product['csoport_kategoria']), 'férfi' ) !== false
 		) {
 			$gender = 'férfi';
-		} else if( 
-			strpos( strtolower($product['csoport_kategoria']), 'női' ) !== false			
+		} else if(
+			strpos( strtolower($product['csoport_kategoria']), 'női' ) !== false
 		) {
 			$gender = 'női';
-		} else if(  
-			strpos( strtolower($product['csoport_kategoria']), 'lányka' ) !== false || 
+		} else if(
+			strpos( strtolower($product['csoport_kategoria']), 'lányka' ) !== false ||
 			strpos( strtolower($product['csoport_kategoria']), 'lány' ) !== false) {
 			$gender = 'lány';
-		} else if( 
+		} else if(
 			strpos( strtolower($product['csoport_kategoria']), 'fiú' ) !== false) {
 			$gender = 'fiú';
 		}
@@ -1488,8 +1487,8 @@ class Products
 			$reptext =  $rep[$search];
 			$text = str_replace( $reptext, '<a href="'.$link[url].'" title="'.$link[title].'" target="_blank">'.ucwords($search).'</a>', $text );
 		}
-	
-		
+
+
 		return $text;
 	}
 
@@ -1501,7 +1500,7 @@ class Products
 		foreach ( $keyword_set as $key ) {
 			if( $key != '') {
 				$src .= " hashkey_keywords LIKE '%$key%' and ";
-			}			
+			}
 		}
 		$src = rtrim($src, ' and ');
 		$src .= ')';
@@ -1510,9 +1509,9 @@ class Products
 
 		$qq = $this->db->query( $q )->fetch(\PDO::FETCH_ASSOC);
 
-		if( $qq[eleres] == '' ) return false; 
+		if( $qq[eleres] == '' ) return false;
 
-		return array( 
+		return array(
 			'url' => '/p/'.$qq[eleres] . ( $anchor != '' ? '#'.$anchor : ''),
 			'title' => $qq[cim]
 		);
@@ -1521,7 +1520,7 @@ class Products
 	/*===============================
 	=            GETTERS            =
 	===============================*/
-	
+
 	public function getItemNumbers()
 	{
 		return $this->products_number;
@@ -1551,16 +1550,16 @@ class Products
 	{
 		return $this->qry_str;
 	}
-	
+
 	/*-----  End of GETTERS  ------*/
-	
+
 	public function __destruct()
 	{
 		$this->db = null;
 		$this->user = null;
 		$this->products = null;
 		$this->products_number = 0;
-		$this->product_limit_per_page = 50; 
+		$this->product_limit_per_page = 50;
 		$this->max_page = 1;
 		$this->current_page = 1;
 		$this->avaiable_sizes = array();

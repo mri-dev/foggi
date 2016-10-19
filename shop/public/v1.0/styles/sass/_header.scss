@@ -48,6 +48,7 @@ header {
 							width: 25px;
 							font-size: 20px;
 							float: left;
+							text-align: center;
 							margin-right: 10px;
 						}
 					}
@@ -200,6 +201,10 @@ nav{
 	padding: 0 10px;
 	background: #000;
 	@include border-radius(15px);
+	border: 2px solid #1f1f1f;
+	-webkit-box-shadow: 0 5px 20px -5px #000;
+	-moz-box-shadow: 0 5px 20px -5px #000;
+	box-shadow: 0 5px 20px -5px #000;
 
 	ul{
 		margin:0;
