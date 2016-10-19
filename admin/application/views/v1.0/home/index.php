@@ -12,11 +12,11 @@
 <br>
 	<? if(true): ?>
     	<div class="row">
-        	<div class="col-md-3">
+        	<div class="col-md-4">
             	<div class="box red">
                 	<div class="head">
                     	<div class="btn"><a href="/megrendelesek/"><i class="fa fa-arrow-circle-right"></i></a></div>
-                    	<div class="n"><?=$this->stats[orders][news][db]?></div> 
+                    	<div class="n"><?=$this->stats[orders][news][db]?></div>
                         <div class="txt">
                         	<div>új megrendelés</div>
                             <div>még nem feldolgozott</div>
@@ -42,7 +42,7 @@
                 <div class="box orange">
                     <div class="head">
                         <div class="btn"><a href="/megrendelesek/"><i class="fa fa-arrow-circle-right"></i></a></div>
-                        <div class="n"><?=$this->stats[orders][progress][db]?></div> 
+                        <div class="n"><?=$this->stats[orders][progress][db]?></div>
                         <div class="txt">
                             <div>megrendelés</div>
                             <div>folyamatban</div>
@@ -59,33 +59,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="box blue">
-                    <div class="head">
-                        <div class="btn"><a href="/felhasznalok/"><i class="fa fa-arrow-circle-right"></i></a></div>
-                        <div class="n"><?=number_format($this->stats[users][regInThisMonth],0,"",",")?></div> 
-                        <div class="txt">
-                            <div>új felhasználó</div>
-                            <div>ebben a hónapban</div>
-                        </div>
-                    </div>
-                    <div class="c">
-                        <div class="row">
-                            <div class="col-md-3"><strong><?=number_format($this->stats[users][loginInThisWeek],0,"",",")?> DB</strong></div>
-                            <div class="col-md-9 title">belépett az elmúlt héten</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3"><strong><?=number_format($this->stats[users][activated],0,"",",")?> DB</strong></div>
-                            <div class="col-md-9 title">aktivált felhasználó</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3"><strong><?=number_format($this->stats[users][total],0,"",",")?> DB</strong></div>
-                            <div class="col-md-9 title">összesen</div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="col-md-3">
-                <? if(true): ?>
+              <div class="box blue">
+                  <div class="head">
+                      <div class="btn"><a href="/felhasznalok/"><i class="fa fa-arrow-circle-right"></i></a></div>
+                      <div class="n"><?=number_format($this->stats[users][regInThisMonth],0,"",",")?></div>
+                      <div class="txt">
+                          <div>új felhasználó</div>
+                          <div>ebben a hónapban</div>
+                      </div>
+                  </div>
+                  <div class="c">
+                      <div class="row">
+                          <div class="col-md-3"><strong><?=number_format($this->stats[users][loginInThisWeek],0,"",",")?> DB</strong></div>
+                          <div class="col-md-9 title">belépett az elmúlt héten</div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-3"><strong><?=number_format($this->stats[users][activated],0,"",",")?> DB</strong></div>
+                          <div class="col-md-9 title">aktivált felhasználó</div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-3"><strong><?=number_format($this->stats[users][total],0,"",",")?> DB</strong></div>
+                          <div class="col-md-9 title">összesen</div>
+                      </div>
+                  </div>
+              </div>
+                <? if(false): ?>
                 <div class="box blue">
                     <div class="head">
                         <div class="btn"><a href="/referrerHierarchy"><i class="fa fa-arrow-circle-right"></i></a></div>
@@ -108,7 +109,7 @@
                             </div>
                             <div class="col-md-4">
                                  <strong><a target="_blank" title="Megrendelések listája" href="/partnerSale?partner=<?=$u[total_data][data][refererID]?>"><?=Helper::cashFormat($u['totalReferredOrderPrices'])?> Ft</a></strong><br>
-                                 össz. értékben  
+                                 össz. értékben
                             </div>
                         </div>
                         <? endforeach; ?>
@@ -119,9 +120,9 @@
                        <? endif; ?>
                     </div>
                 </div>
-                <? endif; ?>                
+                <? endif; ?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <? if(true): ?>
                 <div class="box green">
                     <div class="head">
@@ -176,7 +177,7 @@
                     </div>
                 </div>
                 <? endif; ?>
-            </div>            
+            </div>
         </div>
         <br />
         <div class="row">
@@ -194,7 +195,7 @@
                         	<div class="col-md-3"><strong><?=$d[me]?></strong> <span title="Oldal betöltés / Megjelenés">AV</span></div>
                             <div class="col-md-9 title">
                                 <strong><a href="/termekek/t/edit/<?=$d[termekID]?>"><?=$d[nev]?></a></strong> &nbsp; <a href="<?=HOMEDOMAIN.'termek/'.\PortalManager\Formater::makeSafeUrl($d['nev'],'_-'.$d['termekID'])?>" target="_blank" style="color:black;" title="Publikus adatlap"><i class="fa fa-external-link"></i></a>
-                                <div class="stat-feat-info"> <span title="cikkszám">#<?=$d['cikkszam']?></span> &nbsp;&nbsp; <?=($d['meret'])? '<span class="text">Méret:</span> '.$d['meret'] :'' ?>  <?=($d['szin'])? '<span class="text">Szín:</span> '.$d['szin'] :'' ?> </div> 
+                                <div class="stat-feat-info"> <span title="cikkszám">#<?=$d['cikkszam']?></span> &nbsp;&nbsp; <?=($d['meret'])? '<span class="text">Méret:</span> '.$d['meret'] :'' ?>  <?=($d['szin'])? '<span class="text">Szín:</span> '.$d['szin'] :'' ?> </div>
                             </div>
                         </div>
                         <? endforeach; ?>
@@ -207,7 +208,7 @@
                     </div>
                 </div>
             </div>
-            
+
         	<div class="col-md-3">
             	<div class="box">
                 	<div class="head">
@@ -232,7 +233,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-3">
             	<div class="box">
                 	<div class="head">
@@ -299,7 +300,7 @@
                                     <div class="stat <?=($x2 < $x1)?'p':'n'?>"><span><?=Helper::getPercent($x1,$x1-$x2)?>%</span></div>
                                     <div class="price"><span><?=Helper::cashFormat($x1)?></span></div>
                                     <div class="txt">bevétel</div>
-                                    
+
                                 </div>
                             </div>
                             <div class="col-md-6"  align="center">
@@ -310,18 +311,18 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
-           
+
         </div>
         <br />
         <div class="row">
 			 <div class="col-md-8">
-				
+
 			</div>
         	<? if(true): ?>
             <div class="col-md-4">
-           
+
             </div>
             <? endif; ?>
         </div>

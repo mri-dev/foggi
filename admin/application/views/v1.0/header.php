@@ -184,7 +184,7 @@
                 <li class="<?=(($this->gets[0] == 'felhasznalok' && $this->gets[1] == 'containers') || ($this->gets[0] == 'felhasznalok' && $this->gets[1] == 'container_new'))?'on':''?> sub"><a href="/felhasznalok/containers" title="Felhasználói körök"><span class="ni">2</span> Felhasználói körök</a></li>
             	<? endif; ?>
                 <!--<li class="<?=($this->gets[0] == 'partnerek')?'on':''?>"><a href="/partnerek" title="Partnerek"><span class="ni">2</span><i class="fa fa-group"></i> Partnerek</a></li>-->
-                <li class="<?=($this->gets[0] == 'uzletek')?'on':''?>"><a href="/uzletek" title="Üzletek"><span class="ni">2</span><i class="fa fa-home"></i> Üzletek</a></li>
+                <!-- <li class="<?=($this->gets[0] == 'uzletek')?'on':''?>"><a href="/uzletek" title="Üzletek"><span class="ni">2</span><i class="fa fa-home"></i> Üzletek</a></li>-->
                 <li class="<?=($this->gets[0] == 'kuponok')?'on':''?>"><a href="/kuponok" title="Kuponok"><span class="ni">2</span><i class="fa fa-star"></i> Kuponok</a></li>
                 <!-- <li class="<?=($this->gets[0] == 'watercard')?'on':''?>"><a href="/watercard" title="Arena Water Card"><span class="ni">2</span><i class="fa fa-gift"></i>Jövő Bajnokai</a></li>-->
                 <!-- <li class="<?=($this->gets[0] == 'feliratkozok')?'on':''?>"><a href="/feliratkozok" title="Feliratkozók"><span class="ni">2</span><i class="fa fa-check-square-o"></i> Feliratkozók</a></li>-->
@@ -201,10 +201,10 @@
 				<!-- <li class="<?=($this->gets[0] == 'ajanloszoveg')?'on':''?>"><a href="/ajanloszoveg" title="Ajánló felirat"><span class="ni">8</span><i class="fa fa-quote-right"></i> Ajánló feliratok</a></li>-->
 				<li class="<?=($this->gets[0] == 'slideshow')?'on':''?>"><a href="/slideshow" title="Slideshow"><span class="ni">8</span><i class="fa fa-th"></i> Slideshow</a></li>
 				<!-- <li class="<?=($this->gets[0] == 'tablazatok')?'on':''?>"><a href="/tablazatok" title="Táblázatok"><span class="ni">8</span><i class="fa fa-table"></i> Táblázatok</a></li>-->
-				<li class="<?=($this->gets[0] == 'dokumentumok')?'on':''?>"><a href="/dokumentumok" title="Dokumentumok"><span class="ni">8</span><i class="fa fa-file-text-o "></i> Dokumentumok</a></li>
-				<li class="<?=($this->gets[0] == 'emails')?'on':''?>"><a href="/emails" title="Email sablonok"><span class="ni">8</span><i class="fa fa-envelope"></i> Email sablonok</a></li>
-				<li class="<?=($this->gets[0] == 'atiranyitas')?'on':''?>"><a href="/atiranyitas" title="Átirányítások"><span class="ni">8</span><i class="fa fa-long-arrow-right"></i> Átirányítások</a></li>
-				<li class="<?=($this->gets[0] == 'popup')?'on':''?>"><a href="/popup" title="Popup"><span class="ni">8</span><i class="fa fa-bullhorn"></i> Popup</a></li>
+				<!-- <li class="<?=($this->gets[0] == 'dokumentumok')?'on':''?>"><a href="/dokumentumok" title="Dokumentumok"><span class="ni">8</span><i class="fa fa-file-text-o "></i> Dokumentumok</a></li>-->
+				<!-- <li class="<?=($this->gets[0] == 'emails')?'on':''?>"><a href="/emails" title="Email sablonok"><span class="ni">8</span><i class="fa fa-envelope"></i> Email sablonok</a></li>-->
+				<!-- <li class="<?=($this->gets[0] == 'atiranyitas')?'on':''?>"><a href="/atiranyitas" title="Átirányítások"><span class="ni">8</span><i class="fa fa-long-arrow-right"></i> Átirányítások</a></li>-->
+				<!-- <li class="<?=($this->gets[0] == 'popup')?'on':''?>"><a href="/popup" title="Popup"><span class="ni">8</span><i class="fa fa-bullhorn"></i> Popup</a></li>-->
 				<li class="<?=($this->gets[0] == 'beallitasok')?'on':''?>"><a href="/beallitasok" title="Beállítások"><span class="ni">8</span><i class="fa fa-gear"></i> Beállítások</a></li>
         	</ul>
         </div>
