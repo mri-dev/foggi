@@ -20,7 +20,7 @@
 			<div class="clr"></div>
 		</div>
 		<div class="items">
-			<? foreach( $this->product_list as $item ): ?>
+			<? foreach( $this->product_discount_list as $item ): ?>
 				<? echo $this->template->get('product_item', array_merge($item, (array)$this)); ?>
 			<? endforeach;?>
 		</div>

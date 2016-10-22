@@ -29,22 +29,35 @@ class home extends Controller{
 				}
 			}
 
+			// Kiemelt termékek
 			$arg = array(
-				'filters' 	=> $filters,
-				'meret' 	=> $_GET['meret'],
 				'order' 	=> $order,
-				'limit' 	=> 40,
-				'kiemelt' 	=> true,
-				'page' 		=> Helper::currentPageNum()
+				'limit' 	=> 3,
+				'kiemelt' => true,
+				'page' 		=> 1
 			);
 			$products = (new Products( array(
 				'db' => $this->db,
 				'user' => $this->User->get()
 			) ))->prepareList( $arg );
-
-			$this->out( 'template', 	$temp );
 			$this->out( 'products', 	$products );
 			$this->out( 'product_list', $products->getList() );
+
+			// Akciós termékek
+			$arg = array(
+				'order' 	=> $order,
+				'limit' 	=> 3,
+				'akcios' 	=> true,
+				'page' 		=> 1
+			);
+			$discounted_products = (new Products( array(
+				'db' => $this->db,
+				'user' => $this->User->get()
+			) ))->prepareList( $arg );
+			$this->out( 'product_discount', $discounted_products );
+			$this->out( 'product_discount_list', $discounted_products->getList() );
+
+			$this->out( 'template', 	$temp );
 			$this->out( 'slideshow', 	$this->Portal->getSlideshow( 'Home' ) );
 
 			if(isset($_GET['m'])) {

@@ -167,6 +167,49 @@
 	       	<? endif; ?>
 			<a name="step"></a>
 	        <? if(count($k[items]) > 0): ?>
+					<div>
+						<div class="coupon-code">
+							<label for="cuponcode">Kuponkód érvényesítése</label>
+							<div>
+								<div class="input-group">
+									<input type="text" id="cuponcode" name="coupon_code" class="form-control" placeholder="Itt adja meg a kuponkódot" value="<?=$_COOKIE['coupon_code']?>">
+									<span class="input-group-btn">
+										<button class="btn btn-sec" name="save_coupon_code" value="1">frissít <i class="fa fa-refresh"></i></button>
+									</span>
+								</div>
+								<? if( $this->coupon && $this->coupon->coupon_id ): ?>
+										<? if( $this->coupon->isRunning() ): ?>
+										<div class="partner-box partner-valid">
+											<div class="grid-layout">
+												<div class="grid-row grid-row-100 vra-middle">
+													<div class="ico"><i class="fa fa-check-circle"></i></div>
+													<div><strong>Kupon sikeresen aktiválva:</strong></div>
+													<div><?=$this->coupon->getTitle()?></div>
+												</div>
+											</div>
+										</div>
+										<? else: ?>
+
+										<? if( !$this->coupon->isReachedPriceLimit() ): ?>
+										<div class="partner-box partner-info">
+											<div class="ico"><i class="fa fa-info-circle"></i></div>
+											<div><strong><?=$this->coupon->coupon_id?> &mdash; minimális vásárlási limit:</strong></div>
+											<div><?=Helper::cashFormat($this->coupon->getMinOrderValue())?> <?=$this->valuta?></div>
+										</div>
+										<? endif; ?>
+
+										<div class="partner-box partner-invalid">
+											<div class="ico"><i class="fa fa-times-circle"></i></div>
+											<div><strong><?=$this->coupon->coupon_id?> &mdash; állapot:</strong></div>
+											A megadott kuponkód jelenleg nem felhasználható.
+										</div>
+										<? endif; ?>
+
+									<? else: ?>
+								<? endif; ?>
+							</div>
+						</div>
+					</div>
 			<div class="nextOrded">
 	            <div class="box">
 	                <h2>Termékek megrendelése</h2>
@@ -184,55 +227,7 @@
 	                <? endif; ?>
 	                <!--ORDER STEP 0.-->
 	                <div class="steps step0 <?=($this->gets[1] == '0' || $this->gets[1] == '')?'on':''?>">
-	                <div class="row">
-	                	<div class="col-sm-6">
-	                		<div class="coupon-code">
-                            	<label for="cuponcode">Kuponkód</label>
-                            	<div>
-                            	 	<div class="input-group">
-                            	 		<input type="text" id="cuponcode" name="coupon_code" class="form-control" placeholder="kuponkód" value="<?=$_COOKIE['coupon_code']?>">
-                            	 		<span class="input-group-btn">
-                            	 			<button class="btn btn-sec" name="save_coupon_code" value="1">frissít <i class="fa fa-refresh"></i></button>
-                            	 		</span>
-                            	 	</div>
-                            	 	<? if( $this->coupon && $this->coupon->coupon_id ): ?>
-                                	 	<? if( $this->coupon->isRunning() ): ?>
-                                	 	<div class="partner-box partner-valid">
-                                	 		<div class="grid-layout">
-		                                	 	<div class="grid-row grid-row-100 vra-middle">
-                                	 				<div class="ico"><i class="fa fa-check-circle"></i></div>
-		                                	 		<div><strong>Kupon sikeresen aktiválva:</strong></div>
-		                                	 		<div><?=$this->coupon->getTitle()?></div>
-                                	 			</div>
-	                                	 	</div>
-                                	 	</div>
-                                	 	<? else: ?>
 
-                                	 	<? if( !$this->coupon->isReachedPriceLimit() ): ?>
-                                	 	<div class="partner-box partner-info">
-                                	 		<div class="ico"><i class="fa fa-info-circle"></i></div>
-                                	 		<div><strong><?=$this->coupon->coupon_id?> &mdash; minimális vásárlási limit:</strong></div>
-                                	 		<div><?=Helper::cashFormat($this->coupon->getMinOrderValue())?> <?=$this->valuta?></div>
-                                	 	</div>
-                                	 	<? endif; ?>
-
-                                	 	<div class="partner-box partner-invalid">
-                                	 		<div class="ico"><i class="fa fa-times-circle"></i></div>
-                                	 		<div><strong><?=$this->coupon->coupon_id?> &mdash; állapot:</strong></div>
-                                	 		A megadott kuponkód jelenleg nem felhasználható.
-                                	 	</div>
-                                		<? endif; ?>
-
-                                	<? else: ?>
-                            		<? endif; ?>
-                            	</div>
-                            </div>
-	                	</div>
-
-	                </div>
-	                <br>
-	                <div class="divider"></div>
-	                <br>
 	                <div class="row np">
 	                    <div class="col-sm-6 col col1">
 	                    	<? if(!$this->user): ?>
@@ -855,7 +850,7 @@
 	            <div class="clr"></div>
 	        </div>
 
-	        <?php if ($this->gets[1] == '3'): ?>
+	        <?php if ($this->gets[1] == '3' && false): ?>
 	        <div class="cetelemcalc" style="">
             	<div class="head">
             		Nincs meg a teljes vételár?<br>

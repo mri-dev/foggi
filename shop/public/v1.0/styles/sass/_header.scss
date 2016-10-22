@@ -86,10 +86,19 @@ header {
 		}
 		&.login {
 			a{
-				padding: 10px 20px;
+				padding: 10px 20px 10px 15px;
 				color: white;
 				background: $color-pr;
 				@include border-radius(5px);
+
+				i {
+					margin-right: 5px;
+				}
+			}
+		}
+		&.logout {
+			a{
+				color: #dc5555;
 			}
 		}
 	}
@@ -131,6 +140,7 @@ header {
 
 	.cat-menu{
 		li {
+			padding: 2px 0;
 			&.title {
 				color: darken(white, 40%);
 				padding: 10px;
@@ -170,7 +180,7 @@ header {
 						border-width: 18px;
 						right: -36px;
 						top: 0;
-						border-color: transparent transparent transparent $color-pr;
+						border-color: transparent transparent transparent saturate($color-pr, 10);
 					}
 				}
 			}

@@ -198,9 +198,15 @@ body.homepage {
 		background-color: transparent;
 	}
 }
-body.pageview {
+body.pageview,
+body.account-page {
 	.inside-content{
 		background-color: #ffffff;
+	}
+}
+body.account-page {
+	.inside-content{
+		min-height: auto;
 	}
 }
 

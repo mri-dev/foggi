@@ -370,7 +370,12 @@ h1.stitle, h3.stitle {
 		font-size: 1.8em;
 		font-weight: bold;
 		margin: 10px 0;
-		color: white
+		color: white;
+
+		.sep {
+			color: #4c4c4c;
+			margin: 0 10px;
+		}
 	}
 
 	.category-title {
@@ -1670,7 +1675,7 @@ h1.stitle, h3.stitle {
 	background: $color-pr;
 	color: white;
 	padding: 15px;
-	margin-top:10px;
+	margin-top: 20px;
 }
 .nextOrded {
 	.coupon-code, .referer-code {
@@ -2058,19 +2063,27 @@ h1.stitle, h3.stitle {
 .orderDone {
 	text-align: center;
 	margin: 10% 0;
+	color: #cac4c4;
+	line-height: 1.8;
 }
 .orderDone h1 {
 	color: $color-pr;
 	text-transform: uppercase;
 	font-family: $font-cond;
 }
+.orderDone h2{
+	color: #d8d8d8;
+	margin-top: 10px;
+}
 .orderDone h1 i {
 	font-size: 86px;
 	margin-bottom: 12px;
-	color: $color-pr;
+	color: $color-green;
 }
 
 .order {
+	color: #c8c8c8;
+
 	.items .img {
 		float: left;
 		height: 75px;
@@ -2087,17 +2100,17 @@ h1.stitle, h3.stitle {
 	}
 	.orderpage .head {
 		position: relative;
-		padding: 20px;
+		padding: 20px 0;
 	}
 	.serial {
-		float:right;
 		font-size:1.4em;
 		font-family: $font-cond;
+		color: $color-gold;
 	}
 
 	.orderState {
-		padding: 10px 20px;
-    	line-height: 200%;
+		padding: 20px 0;
+    line-height: 2;
 	}
 
 	h1 {
@@ -2124,6 +2137,7 @@ h1.stitle, h3.stitle {
 	}
 	.items-table {
 		padding: 5px;
+		color: #444444;
 
 		table {
 			margin: 0;
@@ -2134,7 +2148,9 @@ h1.stitle, h3.stitle {
 	}
 	.datas {
 		.data {
-			padding: 0 8px;
+			padding: 15px;
+			background: #f4f4f4;
+			color: #6b6b6b;
 
 			.payu-paid-done {
 				background: green;
@@ -2153,14 +2169,22 @@ h1.stitle, h3.stitle {
 		}
 	}
 	.datas .head {
+		color: #d7d7d7;
+		font-weight: bold;
 		font-size: 1em;
-		padding: 8px;
-		background-color: #eaeaea;
+		padding: 10px 15px;
+		background-color: #464646;
 		font-family: $font-cond;
-		margin-bottom: 8px;
+		border-bottom: 2px solid darken($color-pr, 15%);
+	}
+
+	.szmdata{
+		background: #f4f4f4;
+		color: #6b6b6b;
 	}
 
 	.inforows {
+		padding: 10px 0 0 0;
 		div {
 			margin-bottom: 5px;
 			line-height: 20px;
@@ -2256,8 +2280,10 @@ table.table{
 	.settings {
 		h4 {
 			font-family: $font-cond;
-			line-height: 160%;
-			margin: 15px 0 25px 0;
+			line-height: 1.6;
+			color: black;
+			text-transform: uppercase;
+			margin: 15px 0 40px 0;
 		}
 
 		.row {
@@ -2624,8 +2650,13 @@ input[type=checkbox]:checked + label:before {
 }
 
 .referer-code, .coupon-code {
+	background: #ffffff;
+	padding: 15px;
 	label {
-		margin: 8px 0;
+		margin: 0 0 10px 0;
+		font-size: 1.1em;
+		color:  black;
+		text-transform: uppercase;
 	}
 }
 

@@ -18,7 +18,7 @@
         }
 
         a:link, a:visited {
-            color:#d41c4f;
+            color: #d9256e;
         }
         .width {
             width: 600px;
@@ -28,7 +28,7 @@
             padding: 10px 0;
         }
         .bar {
-            background: #d41c4f;
+            background: #d9256e;
         }
         .bar td {
             text-align: center;
@@ -97,8 +97,8 @@
             color: #8c8c8c;
         }
         .relax {
-            color: #d41c4f;
-             font-size: 28px;
+            color: #d9256e;
+             font-size: 22px;
         }
          table.if {
             font-size: 12px;

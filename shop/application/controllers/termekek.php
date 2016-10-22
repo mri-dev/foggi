@@ -58,7 +58,7 @@ class termekek extends Controller {
 				$title = $parent_i.$after. ' | '.$title;
 			}
 
-			$cat_title = implode($parent_set, ' / ');
+			$cat_title = implode($parent_set, '<span class="sep">/</span>');
 
 			// Termékek
 			$filters = array();
