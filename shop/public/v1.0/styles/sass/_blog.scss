@@ -1,8 +1,8 @@
 body, html {
 	background-color: #212121;
-	background-image: url('#{$imgroot}src/images/bg-overlay.svg');
-	background-repeat: no-repeat;
-	background-position: top center;
+	background-image: url('#{$imgroot}src/images/bg-overlay.svg'), url('#{$imgroot}src/images/bgtexture.png');
+	background-repeat: no-repeat, repeat;
+	background-position: top center, top;
   font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 	font-size: 1em;

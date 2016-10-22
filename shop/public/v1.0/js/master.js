@@ -206,7 +206,7 @@ $(function(){
 	  speed: 600,
 	  slidesToShow: 1,
 	  slidesToScroll: 1,
-	  autoplay: true,
+	  autoplay: false,
   	  autoplaySpeed: 8000,
   	  adaptiveHeight: true,
   	  responsive : [

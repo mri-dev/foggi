@@ -1,7 +1,8 @@
 footer {
-	background: #3f3f3f;
-	color: lighten(white, 10%);
 	margin-top: 25px;
+	background: #1f1f1f;
+  color: lighten(white, 10%);
+  border-top: 10px solid #100f10;
 
 	.grid-layout > div {
 		padding: 25px 0 !important;

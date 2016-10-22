@@ -58,6 +58,8 @@ class termekek extends Controller {
 				$title = $parent_i.$after. ' | '.$title;
 			}
 
+			$cat_title = implode($parent_set, ' / ');
+
 			// Termékek
 			$filters = array();
 			$order = array();
@@ -82,6 +84,7 @@ class termekek extends Controller {
 			) ))->prepareList( $arg );
 			$this->out( 'products', $products );
 			$this->out( 'product_list', $products->getList() );
+			$this->out( 'category_title', $cat_title );
 
 
 			$get = $_GET;

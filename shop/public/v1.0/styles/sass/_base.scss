@@ -49,47 +49,53 @@
 	position: relative;
 	background: #FFFFFF;
 	width: 815px;
+	margin-bottom: 45px;
 
 	.info-box {
 		position: absolute;
 		color: white;
-		top: 10px;
-		left: 10px;
+		bottom: 55px;
+		right: 25px;
 		z-index: 1000;
-		max-width: 40%;
 		pointer-events:none;
 
 		.strip {
 			padding: 10px;
 			font-family: $font-cond;
+
+			h2{
+				text-transform: uppercase;
+				position: relative;
+				z-index: 100;
+				background: rgba(217, 37, 110, 0.9);
+				color: white;
+				font-size: 1.8em;
+				padding: 0 25px;
+    		margin-right: 10px;
+				text-shadow: 2px 3px #000;
+			}
+			h3{
+				position: relative;
+				z-index: 10;
+				background: rgba(0, 0, 0, 0.9);
+				color: $color-gold;
+				font-size: 1.1em;
+				padding: 15px 10px 5px 10px;
+    		margin-top: -15px;
+				font-weight: normal;
+			}
 		}
 		.strip h2,
 		.strip h3 {
-			margin: 0;
-			padding: 0;
-			text-align: left;
 			pointer-events:none;
-			line-height: 150%;
+			line-height: 2;
+			float: right;
+			clear: both;
 		}
-		.strip h2 {
-			font-weight: bold;
-			font-size: 1.8em;
-			color: black;
-		}
-		.strip h2 strong {
-			color: #0AC8FF;
-		}
-		.strip h3 {
-			font-weight: bold;
-			color: $color-pr;;
-			font-size: 1.2em;
-			font-family: $font-sans-narrow;
-		}
-
 	}
 
 	.more-link a {
-		background: $color-pr;
+		background: $color-gold;
 		padding:5px 10px;
 		color: white;
 		font-size: 0.8em;
@@ -97,20 +103,21 @@
 		text-transform: uppercase;
 		text-decoration: none;
 		pointer-events:auto;
-
-		@include border-radius(5px);
 	}
 	.more-link {
 		position: absolute;
-		bottom: 50px;
-		left: 10px;
+    bottom: 25px;
+    right: 35px;
 	}
 
 	.slick-dots {
 		position: absolute;
-		bottom: 15px;
-		left: 15px;
-		z-index: 1000;
+    bottom: -20px;
+    left: 50%;
+		-webkit-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		transform: translateX(-50%);
+    z-index: 1000;
 	}
 	.slick-slide {
 		position: relative;
@@ -134,11 +141,11 @@
 	}
 
 	.slick-dots li button:before {
-		color: $color-sec;
+		color: #5a5a5a;
 		font-size:10px;
 		line-height: 12px;
 		width: 12px;
-		content: "\f10c";
+		content: "\f111";
 		font-family: FontAwesome;
 		position: absolute;
 		left: 0;
@@ -147,9 +154,9 @@
 		text-shadow: none;
 	}
 	.slick-dots li.slick-active button:before {
+		margin-top: 1px;
 		color: $color-pr;
 		font-size:12px;
-		content: "\f111";
 		font-family: FontAwesome;
 	}
 	.slidesjs-navigation {
@@ -282,12 +289,13 @@
 	position: relative;
 
 	.title {
-		padding: 10px 0;
+		padding: 0;
 		text-align:center;
 
 		h3 {
-			color: black;
-			font-size: 1.4em;
+			color: $color-pr;
+			font-size: 1.3em;
+			margin-bottom: 10px;
 			letter-spacing: -1px;
 		}
 
@@ -302,57 +310,67 @@
 		*display: inline;
 		zoom: 1;
 		width: 25%;
+		padding: 5px;
 
-		.img {
-			img {
-				width: 100%;
+		.item-wrapper {
+			background-color: #ffffff;
+			.img {
+				img {
+					width: 100%;
+				}
+			}
+
+			.title a {
+			    font-weight: bold;
+			    display: block;
+			    padding: 10px 0;
+	    		text-align: center;
+	    		font-size: 1.1em;
+					background: $color-pr;
+	    		color: white;
 			}
 		}
-
-		.title a {
-		    font-weight: bold;
-		    display: block;
-		    padding: 10px 0;
-    		text-align: center;
-    		font-size: 1.1em;
-    		color: $color-pr;
-		}
 	}
 }
 
-.home {
-	h1.stitle, h3.stitle {
-		text-transform: uppercase;
-		font-size: 1.6em;
-		margin: 30px 0;
-		text-align: center;
-		font-weight: normal;
-		font-family: $font-sans-narrow;
-		color: white;
-		position: relative;
+h1.stitle, h3.stitle {
+	text-transform: uppercase;
+	font-size: 1.6em;
+	margin: 30px 0;
+	text-align: center;
+	font-weight: normal;
+	font-family: $font-sans-narrow;
+	color: white;
+	position: relative;
 
-		&:after {
-			content:"";
-			position: absolute;
-			margin: 0 auto;
-			bottom: -10px;
-			left: 50%;
-			border-bottom: 1px solid $color-pr;
-			width: 150px;
-			-webkit-transform: translateX(-50%);
-			-moz-transform: translateX(-50%);
-			transform: translateX(-50%);
-		}
+	&:after {
+		content:"";
+		position: absolute;
+		margin: 0 auto;
+		bottom: -10px;
+		left: 50%;
+		border-bottom: 1px solid $color-pr;
+		width: 150px;
+		-webkit-transform: translateX(-50%);
+		-moz-transform: translateX(-50%);
+		transform: translateX(-50%);
 	}
 }
+
+.category-listing{
+	.products{
+		margin-top: 25px;
+	}
+}
+
 
 .category-listing {
 	h1 {
 		text-transform: uppercase;
-		font-size: 1.6em;
+		font-size: 1.8em;
 		font-weight: bold;
-		margin: 10px;
-		color: darken( $color-sec, 40%);
+		margin: 10px 0;
+		color: white
 	}
 
 	.category-title {
@@ -361,17 +379,21 @@
 			margin-right: 5px;
 
 			ul li {
+				vertical-align: middle;
 				padding: 0 2px;
-				float: right;
 				font-size: 0.8em;
 				height: 25px;
+				color: white;
+    		display: inline-block;
+				*display: inline;
+				zoom: 1;
 
 				button {
-					background: darken( $color-sec, 10% );
-					color: white;
+					background: #000;
+					color: #989898;
 					height: 25px;
 					text-shadow: none;
-					border: 1px solid darken($color-sec, 20%);
+					border: 1px solid #000;
 					line-height: 1;
 				}
 
@@ -380,6 +402,11 @@
 					font-size: 0.8em;
 					line-height: 1;
 					height: 25px;
+					background: transparent;
+					color: $color-pr;
+					border: 1px solid darken(desaturate($color-pr, 15), 18%);
+					text-shadow: none;
+					cursor: pointer;
 				}
 
 				line-height: 25px;
@@ -921,6 +948,7 @@
 				color: white;
 				text-align: center;
 				line-height: 50px;
+				height: 55px;
 				display: block;
 				width: 100%;
 				font-size: 1.2em;
@@ -3606,19 +3634,6 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		box-shadow: none !important;
 	}
 }
-
-.product-ajanlott,
-.related-products
-{
-	h3 {
-		color: #73737b;
-		font-weight: bold;
-		text-transform: uppercase;
-		line-height: 2;
-	}
-}
-
-
 
 .share-box {
 	position: fixed;

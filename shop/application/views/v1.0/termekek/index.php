@@ -1,7 +1,6 @@
 <? if( $this->category->getName() ): ?>
     <div class="category-listing page-width">
         <? $this->render('templates/slideshow'); ?>
-        <div class="divider"></div>
         <div class="list-view webshop-product-top">
             <? if($this->parent_menu&& count($this->parent_menu) > 0): ?>
             <div class="sub-categories">
@@ -14,31 +13,34 @@
                 <?
                     foreach( $this->parent_menu as $cat ):
                 ?><div class="item">
+                  <div class="item-wrapper">
                     <div class="img"><a href="<?=$cat['link']?>"><img src="<?=rtrim(IMGDOMAIN,"/").$cat['kep']?>" alt="<?=$cat['neve']?>"></a></div>
                     <div class="title"><a href="<?=$cat['link']?>"><?=$cat['neve']?></a></div>
+                  </div>
                 </div><? endforeach; ?>
-                <div class="divider"></div>
             </div>
             <? endif; ?>
 
             <div class="category-title head">
                  <div class="filters">
-                    <form action="/<?=$this->gets[0]?>/<?=$this->gets[1]?>/-/1<?=( $this->cget != '' ) ? '?'.$this->cget : ''?>" method="get">
+                    <form id="catfilter" action="/<?=$this->gets[0]?>/<?=$this->gets[1]?>/-/1<?=( $this->cget != '' ) ? '?'.$this->cget : ''?>" method="get">
                     <ul>
-                        <li><button class="btn btn-default btn-sm">szűrés <i class="fa fa-refresh"></i></button></li><li>
-                            <select name="order" class="form-control">
+                        <li><?=__('Rendezés')?></li><!--
+                     --><li>
+                            <select name="order" onchange="$('#catfilter').submit();" class="form-control">
                                 <option value="nev_asc"     <?=($_GET['order'] == 'nev_asc')?'selected="selected"':''?>>Név: A-Z</option>
                                 <option value="nev_desc"    <?=($_GET['order'] == 'nev_desc')?'selected="selected"':''?>>Név: Z-A</option>
                                 <option value="ar_asc"      <?=($_GET['order'] == 'ar_asc')?'selected="selected"':''?>>Ár: növekvő</option>
                                 <option value="ar_desc"     <?=($_GET['order'] == 'ar_desc')?'selected="selected"':''?>>Ár: csökkenő</option>
                             </select>
-                        </li><li><?=__('Rendezés')?></li>
+                        </li>
                     </ul>
                     </form>
                     <div class="clr"></div>
                 </div>
-                <h1><?=$this->category->getName()?></h1>
+                <h1><?=$this->category_title?></h1>
             </div>
+            <div class="divider"></div>
             <div class="products">
                 <? if( !$this->products->hasItems()): ?>
                 <div class="no-product-items">
@@ -68,11 +70,10 @@
                 <br>
                 <? endif; ?>
             </div>
-            <div class="divider"></div>
 
             <? if( $this->related && $this->related->hasItems() ): ?>
             <div class="related-products">
-                <h3>A legnépszerűbb termékek</h3>
+                <h3 class="stitle">A legnépszerűbb termékek</h3>
                 <div class="items">
                     <? foreach ( $this->related_list as $p ) {
                         $p['itemhash'] = hash( 'crc32', microtime() );

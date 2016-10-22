@@ -26,6 +26,4 @@
 		</div>
 	</div>
 	<? endif; ?>
-
-	<pre><? //print_r($this->product_list); ?></pre>
 </div>
