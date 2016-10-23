@@ -3463,6 +3463,144 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	transition: all .4s;
 }
 
+.history-view-list{
+	margin-top: 20px;
+	h3 {
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 0.9em;
+		color: $color-sec;
+		margin-bottom: 20px;
+	}
+
+	.items {
+		font-size: 0.8em;
+		color: darken($color-sec, 20%);
+		.item-wrapper {
+			position: relative;
+			padding: 10px 0;
+
+			&:after{
+				width: 60%;
+				height: 1px;
+				background: darken($color-pr, 30%);
+				margin: 0 auto;
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				content:"";
+				-webkit-transform: translateX(-50%);
+				-moz-transform: translateX(-50%);
+				transform: translateX(-50%);
+			}
+
+			.image {
+				float: left;
+				width: 25%;
+				@include border-radius(50px);
+				overflow: hidden;
+
+				img{
+					max-width: 100%;
+					width: 100%;
+				}
+			}
+
+			.info{
+				float: left;
+				width: 75%;
+				padding-left: 8px;
+				.title {
+					a{
+						text-transform: uppercase;
+						color: $color-pr;
+						font-weight: bold;
+						line-height: 1;
+					}
+				}
+
+				.def_cat{
+					font-size: 0.8em;
+					line-height: 1;
+					margin: 5px 0;
+					color: darken($color-sec, 10%);
+				}
+
+				.action{
+					& > div {
+						display: inline-block;
+						*display: inline;
+						zoom: 1;
+						vertical-align: middle;
+						margin: 0 -1px;
+					}
+					.price {
+						font-size: 0.85em;
+						width: 70%;
+						.old, .current {
+							display: inline-block;
+							*display: inline;
+							zoom: 1;
+							vertical-align: middle;
+							line-height: 20px;
+						}
+
+						.old{
+							position: relative;
+
+							&:after{
+								position: absolute;
+								width: 100%;
+								border-bottom: 1px solid darken($color-sec, 20%);
+								bottom: 4px;
+								left: 0;
+								content: "";
+								transform-origin: left;
+								-moz-transform: rotate(-14deg);
+								-webkit-transform: rotate(-14deg);
+								transform: rotate(-14deg);
+							}
+						}
+
+						.current{
+							font-size: 1.1em;
+							font-weight: bold;
+							color: white;
+						}
+					}
+					.cart{
+						width: 30%;
+						text-align: right;
+
+						button{
+							line-height: 20px;
+							height: 20px;
+							border:none;
+							background: transparent;
+							margin: 0;
+							padding: 0;
+
+							i{
+								line-height: 20px;
+								font-size: 16px;
+								margin: 0;
+								padding: 0;
+								color: $color-gold;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.items .item:last-child{
+		.item-wrapper:after{
+			display: none;
+		}
+	}
+}
+
 .products,
 .related-products {
 	.items {

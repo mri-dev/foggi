@@ -1419,10 +1419,31 @@ class Products
 			}
 		}
 
-
-
-
 		return $set;
+	}
+
+	public function getLastviewedIDS()
+	{
+		$mid = \Helper::getMachineID();
+
+		if(!$mid) return false;
+
+		$q = "
+		SELECT termekID
+		FROM  `shop_utoljaraLatottTermek`
+		WHERE  `mID` = '$mid'
+		ORDER BY `idopont` DESC
+		LIMIT 0 , 10";
+
+		$data = $this->db->query( $q )->fetchAll(\PDO::FETCH_ASSOC);
+
+		$ids = array();
+
+		foreach ($data as $d) {
+			$ids[] = $d['termekID'];
+		}
+
+		return $ids;
 	}
 
 	public function addLinkToString( $product, $text )
@@ -1430,53 +1451,12 @@ class Products
 		// Formázás eltávolítás, kivétel a sortörés
 		//$text = strip_tags( $text, '<br>' );
 
-		$gender = '';
-
-		if(
-			strpos( strtolower($product['csoport_kategoria']), 'férfi' ) !== false
-		) {
-			$gender = 'férfi';
-		} else if(
-			strpos( strtolower($product['csoport_kategoria']), 'női' ) !== false
-		) {
-			$gender = 'női';
-		} else if(
-			strpos( strtolower($product['csoport_kategoria']), 'lányka' ) !== false ||
-			strpos( strtolower($product['csoport_kategoria']), 'lány' ) !== false) {
-			$gender = 'lány';
-		} else if(
-			strpos( strtolower($product['csoport_kategoria']), 'fiú' ) !== false) {
-			$gender = 'fiú';
-		}
-
 		/**
 		 * Hivatkozások
 		**/
-		$rep = array(
-			'waterfeel x-life eco' => 'WATERFEELXLIFEECO',
-			'waterfeel x-life' => 'WATERFEELXLIFE',
-			'max life' => 'MAXLIFE',
-			'max-life' => 'MAX-LIFE',
-			'powerskin carbon pro' => 'POWERSKINCARBONPRO',
-			'powerskin carbon flex' => 'POWERSKINCARBONFLEX',
-			'powerskin carbon air' => 'POWERSKINCARBONAIR',
-			'powerskin carbon st' => 'POWERSKICARBONST',
-			'bodylift' => 'BODYLIFT',
-			'sensitive' => 'SENSITIVE',
-		);
+		$rep = array();
 
-		$replaces = array(
-			'waterfeel x-life eco' => $this->getPageByKeywords( array( 'waterfeel x-life-eco', $gender ), \Helper::makeSafeUrl( 'waterfeel x-life-eco', '' ) ),
-			'waterfeel x-life' => $this->getPageByKeywords( array( 'waterfeel x-life', $gender ), \Helper::makeSafeUrl( 'waterfeel x-life', '' ) ),
-			'powerskin carbon pro' => $this->getPageByKeywords( array( 'powerskin carbon pro', $gender ), \Helper::makeSafeUrl( 'powerskin carbon pro', '' ) ),
-			'powerskin carbon flex' => $this->getPageByKeywords( array( 'powerskin carbon flex', $gender ), \Helper::makeSafeUrl( 'powerskin carbon flex', '' ) ),
-			'powerskin carbon air' => $this->getPageByKeywords( array( 'powerskin carbon air', $gender ), \Helper::makeSafeUrl( 'powerskin carbon air', '' ) ),
-			'powerskin carbon st' => $this->getPageByKeywords( array( 'powerskin carbon st', $gender ), \Helper::makeSafeUrl( 'powerskin carbon st', '' ) ),
-			'max life' => $this->getPageByKeywords( array( 'max life', $gender ), \Helper::makeSafeUrl( 'max life', '' ) ),
-			'max-life' => $this->getPageByKeywords( array( 'max life', $gender ), \Helper::makeSafeUrl( 'max life', '' ) ),
-			'bodylift' => $this->getPageByKeywords( array( 'bodylift' ), \Helper::makeSafeUrl( 'bodylift', '' ) ),
-			'sensitive' => $this->getPageByKeywords( array( 'sensitive', $gender ), \Helper::makeSafeUrl( 'sensitive', '' ) ),
-		);
+		$replaces = array();
 
 		foreach ( $replaces as $search => $link ) {
 			$reptext =  $rep[$search];

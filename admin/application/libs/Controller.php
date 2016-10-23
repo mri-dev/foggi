@@ -9,12 +9,9 @@ use ShopManager\Categories;
 use ShopManager\Shop;
 use PortalManager\News;
 use PortalManager\Portal;
-use PortalManager\CasadaShops;
 use Applications\Captcha;
 use FileManager\FileLister;
 use ProductManager\Products;
-use Wordpress\WPMigrator;
-use Wordpress\GalleryHelper;
 
 
 class Controller {
@@ -49,7 +46,6 @@ class Controller {
         $this->view->gets 	= $this->gets;
 
         $this->AdminUser    = new AdminUser( array( 'db' => $this->db, 'view' => $this->view, 'settings' => $this->view->settings )  );
-        $this->wp           = new WPMigrator( array( 'db' => $this->db) );
         $this->User         = new Users(array(
                                             'db' => $this->db,
                                             'view' => $this->view,
@@ -69,39 +65,38 @@ class Controller {
                                     $this->view->settings['recaptcha_private_key']
                                 );
 
-        $this->casadashops  = new CasadaShops( array( 'db' => $this->db ) );
-        if( isset($_COOKIE['geo_latlng']) )
-        {
-            if($_GET['xx'] == 1)
-            setcookie('geo_latlng','45.999136,18.642936',time()+3600,'/');
-
-            $myPos = explode(",",$_COOKIE['geo_latlng']);
-            $this->casadashops->setMyPosition($myPos);
-        }
-
         $this->out( 'db',   $this->db );
         $this->out( 'user', $this->User->get( self::$user_opt ) );
-        $this->out( 'wp',   $this->wp );
         $this->out( 'categories', 	$this->Categories->getTree( false) );
 
         $templates          = new Template( VIEW . 'templates/' );
         $this->out( 'templates', $templates );
-
         $this->out( 'highlight_text', $this->Portal->getHighlightItems() );
 
         $lastnews_arg = array();
         $lastnews_arg['limit'] = 5;
         $this->out( 'last_news', (new News( false, array( 'db' => $this->db )  ))->getTree( $lastnews_arg ) );
 
-        // Casada pillanatok
-        if (file_exists('admin/src/uploads/esemenyek'))
+        // Korábban megtekintett termékek
+        $history_products = new Products( array(
+  				'db'    => $this->db,
+  				'user'  => $this->User->get()
+  			));
+        $history_products_ids = $history_products->getLastviewedIDS();
+
+        if(!empty($history_products_ids))
         {
-            $pillanatok = new FileLister( 'admin/src/uploads/esemenyek' );
-            $this->out( 'pillanatok', $pillanatok->getFolderItems( array( 'allowedExtension' => 'gif|png|jpg|jpeg|JPG' ) ) );
+          $history_products->prepareList(array(
+            'in_ID' => $history_products_ids
+          ));
+    			$this->out( 'history_products', $history_products );
+    			$this->out( 'history_product_list', $history_products->getList() );
         }
+
         // Menük
         $tree = null;
         $menu_header  = new Menus( false, array( 'db' => $this->db ) );
+
         // Header menü
         $menu_header->addFilter( 'menu_type', 'header' );
         $menu_header->isFinal(true);

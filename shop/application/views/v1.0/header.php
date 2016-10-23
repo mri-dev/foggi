@@ -96,6 +96,7 @@
 		<div class="general-sidebar">
 			<ul class="cat-menu">
         <? $this->render( 'templates/sidebar-categories' ); ?>
+        <? $this->render( 'templates/product-history' ); ?>
 			</ul>
 		</div>
 		<div class="site-container <?=($this->gets[0]=='termek' || $this->gets[0]=='kosar' )?'productview':''?>">
