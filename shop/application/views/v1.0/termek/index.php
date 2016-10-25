@@ -62,7 +62,7 @@
                                 <?=$this->product['garancia_honap']?> <?=__('hónap')?>
                             <? else: ?>
                                 <?=$gh?> <?=__('év')?>
-                            <? endif; ?></span> <?=__('EU garancia')?></div>
+                            <? endif; ?></span> <?=__('garancia')?></div>
                         </div>
                     <? endif; ?>
                     </div>
@@ -115,7 +115,7 @@
                   </div>
                 </div>
             </div>
-            <div id="cart-msg"></div>
+            <br><br>
             <div class="grid-layout">
                 <div class="grid-row grid-row-50">
                     <div class="prices">
@@ -166,7 +166,7 @@
                   </div>
                   <div class="grid-row grid-row-60">
                     <? if( $this->product['keszletID'] != $this->settings['flagkey_itemstatus_outofstock'] ): ?>
-                    <button id="addtocart" cart-data="<?=$this->product['ID']?>" cart-remsg="cart-msg" title="Kosárba" class="tocart cart-btn"><?=__('kosárba teszem')?> <i class="fa fa-shopping-basket"></i></button>
+                    <button id="addtocart" cart-data="<?=$this->product['ID']?>" title="Kosárba" class="tocart cart-btn"><?=__('kosárba teszem')?> <i class="fa fa-shopping-basket"></i></button>
                     <? endif; ?>
                   </div>
                 </div>
@@ -177,8 +177,8 @@
     <div class="info">
       <div class="grid-layout">
         <div class="grid-row grid-row-40">
-          <? if($this->product['parameters']): ?>
             <h3>Paraméterek</h3>
+            <? if($this->product['parameters']): ?>
             <div class="parameters">
               <? foreach($this->product['parameters'] as $param): ?>
               <div class="grid-layout">
@@ -187,20 +187,31 @@
               </div>
               <? endforeach; ?>
             </div>
+          <? else: ?>
+            <div class="no-result">
+              A termékhez nem tartozik paraméter.
+            </div>
           <? endif; ?>
         </div>
         <div class="grid-row grid-row-60">
-          <h2>Termékleírás</h2>
+          <h3>Termékleírás</h3>
           <div class="product-desc">
-            <?=Product::rewriteImageTinyMCE($this->product['rovid_leiras'])?>
+            <? if($this->product['rovid_leiras'] == ""): ?>
+            <div class="no-result">
+              Nem található termékleírás.
+            </div>
+            <? else: ?>
+              <?=Product::rewriteImageTinyMCE($this->product['rovid_leiras'])?>
+            <? endif; ?>
           </div>
         </div>
       </div>
     </div>
 
     <? if( $this->related && $this->related->hasItems() ): ?>
+    <br><br>
     <div class="related-products">
-        <h3>Ajánlott termékeink</h3>
+        <h3 class="stitle">További ajánlott termékek</h3>
         <div class="items">
             <? foreach ( $this->related_list as $p ) {
                 $p['itemhash'] = hash( 'crc32', microtime() );

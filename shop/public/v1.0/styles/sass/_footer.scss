@@ -23,21 +23,21 @@ footer {
 		text-align: center;
 		.logo {
 			max-width: 50%;
-			margin: 0 auto 15px auto;
+			margin: 0 auto 35px auto;
 
 			img{
 				max-width: 100%;
 			}
 		}
 		.address {
-			font-size: 0.9em;
+			font-size: 0.85em;
 			color: darken(white, 35%);
 		}
 		.phone {
 			color: darken(white, 25%);
-			font-size: 1.5em;
+			font-size: 1.2em;
 			font-weight: bold;
-			margin-top: 10px;
+			margin-top: 20px;
 		}
 	}
 
@@ -57,7 +57,7 @@ footer {
 		}
 
 		li a {
-			color: darken(white, 35%);
+			color: darken(white, 45%);
 			text-transform: uppercase;
 			text-decoration: none;
 			font-size: 0.75em;
@@ -67,6 +67,29 @@ footer {
 			&:hover {
 				color: $color-pr;
 			}
+		}
+	}
+
+	.footer-opens{
+		margin-top: 65px;
+
+		.title{
+			font-size: 0.8em;
+			margin-bottom: 5px;
+			color: #656565;
+		}
+		.opens-table {
+			width: 75%;
+			line-height: 1.8;
+			margin: 0 auto;
+			font-size: 1.2em;
+		}
+
+		.day {
+			text-align: left;
+		}
+		.op {
+			text-align: right;
 		}
 	}
 

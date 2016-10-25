@@ -49,6 +49,10 @@
 							</li>
 						<? endforeach; ?>
 						</ul>
+						<div class="footer-opens">
+							<div class="title">Nyitva tartás:</div>
+							<? $this->render('templates/openstable'); ?>
+						</div>
 					</div>
 				</div>
 				<div class="grid-row grid-row-30">

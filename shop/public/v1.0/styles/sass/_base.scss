@@ -554,31 +554,33 @@ h1.stitle, h3.stitle {
 					padding: 5px !important;
 				}
 
-				img {
-					border: 2px solid $color-sec;
-				}
-
 				.slick-prev {
-					background: url("#{$imgroot}src/images/arrow-left.png") no-repeat center;
-					width: 20px;
-					height: 20px;
+					background-color: transparent;
+					background-image: url("#{$imgroot}src/images/ico-arrow-circle-left.svg");
+					background-repeat: no-repeat;
+					background-size: contain;
+					width: 24px;
+					height: 24px;
 					border: none;
 					position: absolute;
-					left: -20px;
+					left: -25px;
 					top: 50%;
-   					text-indent: -9999px;
-   					margin-top: -10px;
+ 					text-indent: -9999px;
+ 					margin-top: -10px;
 				}
 				.slick-next {
-					background: url("#{$imgroot}src/images/arrow-right.png") no-repeat center;
-					width: 20px;
-					height: 20px;
+					background-color: transparent;
+					background-image: url("#{$imgroot}src/images/ico-arrow-circle-right.svg");
+					background-repeat: no-repeat;
+					background-size: contain;
+					width: 24px;
+					height: 24px;
 					border: none;
 					position: absolute;
-					right: -20px;
+					right: -25px;
 					top: 50%;
-   					text-indent: -9999px;
-   					margin-top: -10px;
+ 					text-indent: -9999px;
+ 					margin-top: -10px;
 				}
 			}
 		}
@@ -864,6 +866,10 @@ h1.stitle, h3.stitle {
 		.size-selector{
 			background: #000000;
 			border: 1px solid desaturate(darken($color-pr, 20%), 10);
+			-webkit-border-radius: 50px;
+			-moz-border-radius: 50px;
+			border-radius: 50px;
+
 			.dropdown-list-title{
 				color: $color-sec;
 				font-size: 1.4em;
@@ -909,12 +915,14 @@ h1.stitle, h3.stitle {
 				.discount_percent{
 					float: right;
 					text-decoration: none;
+					font-size: 13px;
 					color: white;
 					float: right;
-					line-height: 1;
+					line-height: 40px;
+					width:40px;
 					font-weight: bold;
 					margin-top:5px;
-					padding: 3px;
+					text-align: center;
 					/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d41c4f+0,a50818+100 */
 					background: #d41c4f; /* Old browsers */
 					background: -moz-linear-gradient(top,  #d41c4f 0%, #a50818 100%); /* FF3.6-15 */
@@ -922,7 +930,7 @@ h1.stitle, h3.stitle {
 					background: linear-gradient(to bottom,  #d41c4f 0%,#a50818 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d41c4f', endColorstr='#a50818',GradientType=0 ); /* IE6-9 */
 
-					@include border-radius(3px);
+					@include border-radius(40px);
 				}
 			}
 
@@ -3464,13 +3472,13 @@ input[type=email][required].ng-touched.ng-valid + span:before
 }
 
 .history-view-list{
-	margin-top: 20px;
+	margin-top: 30px;
 	h3 {
 		text-align: center;
 		text-transform: uppercase;
-		font-size: 0.9em;
-		color: $color-sec;
-		margin-bottom: 20px;
+		font-size: 0.8em;
+    color: #8c8c8c;
+    margin-bottom: 10px;
 	}
 
 	.items {
@@ -3593,7 +3601,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 			}
 		}
 	}
- 
+
 	.items .item:last-child{
 		.item-wrapper:after{
 			display: none;
@@ -3750,13 +3758,13 @@ input[type=email][required].ng-touched.ng-valid + span:before
 								position: absolute;
 								width: 100%;
 								border-bottom: 1px solid #444444;
-								bottom: 0;
+								bottom: 3px;
 								left: 0;
 								content: "";
 								transform-origin: left;
-								-moz-transform: rotate(-18deg);
-								-webkit-transform: rotate(-18deg);
-								transform: rotate(-18deg);
+								-moz-transform: rotate(-13deg);
+								-webkit-transform: rotate(-13deg);
+								transform: rotate(-13deg);
 							}
 						}
 
