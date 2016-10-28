@@ -10,7 +10,7 @@ use PortalManager\Coupon;
 
 /**
  * class Shop
- * 
+ *
  */
 class Shop
 {
@@ -31,27 +31,27 @@ class Shop
 		// Dokument színek
 		$docs = $this->db->query("SELECT * FROM shop_documents_groups ORDER BY sorrend ASC;");
 
-		if($docs->rowCount() > 0) 
+		if($docs->rowCount() > 0)
 		{
 			$docs = $docs->fetchAll(\PDO::FETCH_ASSOC);
 
-			foreach ( $docs as $doc ) 
+			foreach ( $docs as $doc )
 			{
 				$this->document_groups[$doc['key']] = $doc['title'];
 				$this->document_group_colors[$doc['key']] = '#'.$doc['color_hex'];
 			}
 		}
-	}	
-	
+	}
+
 	public function getTotalTermekNum(){
 		return $this->db->query("SELECT count(ID) FROM shop_termekek WHERE lathato = 1;")->fetchColumn();
 	}
-	
+
 	public function listUjdonsagok($arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
 
-		$q = "SELECT 
+		$q = "SELECT
 			t.ID,
 			tik.modszerID,
 			tik.gyujtoID,
@@ -72,8 +72,8 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			t.nev as termekNev,
@@ -89,23 +89,23 @@ class Shop
 			t.lathato = 1 and
 			t.ujdonsag IN (1)
 		 ";
-		 
-		 
+
+
 		 $q .= "GROUP BY t.ID ";
 		 $q .= " ORDER BY RAND() ";
-		 
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		//return false;
 		return $ret;
 	}
-	
+
 	public function listAkcios($arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID,
 			tik.modszerID,
 			tik.gyujtoID,
@@ -138,34 +138,34 @@ class Shop
 			t.lathato = 1 and
 			t.akcios IN (1)
 		 ";
-		 
-		 
+
+
 		 $q .= "GROUP BY t.ID ";
 		 $q .= " ORDER BY RAND() ";
-		 
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		return $ret;
 	}
-	
+
 	public function checkSzuperakciosTermekNum(){
 		$num = 0;
-		
+
 		$num = $this->db->query("SELECT count(ID) FROM shop_termekek WHERE lathato = 1 and szuper_akcios = 1 and akcios = 1")->fetch(\PDO::FETCH_COLUMN);
-		
+
 		return $num;
 	}
-	
+
 	public function listTermekek($arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
+
 		$filtered 	= false;
 		$where 		= '';
 		$arg[orderByPriority] = ($arg[parameterOrderByPriority])?true:false;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID,
 			tik.modszerID,
 			tik.gyujtoID,
@@ -178,8 +178,8 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			t.akcios_brutto_ar,
@@ -201,12 +201,12 @@ class Shop
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN shop_termek_allapotok as ta ON ta.ID = t.keszletID
 		WHERE ";
-		
+
 		$where .= "
 			t.ID IS NOT NULL and
 			t.lathato = 1";
 		$q .= $where;
-		
+
 		if($arg[modszer_kategoria]){
 			$w = " and tik.modszerID = ".$arg[modszer_kategoria];
 			$q .= $w;
@@ -222,38 +222,38 @@ class Shop
 			$q .= $w;
 			$where .= $w;
 		}
-	
+
 		// Szűrők
 		if(count($arg[filters]) > 0){
 			extract($arg[filters]);
 			if($fil_nev){
-				 $q .= " and t.nev like '%".$fil_nev[0]."%' ";	
+				 $q .= " and t.nev like '%".$fil_nev[0]."%' ";
 			}
 			if($fil_marka){
 				$imk = implode(',',$fil_marka);
-				$q .= " and t.marka IN (".$imk.") ";	
+				$q .= " and t.marka IN (".$imk.") ";
 			}
 			if($fil_ujdonsag){
-				 $q .= " and t.ujdonsag = 1 ";	
+				 $q .= " and t.ujdonsag = 1 ";
 			}
 			if($fil_akcios){
-				 $q .= " and t.akcios = 1 ";	
+				 $q .= " and t.akcios = 1 ";
 			}
 			if($fil_szuper_akcios){
-				 $q .= " and t.szuper_akcios = 1 ";	
+				 $q .= " and t.szuper_akcios = 1 ";
 			}
 			if($fil_pickpackpontra_szallithato){
-				 $q .= " and t.pickpackszallitas = 1 ";	
+				 $q .= " and t.pickpackszallitas = 1 ";
 			}
 			if($fil_ar_min){
-				 $q .= " and getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) >= ".$fil_ar_min[0];	
+				 $q .= " and getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) >= ".$fil_ar_min[0];
 			}
 			if($fil_ar_max){
-				 $q .= " and getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) <= ".$fil_ar_max[0];	
+				 $q .= " and getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) <= ".$fil_ar_max[0];
 			}
 		}
-		
-		$q .= "	
+
+		$q .= "
 		GROUP BY
 			t.ID
 		";
@@ -265,12 +265,12 @@ class Shop
 					if($fv)
 					$paramFilter[$fk] = $fv;
 				}
-			}	
-			
+			}
+
 			//Having
 			if(count($paramFilter) > 0){
 				$fkq = '';
-				
+
 				foreach($paramFilter as $pmfk => $pmfv){
 					$key = str_replace('fil_p_','',$pmfk);
 					if(strpos($key,'min') === false && strpos($key,'max') === false){
@@ -281,24 +281,24 @@ class Shop
 						$fkq = rtrim($fkq,' or ');
 						$fkq .= ") and ";
 					}else{
-						$v = $pmfv[0];		
+						$v = $pmfv[0];
 						$fkq .= "isInMinMax(t.ID,'".$key."',".$v.") and ";
-						
+
 					}
-				} 
+				}
 				$fkq = rtrim($fkq,' and ');
 				if($fkq != ''){
-					$q .= " HAVING "; 
+					$q .= " HAVING ";
 					$q .= $fkq;
 				}
 			}
-			
+
 		}
-		
+
 		// ORDER
 		$order = 't.nev ASC';
 		if($arg[order] == '' || $arg[order] == 'abc_asc'){
-			$order = 'CONCAT(TRIM(SUBSTRING_INDEX(m.neve,\'::\',1))," ",t.nev) ASC';	
+			$order = 'CONCAT(TRIM(SUBSTRING_INDEX(m.neve,\'::\',1))," ",t.nev) ASC';
 		}else if($arg[order] == 'abc_desc'){
 			$order = 'CONCAT(TRIM(SUBSTRING_INDEX(m.neve,\'::\',1))," ",t.nev) DESC';
 		}else if($arg[order] == 'price_asc'){
@@ -310,81 +310,81 @@ class Shop
 		}else if($arg[order] == 'view_desc'){
 			$order = 'getTermekViewStat(t.ID,90) DESC';
 		}
-		
+
 		if($arg[filters][fil_szuper]){
 			$order = "t.szuper_akcios DESC,  ".$order;
 		}
-		
+
 		$q .= " ORDER BY ".$order;
-		
-		//echo '<pre>'.$q.'</pre>';		
-								
+
+		//echo '<pre>'.$q.'</pre>';
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$re = $ret;
 		$re[info][filtered] 	= $filtered;
-		
+
 		$priceInfo = array(
 			'min' => 0,
 			'max' => 250000
 		);
 		$markak = array();
-		
+
 		$priceInfo = $this->getPrinceInfo($where, $priceInfo);
 		$re[info][price][min] 	= $priceInfo[min];
 		$re[info][price][max] 	= $priceInfo[max];
 		$re[info][markak] 		= $this->getAwaiableMarkak($where, $markak);
-		
+
 		$r 		= array();
 		$tidarr = array();
-		
+
 		foreach($data as $d){
 			/*$arInfo 		= $this->getTermekArInfo($d[marka], $d[ar]);
 			$d[ar] 			= $arInfo[ar];
-			
+
 			$brar 			= $this->getTermekArInfo($d[marka], $d[brutto_ar]);
 			$d[brutto_ar] 	= $brar[ar];
-			
+
 			$akcios_arInfo 	= $this->getTermekArInfo($d[marka], $d[akcios_brutto_ar]);
 			$d[akcios_brutto_ar] 	= $akcios_arInfo[ar];*/
-			
+
 			$params 		= $this->getTermekParameter($d[ID], $d[termek_kategoria], $arg);
 			$d[params] 		= $params;
-			
+
 			$tidarr[] 	= $d[ID];
 			$r[] 		= $d;
 		}
-		
+
 		$re[termekIDs] = $tidarr;
 		$re[data] = $r;
-		
+
 		return $re;
 	}
 
 	public function loadTermekSet($termek_id_str, $onTermekId = false, $arg = array()){
 		$re 	= array();
-		
+
 		if( $termek_id_str == '' ){
 			return false;
 		}
-		
+
 		$q 		= "SELECT ID,nev,getTermekUrl(ID,'".DOMAIN."') as url FROM shop_termekek WHERE ID IN(".$termek_id_str.")";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$edata 	= array();
 		$ex 	= explode(",",$termek_id_str);
 		foreach($ex as $e){
 			$edata[] = $data[\Helper::getFromArrByAssocVal($data,'ID',$e)];
 		}
-		
+
 		$data = $edata;
-		
+
 		$itemSetNums 	= count($data);
 		$lastPos 		= $itemSetNums-1;
-		
+
 		if($onTermekId && $itemSetNums > 1){
 			$currentPosition = \Helper::getFromArrByAssocVal($data,'ID',$onTermekId);
 			if($currentPosition == 0){
@@ -398,35 +398,35 @@ class Shop
 				$next = 0;
 			}
 		}
-		
+
 		$re[set] 	= $data;
-		$re[prev] 	= $prev; 
+		$re[prev] 	= $prev;
 		$re[next] 	= $next;
-		
-		
+
+
 		return $re;
 	}
-	
+
 	public function getAwaiableMarkak($where, $arr){
-		$q = "SELECT 
-			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev 
-		FROM shop_termekek as t 
-		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka 
+		$q = "SELECT
+			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev
+		FROM shop_termekek as t
+		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN shop_termek_in_kategoria as tik ON tik.termekID = t.ID
-		WHERE ".$where." 
+		WHERE ".$where."
 		GROUP BY markaNev";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
 		foreach($data as $d){
 			$arr[] = $d[markaNev];
 		}
-		return $arr;	
+		return $arr;
 	}
 	public function getSlideShowItems($arg = array()){
 		$q = "SELECT * FROM slideshow WHERE lathato = 1 ORDER BY sorrend ASC";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		return $data;
 	}
 	public function getHasonloTermekek($searchString, $arg = array()){
@@ -435,8 +435,8 @@ class Shop
 
 		$tures 		= 25;
 		$isParamSrc = (empty($arg[key_params])) ? false : true;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID,
 			t.nev,
 			t.akcios,
@@ -449,8 +449,8 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
@@ -458,45 +458,45 @@ class Shop
 			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev,
 			szovegHasonlosag(t.nev,'".$searchString."') as same,
 			GROUP_CONCAT(CONCAT('p_',p.parameterID,':',p.ertek)) as paramErtek
-		FROM `shop_termekek` as t 
+		FROM `shop_termekek` as t
 		LEFT OUTER JOIN shop_termek_parameter as p ON p.termekID = t.ID
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
-		WHERE 
+		WHERE
 			t.ID IS NOT NULL and
 			t.lathato = 1 ";
 		if($arg[excID] != ''){
-			$q .= " and t.ID != ".$arg[excID];	
+			$q .= " and t.ID != ".$arg[excID];
 		}
 		if(!$isParamSrc){
 			$q .= "
-				and szovegHasonlosag(t.nev,'".$searchString."') < 100 and szovegHasonlosag(nev,'".$searchString."') > $tures 
+				and szovegHasonlosag(t.nev,'".$searchString."') < 100 and szovegHasonlosag(nev,'".$searchString."') > $tures
 			";
 		}
-		
-		
+
+
 		$q.= " GROUP BY t.ID ";
 		//Having
 		$paramFilter = $arg[key_params];
 		if(count($paramFilter) > 0){
 			$fkq = '';
-			
+
 			foreach($paramFilter as $pf){
 				$fkq .= " FIND_IN_SET('p_".$pf[parameterID].":".$pf[ertek]."',GROUP_CONCAT(CONCAT('p_',p.parameterID,':',p.ertek))) and ";
-			} 
+			}
 			$fkq = rtrim($fkq,' and ');
 			if($fkq != ''){
-				$q .= " HAVING "; 
+				$q .= " HAVING ";
 				$q .= $fkq;
 			}
 		}
-		
+
 		$q .= "ORDER BY same DESC, t.nev ASC ";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$keys = array();
-		
+
 		foreach($data as $d){
 			$keys[] = $d[ID];
 		}
@@ -506,8 +506,8 @@ class Shop
 	public function getFreshTermekek($arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID,
 			t.nev,
 			t.akcios,
@@ -521,23 +521,23 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			FULLIMG(t.profil_kep) as profil_kep,
 			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev
-		FROM shop_termekek as t 
+		FROM shop_termekek as t
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
-		WHERE t.ID IS NOT NULL and 
+		WHERE t.ID IS NOT NULL and
 		t.lathato = 1
 		ORDER BY t.letrehozva DESC";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$keys = array();
-		
+
 		foreach($data as $d){
 			$keys[] = $d[ID];
 		}
@@ -548,13 +548,13 @@ class Shop
 		$q = "SELECT nev,url FROM menu WHERE gyujto = '$key' ORDER BY sorrend ASC;";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		return $data;
 	}
 	public function getSzuperakciosTermekek($arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		$q = "SELECT 
+		$q = "SELECT
 			t.ID,
 			t.nev,
 			t.akcios,
@@ -568,24 +568,24 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			FULLIMG(t.profil_kep) as profil_kep,
 			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev
-		FROM shop_termekek as t 
+		FROM shop_termekek as t
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
-		WHERE t.ID IS NOT NULL and 
+		WHERE t.ID IS NOT NULL and
 		t.lathato = 1 and
 		t.szuper_akcios = 1
 		ORDER BY getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) ASC";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$keys = array();
-		
+
 		foreach($data as $d){
 			$keys[] = $d[ID];
 		}
@@ -595,11 +595,11 @@ class Shop
 	public function getTermekAdat($id, $arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
+
 		$re = array();
 		if($id == '') return false;
 		// getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,
-		$q = "SELECT 
+		$q = "SELECT
 			t.* ,
 			m.elorendelheto,
 			getTermekUrl(t.ID, '".DOMAIN."') as url,
@@ -609,42 +609,42 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev,
 			ta.elnevezes as allapotNev,
 			ts.elnevezes as szallitasNev
-		FROM shop_termekek as t 
+		FROM shop_termekek as t
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN shop_termek_allapotok as ta ON ta.ID = t.keszletID
 		LEFT OUTER JOIN shop_szallitasi_ido as ts ON ts.ID = t.szallitasID
-		WHERE 
+		WHERE
 			t.ID = $id
 		";
 
 		$data = $this->db->query($q);
-		
+
 		if($data->rowCount() == 0) return false;
-		
+
 		$re[data] = $data->fetch(\PDO::FETCH_ASSOC);
 		$re[key_params] = $this->getKeyParameter($re[params]);
 		$re[images] = $this->getAllTermekImg($id);
-		
+
 		return $re;
 	}
 	function getKeyParameter($params_arry){
 		$ret = array();
-		
+
 		if(count($params_arry) == 0) return $ret;
-		
+
 		foreach($params_arry as $p){
 			if($p[kulcs] == '1'){
-				$ret[] = $p;		
+				$ret[] = $p;
 			}
 		}
-		
+
 		return $ret;
 	}
 	function getAllTermekImg($termekID){
@@ -652,18 +652,18 @@ class Shop
 		if($termekID == '') return $imgs;
 		$q = "SELECT FULLIMG(kep) as kep FROM shop_termek_kepek WHERE termekID = $termekID ORDER BY sorrend ASC, kep ASC";
 		extract($this->db->q($q,array('multi'=> '1')));
-		
+
 		foreach($data as $i){
 			$imgs[] = $i[kep];
 		}
-		
+
 		return $imgs;
 	}
 	public function getAkciosTermekek($arg = array()){
 	$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 	$apsz = $akcios_plus_szaz / 100 + 1;
-	
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID,
 			t.nev,
 			t.akcios,
@@ -677,16 +677,16 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			FULLIMG(t.profil_kep) as profil_kep,
 			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev
-		FROM shop_termekek as t 
+		FROM shop_termekek as t
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
-		WHERE t.ID IS NOT NULL and 
+		WHERE t.ID IS NOT NULL and
 		t.lathato = 1 and
 		t.akcios = 1 and
 		t.szuper_akcios = 0 and
@@ -694,9 +694,9 @@ class Shop
 		ORDER BY getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) ASC";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$keys = array();
-		
+
 		foreach($data as $d){
 			$keys[] = $d[ID];
 		}
@@ -707,7 +707,7 @@ class Shop
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
 
-		$q = "SELECT 
+		$q = "SELECT
 			t.ID,
 			t.nev,
 			t.akcios,
@@ -721,24 +721,24 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			FULLIMG(t.profil_kep) as profil_kep,
 			TRIM(SUBSTRING_INDEX(m.neve,'::',1)) as markaNev
-		FROM shop_termekek as t 
+		FROM shop_termekek as t
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
-		WHERE t.ID IS NOT NULL and 
-		t.lathato = 1 and 
+		WHERE t.ID IS NOT NULL and
+		t.lathato = 1 and
 		t.ujdonsag = 1
 		ORDER BY rand() DESC";
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$keys = array();
-		
+
 		foreach($data as $d){
 			$keys[] = $d[ID];
 		}
@@ -748,37 +748,37 @@ class Shop
 	public function getTermekParamList(){
 		$r = array();
 		$q = "SELECT ID,parameter,mertekegyseg FROM shop_termek_kategoria_parameter";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		foreach($data as $d){
 			$r[$d[ID]] = $d;
-		}	
-		
+		}
+
 		return $r;
 	}
 	public function getMegrendelesAllapotok(){
 		$q = "SELECT * FROM order_allapot ORDER BY sorrend ASC";
-		
+
 		extract($this->db->q($q,array('multi'=>'1')));
-		
+
 		$back = array();
 		foreach($data as $d){
 			$back[$d[ID]] = $d;
-		}		
-		
+		}
+
 		return $back;
 	}
 	public function kereses($arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
+
 		$back 	= array();
 		$params = $this->getTermekParamList();
 		$arg[orderByPriority] = true;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID,
 			tik.modszerID,
 			tik.gyujtoID,
@@ -791,8 +791,8 @@ class Shop
 					getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 				getTermekAr(t.marka, t.brutto_ar)
 			) as brutto_ar,
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			t.akcios_brutto_ar,
@@ -816,11 +816,11 @@ class Shop
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN shop_termek_allapotok as ta ON ta.ID = t.keszletID
 		LEFT OUTER JOIN shop_termek_kategoriak as tk ON tk.ID = t.termek_kategoria
-		WHERE 
+		WHERE
 		";
-		$q .= " 
+		$q .= "
 			t.ID is NOT NULL and
-			t.lathato = 1		
+			t.lathato = 1
 		";
 		if($arg[search] != ''){
 			$q .= " and CONCAT(TRIM(SUBSTRING_INDEX(m.neve,'::',1)),' ',t.nev) LIKE '%".$arg[search]."%' ";
@@ -831,7 +831,7 @@ class Shop
 		if($arg[inMarka][0]){
 			$q .= " and t.marka IN (".implode(",",$arg[inMarka]).") ";
 		}
-		
+
 		if($arg[akcio] == '1'){
 			$q .= " and t.akcios = 1 and t.ujdonsag = 0 and t.szuper_akcios = 0";
 		}
@@ -841,13 +841,13 @@ class Shop
 		if($arg[ujdonsag] == '1'){
 			$q .= " and t.ujdonsag = 1";
 		}
-		
+
 		$q .= " GROUP BY t.ID ";
-		
+
 		// ORDER
 		$order = 't.nev ASC';
 		if($arg[order] == '' || $arg[order] == 'abc_asc'){
-			$order = 't.nev ASC';	
+			$order = 't.nev ASC';
 		}else if($arg[order] == 'abc_desc'){
 			$order = 't.nev DESC';
 		}else if($arg[order] == 'price_asc'){
@@ -855,53 +855,53 @@ class Shop
 		}else if($arg[order] == 'price_desc'){
 			$order = 'ar DESC';
 		}
-		
+
 		$q .= " ORDER BY ".$order;
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
 		$r = array();
-		
+
 		foreach($data as $d){
 			$inp = $this->getTermekParameter($d[ID],$d[termek_kategoria],$arg);
-			
+
 			$d[params] = $inp;
 			$r[] = $d;
 		}
-		
+
 		$ret[data] = $r;
 		$back = $ret;
-		
-		return $back;	
+
+		return $back;
 	}
 	private function getPrinceInfo($where, $info_arry){
 		if($where == '')return $info_arry;
 		if(count($info_arry) == 0) return $info_arry;
 		$min = 0;
 		$max = 0;
-		
+
 		$q = "SELECT getTermekAr(t.marka,IF(t.egyedi_ar IS NOT NULL,t.egyedi_ar,IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar FROM shop_termekek as t LEFT OUTER JOIN shop_termek_in_kategoria as tik ON tik.termekID = t.ID WHERE ".$where." GROUP BY t.ID";
 		extract($this->db->q($q));
-		
+
 		foreach($data as $d){
 			$ar = $d[ar];
-			
+
 			if($min == 0) $min = $ar;
 			if($max == 0) $max = $ar;
-			
+
 			if($ar < $min) $min = $ar;
-			if($ar > $max) $max = $ar;	
+			if($ar > $max) $max = $ar;
 		}
-		
+
 		$info_arry[min] = $min;
 		$info_arry[max] = $max;
-		
+
 		return $info_arry;
 	}
 
 	/**
 	* Nem előrendelhető termékek eltávolítása a felhasználó kosarából
-	* 
+	*
 	* @param integer $mid Felhasználó gép ID-ja. Hívás \Helper::getMachineID()
 	*
 	* @return void
@@ -916,12 +916,12 @@ class Shop
 		$arg 	= array( 'multi' => 1 );
 		$q 		= "
 		SELECT 				c.termekID,
-							m.elorendelheto 
+							m.elorendelheto
 		FROM 				shop_kosar as c
-		LEFT OUTER JOIN 	shop_termekek as t ON t.ID = c.termekID 
+		LEFT OUTER JOIN 	shop_termekek as t ON t.ID = c.termekID
 		LEFT OUTER JOIN 	shop_markak as m ON m.ID = t.marka
 		WHERE  				c.gepID = '$mid'
-		"; 
+		";
 		extract($this->db->q($q, $arg));
 
 		foreach( $data as $d ){
@@ -935,15 +935,15 @@ class Shop
 
 		return $remove;
 	}
-	
+
 	public function addItemToCart($mid, $termekID){
 		if($mid == '')
-			throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');	
+			throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');
 		if($termekID == '')
 			throw new \Exception('Termék azonosító hiányzik!');
-			
+
 		$c = $this->db->query("SELECT me FROM shop_kosar WHERE termekID = $termekID and gepID = $mid;")->fetch(\PDO::FETCH_ASSOC);
-		
+
 		$this->db->query("UPDATE shop_kosar SET me = me + 1  WHERE termekID = $termekID and gepID = $mid");
 	}
 	public function clearCart($mid){
@@ -952,14 +952,14 @@ class Shop
 	}
 	public function removeItemFromCart($mid, $termekID){
 		if($mid == '')
-			throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');	
+			throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');
 		if($termekID == '')
 			throw new \Exception('Termék azonosító hiányzik!');
-			
+
 		$c = $this->db->query("SELECT me FROM shop_kosar WHERE termekID = $termekID and gepID = $mid;")->fetch(\PDO::FETCH_ASSOC);
 
 		$cn = $c[me];
-		
+
 		if($cn == 1){
 			$this->db->query("DELETE FROM shop_kosar WHERE termekID = $termekID and gepID = $mid");
 		}else if($cn > 1){
@@ -968,12 +968,12 @@ class Shop
 	}
 	public function addToCart($mid, $termekID, $me){
 		if($mid == '')
-		throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');	
-		
+		throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');
+
 		$ci = $this->db->query("SELECT ID FROM shop_kosar WHERE termekID = $termekID and gepID = $mid;");
-		
+
 		if($ci->rowCount() == 0){
-			
+
 			//$c = $ci->fetch(\PDO::FETCH_ASSOC);
 
 			$this->db->insert('shop_kosar',
@@ -985,17 +985,17 @@ class Shop
 			);
 
 		}else{
-			$this->db->query("UPDATE shop_kosar SET me = me + $me  WHERE termekID = $termekID and gepID = $mid");	
+			$this->db->query("UPDATE shop_kosar SET me = me + $me  WHERE termekID = $termekID and gepID = $mid");
 		}
-		
+
 	}
 	public function removeFromCart($mid, $termekID){
 		if($mid == '')
-			throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');	
+			throw new \Exception('Nem sikerült hozzáadni a terméket a kosárhoz. Frissítse le az oldalt és próbálja újra!');
 		if($termekID == '')
 			throw new \Exception('Termék azonosító hiányzik!');
 		$q = "DELETE FROM shop_kosar WHERE termekID = $termekID and gepID = $mid";
-		$this->db->query($q);	
+		$this->db->query($q);
 	}
 
 	public function getSzallitasiModok(){
@@ -1011,7 +1011,6 @@ class Shop
 		$itemNum 	= 0;
 		$totalPrice = 0;
 		$totalPrice_before_discount = 0;
-		$disc_partner = false;
 		$disc_coupon = false;
 
 		if( $arg['coupon'] ) {
@@ -1021,8 +1020,8 @@ class Shop
 
 		// Clear cart if item num 0
 		$this->db->query("DELETE FROM shop_kosar WHERE me <= 0 and gepID = $mid;");
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			c.ID,
 			c.termekID,
 			c.me,
@@ -1036,11 +1035,11 @@ class Shop
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			ta.elnevezes as allapot,
 			t.profil_kep,
-			IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,	
+			IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,
 			(IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) * c.me) as sum_ar,
 			t.referer_price_discount,
 			szid.elnevezes as szallitasIdo
-		FROM shop_kosar as c 
+		FROM shop_kosar as c
 		LEFT OUTER JOIN shop_termekek AS t ON t.ID = c.termekID
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN shop_termek_allapotok as ta ON ta.ID = t.keszletID
@@ -1050,132 +1049,120 @@ class Shop
 		extract($this->db->q($q, $arg));
 		$dt = array();
 
-		$kedvezmenyes = false;
-		if( $this->user && $this->user[kedvezmeny] > 0 ) {
-			$kedvezmenyes = true;
-		}
-
 		foreach($data as $d){
-			if ($this->settings['round_price_5'] == '1') 
+			if ($this->settings['round_price_5'] == '1')
 			{
 				$d[ar] = round($d[ar] / 5) * 5;
 			}
+			$d['profil_kep'] = \PortalManager\Formater::productImage( $d['profil_kep'] );
 
 			$d['prices'] = array(
 				'old_each' 		=> 0,
-				'old_sum' 		=> 0,				
+				'old_sum' 		=> 0,
 				'current_each' 	=> $d[ar],
 				'current_sum' 	=> $d[ar] * $d[me]
-			);	
+			);
 
-			/*
-			if( $this->user['kedvezmeny'] > 0 ) {
-				\PortalManager\Formater::discountPrice( $d[ar], $this->user[kedvezmeny] );
-				\PortalManager\Formater::discountPrice( $d[sum_ar], $this->user[kedvezmeny] );
-			}
-			*/
-			
-			if( $arg['referer_discount'] ) 
-			{				
-				$d['prices']['old_each'] 	= $d[ar];
-				$d['prices']['old_sum'] 	= $d[ar] * $d[me];
-
-				$totalPrice_before_discount += $d[ar] * $d[me];
-
-				$d[ar] 		= 	( $d['ar'] - $d['referer_price_discount'] );				
-				//$kedvezmeny 	+= 	$d['referer_price_discount'] * $d['me'];
-				$disc_partner 	= true;
-
-				$d['prices']['current_each'] 	= $d['ar'];
-				$d['prices']['current_sum'] 	= $d['ar'] * $d['me'];
+			if ($this->user && $this->user['kedvezmeny'] > 0) {
+				$kedvezmenyes = true;
 			}
 
 			// Kupon, ha termékekre van
-			if( $coupon && !$coupon->isOffForAllProduct() ) 
+			if( $coupon && !$coupon->isOffForAllProduct() )
 			{
 				// Ha bizonyos termékcsalád részesül csak kedvezményben
-				if( $coupon->isProductExluded() ) 
+				if( $coupon->isProductExluded() )
 				{
-					if( $coupon->thisProductAllowed( $d['raktar_articleid'] ) ) 
+					if( $coupon->thisProductAllowed( $d['raktar_articleid'] ) )
 					{
+						$kedvezmenyes = false;
 						$d['prices']['old_each'] 		= $d[ar];
 						$d['prices']['old_sum'] 		= $d[ar] * $d[me];
 
 						$d['prices']['current_each'] 	= $coupon->discountPrice( $d['ar'] );
 						$d['prices']['current_sum'] 	= $coupon->discountPrice( $d['ar'] )  * $d['me'];
-					} 
+					}
 				}
+			}
 
+			// Törzsvásárlói kedvezmény
+			if ($kedvezmenyes) {
+				$d['prices']['old_each'] 		= $d[ar];
+				$d['prices']['old_sum'] 		= $d[ar] * $d[me];
+
+				$d['prices']['current_each'] 	= $d['ar'] - ($d['ar'] / 100 * $this->user['kedvezmeny']);
+				$d['prices']['current_sum'] 	= $d['sum_ar'] - ($d['sum_ar'] / 100 * $this->user['kedvezmeny']);
+			}
+
+			if( $d['prices']['old_each'] != 0 && $d['prices']['old_each'] != $d['prices']['current_each']  )
+			{
+				$d['discounted'] 	= true;
+				$kedvezmeny 		+= $d['prices']['old_sum'] - $d['prices']['current_sum'];
+			} else {
+				$d['discounted'] 		= false;
 			}
 
 			$itemNum 	+= $d[me];
 			$totalPrice += $d[ar] * $d[me];
 
-
-			$d['profil_kep'] = \PortalManager\Formater::productImage( $d['profil_kep'] );
-
-			if( $d['prices']['old_each'] != 0 && $d['prices']['old_each'] != $d['prices']['current_each']  ) 
-			{
-				$d['discounted'] 	= true;
-				$kedvezmeny 		+= $d['prices']['old_sum'] - $d['prices']['current_sum']; 
-			} else {
-				$d['discounted'] 		= false;
-			}
-
 			$dt[] = $d;
 		}
 
-		if( $coupon && $coupon->isOffForAllProduct() ) 
+		if ($kedvezmeny > 0) {
+			$totalPrice_before_discount = $totalPrice;
+			$totalPrice = $totalPrice - $kedvezmeny;
+		}
+
+		if( $coupon && $coupon->isOffForAllProduct() )
 		{
 			$kedvezmeny = $coupon->calcPrice( $totalPrice );
 			$totalPrice_before_discount = $totalPrice;
 			$totalPrice = $totalPrice - $kedvezmeny;
-		} 
+		}
 		else if($coupon)
 		{
 			$totalPrice_before_discount = $totalPrice;
 			$totalPrice = $totalPrice - $kedvezmeny;
 		}
-	
+
 		$re[itemNum]			= $itemNum;
 		$re[kedvezmeny]			= $kedvezmeny;
 		$re[totalPrice]			= $totalPrice;
-		$re[discount][partner]	= $disc_partner;
 		$re[discount][coupon]	= $disc_coupon;
 		$re[totalPriceTxt]		= number_format($totalPrice,0,""," ");
 		$re[totalPrice_before_discount]			= $totalPrice_before_discount;
 		$re[totalPriceTxt_before_discount]		= number_format($totalPrice_before_discount,0,""," ");
 		$re[items] 				= $dt;
-		
+
 		return $re;
 	}
-	
+
 	public function getFilterString($filter_arry){
 		$ret = '';
-		
+
 		if(count($filter_arry) > 0){
 			$ret .= '?';
 			foreach($filter_arry as $fk => $fv){
 				if($fv){
 					$n = count($fv);
-					
+
 					if($n == 1){
 						$d = $fv[0];
 					}else{
-						$d = implode(urlencode(","),$fv);	
+						$d = implode(urlencode(","),$fv);
 					}
 					$ret .= $fk.'='.$d.'&amp;';
 				}
 			}
 		}
 		$ret = rtrim($ret,'&amp;');
-		
+
 		return $ret;
 	}
-	
+
 	public function getFilters($get, $prefix){
 		$re = array();
-		
+
 		foreach($get as $gk => $gv){
 			if(strpos($gk,$prefix.'_') === 0){
 				/*if(strpos($gv,',') !== false){
@@ -1196,12 +1183,12 @@ class Shop
 				$re[$gk] = $g;
 			}
 		}
-		
-		return $re;		
+
+		return $re;
 	}
-	
+
 	function getTermekParameter($termekID, $katID = false, $arg = array()){
-		$q = "SELECT 
+		$q = "SELECT
 			p.* ,
 			pm.parameter as neve,
 			pm.mertekegyseg as me,
@@ -1226,36 +1213,36 @@ class Shop
 		}
 		return $back;
 	}
-	
+
 	private function getTermekAr($markaID, $bruttoAr){
 		$ari =  $this->getTermekArInfo($markaID, $bruttoAr);
 		return $ari[ar];
 	}
-	
+
 	public function getMarkak($arg = array()){
 		$rows 	=  'ID, TRIM(SUBSTRING_INDEX(neve,"::",1)) as neve,GROUP_CONCAT(ID) as IDS, arres_mod, fix_arres, brutto';
 		$q 		= "SELECT $rows FROM shop_markak GROUP BY TRIM(SUBSTRING_INDEX(neve,'::',1));";
-		 
+
 		extract($this->db->q($q,array('multi'=> '1')));
-		
+
 		$back = array();
 		foreach($data as $d){
 			$back[] = $d;
 		}
 		return $back;
 	}
-	
+
 	public function getParameterHint($modszer = false, $gyujto = false){
 		$hints = array();
-		
-		$h = "SELECT 
-			GROUP_CONCAT(CONCAT('p_',p.parameterID,':',p.ertek)) as paramErtek 
-		FROM `shop_termekek` as t 
-		LEFT OUTER JOIN shop_termek_parameter as p ON p.termekID = t.ID 
-		LEFT OUTER JOIN shop_termek_in_kategoria as tik ON tik.termekID = t.ID 
-		WHERE tik.modszerID = $modszer 
+
+		$h = "SELECT
+			GROUP_CONCAT(CONCAT('p_',p.parameterID,':',p.ertek)) as paramErtek
+		FROM `shop_termekek` as t
+		LEFT OUTER JOIN shop_termek_parameter as p ON p.termekID = t.ID
+		LEFT OUTER JOIN shop_termek_in_kategoria as tik ON tik.termekID = t.ID
+		WHERE tik.modszerID = $modszer
 		GROUP BY t.ID";
-		
+
 		extract($this->db->q($h,array('multi'=> '1')));
 		$box = array();
 		foreach($data as $d){
@@ -1263,29 +1250,29 @@ class Shop
 			foreach($exp_one as $e){
 				$exp_two 	= explode(":",$e);
 				$key 		= str_replace('p_','',$exp_two[0]);
-				
+
 				if(!in_array($exp_two[1],$box[$key])){
 					$box[$key][] = $exp_two[1];
 				}
-				
+
 			}
 		}
-		$data = $box;			
-	
+		$data = $box;
+
 		$hints = $data;
-		
-		return $hints;		
+
+		return $hints;
 	}
-	
+
 	private function getTermekArInfo($markaID, $bruttoAr){
 		$re 	  = array();
 		$re[info] =  array();
 		$re[arres] = 0;
 		$re[ar]   =  $bruttoAr;
-		
+
 		// Márka adatok
 		$marka = $this->db->query("SELECT fix_arres FROM shop_markak WHERE ID = $markaID")->fetch(\PDO::FETCH_ASSOC);
-		
+
 		if(!is_null($marka[fix_arres])){
 		// Fix árrés
 			$re[info] 	= 'FIX : '.$marka[fix_arres].'%';
@@ -1298,7 +1285,7 @@ class Shop
 				$min = $s[ar_min];
 				$max = $s[ar_max];
 				$max = (is_null($max)) ? 999999999999999 : $max;
-				
+
 				if($bruttoAr >= $min && $bruttoAr <= $max){
 					$re[info] 	= $min.' - '.$max.' : '.$s[arres].'%';
 					$re[arres] 	= $s[arres];
@@ -1307,62 +1294,62 @@ class Shop
 				}else{
 					$re[info] 	= $min.' - '.$max.' : '.$s[arres].'%';
 					$re[arres] 	= $s[arres];
-					$re[ar] 	= round($bruttoAr * ($s[arres]/100+1));	
+					$re[ar] 	= round($bruttoAr * ($s[arres]/100+1));
 				}
-				
+
 			}
 		}
-		
+
 		return $re;
 	}
-	
-	
+
+
 	public function getTermekKeys(&$view){
 		$get 	= \Helper::GET();
 		$szurok = array();
-		
+
 		if($get[0] == 'termekek'){
 			$view->kategoria->modszer 	= $this->getStringID($get[1]);
 			$view->kategoria->gyujto 	= $this->getStringID($get[2]);
 			$view->kategoria->termek 	= $this->getStringID($get[3]);
-			
+
 			$view->kategoria->modszer_text 	= $this->getKategoriaStringByID('modszer', $view->kategoria->modszer);
 			$view->kategoria->gyujto_text 	= $this->getKategoriaStringByID('gyujto', $view->kategoria->gyujto);
 			$view->kategoria->termek_text 	= $this->getKategoriaStringByID('termek', $view->kategoria->termek);
-			
+
 			if($view->kategoria->modszer && ($view->kategoria->gyujto || $view->kategoria->termek))
 				$navi =  $view->kategoria->modszer_text;
 			if($view->kategoria->modszer && $view->kategoria->gyujto && $view->kategoria->termek)
 				$navi .=  ' / '.$view->kategoria->gyujto_text;
-			
-			
+
+
 			if($view->kategoria->modszer)
 			$onKat = $view->kategoria->modszer_text;
 			if($view->kategoria->gyujto)
 			$onKat = $view->kategoria->gyujto_text;
 			if($view->kategoria->termek)
 			$onKat = $view->kategoria->termek_text;
-			
+
 			if($view->kategoria->termek){
 				$szurok = $this->getParamsForFilter($view->kategoria->termek,array(
 					'modszer' 	=> $view->kategoria->modszer,
 					'gyujto' 	=> $view->kategoria->gyujto
 				));
 			}
-			
+
 			$view->szuroParams 				= $szurok;
 			$view->markak 					= $this->getMarkak(array('row' => '*'));
 			$view->kategoria->navi_text 	= ($navi == '') ? 'Kérjük, hogy válasszon módszert és kategóriákat a pontosabb szűrésért.' : $navi;
 			$view->kategoria->ON 			= ($onKat == '') ? 'Termékek' : $onKat;
-			
+
 		}else if($get[0] == 't'){
 			$view->kategoria->modszer 	= $_COOKIE[__list_modszer];
 			$view->kategoria->gyujto 	= $_COOKIE[__list_gyujto];
 			$view->kategoria->termek 	= $_COOKIE[__list_kategoria];
-			
+
 			$view->termekID = \Product::getTermekIDFromUrl();
 		}
-		
+
 		return $view;
 	}
 	public function getParamsForFilter($katID = false, $arg = array()){
@@ -1370,25 +1357,25 @@ class Shop
 		if(!$katID) return $back;
 		$modszer 	= ($arg[modszer]) 	? $arg[modszer] : false;
 		$gyujto 	= ($arg[gyujto]) 	? $arg[gyujto] : false;
-				
+
 		$q = "SELECT * FROM `shop_termek_kategoria_parameter` WHERE kategoriaID = $katID ORDER BY parameter ASC;";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$loadParams = $this->getParameterHint($modszer, $gyujto);
-		
+
 		foreach($data as $d){
 			$hint 		= $loadParams[$d[ID]];
 			$type 		= $this->getParameterType($d, $hint);
 			asort($hint);
-			
+
 			$d[hints]   	= $hint;
 			$d[type] 		= $type;
 			$d[minmax] 		= $this->getParameterMinMax($d[type],$hint);
 			$back[] 		= $d;
 		}
-		
+
 		return $back;
 	}
 
@@ -1396,38 +1383,38 @@ class Shop
 		$re 	= array();
 		$min 	= 0;
 		$max 	= 0;
-		
+
 		if($type == 'szam' || $type == 'tartomany'){
 			foreach($hints as $h){
 				if($type == 'szam'){
-					if($min == 0) $min = $h;	
-					if($max == 0) $max = $h;	
-					
+					if($min == 0) $min = $h;
+					if($max == 0) $max = $h;
+
 					if($h < $min) $min = $h;
 					if($h > $max) $max = $h;
 				}else if($type == 'tartomany'){
 					$xn 	= explode('-',$h);
 					$xmin 	= (int)$xn[0];
 					$xmax	= (int)$xn[1];
-					
-					if($min == 0) $min = $xmin;	
-					if($max == 0) $max = $xmax;	
-					
+
+					if($min == 0) $min = $xmin;
+					if($max == 0) $max = $xmax;
+
 					if($xmin < $min) $min = $xmin;
 					if($xmax > $max) $max = $xmax;
 				}
-			}	
+			}
 		}
-		
+
 		$re[min] = $min;
 		$re[max] = $max;
-		
+
 		return $re;
 	}
 
 	private function getParameterType($parameter, $hints){
 		$re = false;
-		
+
 		if($parameter[mertekegyseg] == ''){
 			$re = 'szoveg';
 		}else{
@@ -1436,17 +1423,17 @@ class Shop
 				if(is_numeric($h)){
 					$re = 'szoveg';
 					if($parameter[is_range] == 1){
-						$re = 'szam';	
+						$re = 'szam';
 					}
 				}else{
 					if(strpos($h,'-') !== false){
 						$re = 'tartomany';
 					}
 				}
-			}	
+			}
 		}
-		
-		
+
+
 		return $re;
 	}
 	private function getKategoriaStringByID($type, $id){
@@ -1474,38 +1461,38 @@ class Shop
 	}
 	public function getTermekKategoriak(){
 		$q = "SELECT * FROM shop_termek_kategoriak ORDER BY neve ASC;";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
 		return $data;
 	}
 	public function getUsableModszerek($arg = array()){
 		$selectedModszer = ($arg[shopInfo]->kategoria->modszer) ? $arg[shopInfo]->kategoria->modszer : false;
-		
-		$q = "SELECT 
-		  ik.modszerID, 
-		  m.neve as modszer, 
-		  count(ik.id) as tct 
-		FROM `shop_termek_in_kategoria` as ik 
-		LEFT OUTER JOIN shop_termekek as t ON t.id = ik.termekID 
-		LEFT OUTER JOIN shop_modszerek as m ON m.id = ik.modszerID 
-		WHERE 
-			t.lathato = 1 
-		GROUP BY ik.modszerID 
+
+		$q = "SELECT
+		  ik.modszerID,
+		  m.neve as modszer,
+		  count(ik.id) as tct
+		FROM `shop_termek_in_kategoria` as ik
+		LEFT OUTER JOIN shop_termekek as t ON t.id = ik.termekID
+		LEFT OUTER JOIN shop_modszerek as m ON m.id = ik.modszerID
+		WHERE
+			t.lathato = 1
+		GROUP BY ik.modszerID
 		ORDER BY m.neve ASC;";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$re 	= array();
 		$select = array();
 		$index 	= 0;
-		
+
 		if($selectedModszer) $index = 1;
 		foreach($data as $d){
 			$d[gyujtok] 		= array();
 			$d[kategoriak] 		= array();
-			
+
 				// Gyűjtők csatolása
 				if(count($arg[gyujtok]) > 0){
 					foreach($arg[gyujtok] as $gy){
@@ -1535,17 +1522,17 @@ class Shop
 	private function getUsedKategoriak($modszerID = false, $arg = array()){
 		$re = array();
 		$gyujto = ($arg[gyujtoID]) ? $arg[gyujtoID] : false;
-		
+
 		if(!$modszerID) return $re;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 		  k.ID as kategoriaID,
 		  k.neve as kategoriaNev,
-		  count(t.id) as tct 
-		FROM `shop_termek_in_kategoria` as ik 
-		LEFT OUTER JOIN shop_termekek as t ON t.id = ik.termekID 
-		LEFT OUTER JOIN shop_termek_kategoriak as k ON k.id = t.termek_kategoria 
-		WHERE 
+		  count(t.id) as tct
+		FROM `shop_termek_in_kategoria` as ik
+		LEFT OUTER JOIN shop_termekek as t ON t.id = ik.termekID
+		LEFT OUTER JOIN shop_termek_kategoriak as k ON k.id = t.termek_kategoria
+		WHERE
 			ik.modszerID = $modszerID and";
 		if($gyujto){
 			$q .= " ik.gyujtoID = $gyujto and ";
@@ -1555,26 +1542,26 @@ class Shop
 			t.termek_kategoria IS NOT NULL
 		GROUP BY t.termek_kategoria
 		ORDER BY k.neve ASC;";
-				
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$ret = $data;
-		
+
 		return $ret;
 	}
 	private function getUsedGyujtoKategoriak($modszerID = false, $gyujtoID = false){
 		$re = array();
 		if(!$modszerID || !$gyujtoID) return $re;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 		  k.ID as kategoriaID,
 		  k.neve as kategoriaNev,
-		  count(t.id) as tct 
-		FROM `shop_termek_in_kategoria` as ik 
-		LEFT OUTER JOIN shop_termekek as t ON t.id = ik.termekID 
-		LEFT OUTER JOIN shop_termek_kategoriak as k ON k.id = t.termek_kategoria 
-		WHERE 
+		  count(t.id) as tct
+		FROM `shop_termek_in_kategoria` as ik
+		LEFT OUTER JOIN shop_termekek as t ON t.id = ik.termekID
+		LEFT OUTER JOIN shop_termek_kategoriak as k ON k.id = t.termek_kategoria
+		WHERE
 			ik.modszerID = $modszerID and
 			ik.gyujtoID = $gyujtoID and ";
 		$q .= "
@@ -1582,46 +1569,46 @@ class Shop
 			t.termek_kategoria IS NOT NULL
 		GROUP BY t.termek_kategoria
 		ORDER BY k.neve ASC;";
-				
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-		
+
 		$ret = $data;
 		return $ret;
 	}
 	public function getUsableGyujtok($arg = array()){
-		$q = "SELECT 
-			tk.*, 
+		$q = "SELECT
+			tk.*,
 			gyk.neve as gyujtoNev,
 			count(tk.ID) as tct
-		FROM `shop_termek_in_kategoria` as tk 
-		LEFT OUTER JOIN shop_termekek as t ON tk.termekID = t.ID 
-		LEFT OUTER JOIN shop_gyujto_kategoriak as gyk ON gyk.ID = tk.gyujtoID 
-		WHERE 
+		FROM `shop_termek_in_kategoria` as tk
+		LEFT OUTER JOIN shop_termekek as t ON tk.termekID = t.ID
+		LEFT OUTER JOIN shop_gyujto_kategoriak as gyk ON gyk.ID = tk.gyujtoID
+		WHERE
 			gyk.neve IS NOT NULL and
 			t.lathato = 1
 		GROUP BY tk.gyujtoID
 		ORDER BY
 			gyk.neve ASC";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-	
+
 		return $data;
 	}
 	public function sendKapcsolatMsg($post){
 		extract($post);
-		
+
 		if(!Captcha::verify())throw new \Exception('Az ellenőrző kód hibás!');
-		
+
 		if($name == '') throw new \Exception('Kérjük, ne felejtse megadni saját nevét!');
 		if($email == '') throw new \Exception('Kérjük, ne felejtse megadni saját e-mail címét!');
 		if($subject == '') throw new \Exception('Kérjük, ne felejtse megadni az üzenet témáját!');
 		if($msgText == '') throw new \Exception('Kérjük, fogalmazza meg, hogy miben segíthetünk Önnek!');
 		$t = $this->getTermekAdat($tid);
-		
+
 		$msg = '';
-		
+
 		$msg .= "<strong>Kapcsolat > Üzenet küldés</strong>";
 		$msg .= '<div>---</div>';
 		$msg .= '<div>Név: <strong>'.$name.'</strong></div>';
@@ -1631,9 +1618,9 @@ class Shop
 		$msg .= '<div><br /></div>';
 		$msg .= '<div>Üzenet</div>';
 		$msg .= '<div><strong>'.(($msgText == '')?'-':$msgText).'</strong></div>';
-			
 
-		if(false){			
+
+		if(false){
 			\Helper::smtpMail(array(
 				'recepiens' => array(EMAIL),
 				'msg' 	=> $msg,
@@ -1659,23 +1646,23 @@ class Shop
 				'uzenet_targy' 	=> 'Kapcsolat üzenet',
 				'uzenet' 		=> $msg
 			));
-		}			
-		
-		
-		return 'Köszönjük megkeresését. Hamarosan felvesszük Önnel a kapcsolatot!';	
+		}
+
+
+		return 'Köszönjük megkeresését. Hamarosan felvesszük Önnel a kapcsolatot!';
 	}
 
 	public function requestReCall($post){
 		extract($post);
 		$msg = '';
-				
+
 		if($nev 	== '') throw new \Exception('Kérjük, ne felejtse megadni saját nevét!');
 		if($phone 	== '') throw new \Exception('Kérjük, ne felejtse megadni saját telefonszámát!');
-		
+
 		$t = $this->getTermekAdat($tid);
 
 		$msg .= '<h1>Telefonos szaktanácsadást kértek</h1>';
-		
+
 		if($tid != ''){
 			$msg .= '<div>Kapcsolódó termék: <strong><a href="'.$t[data][url].'">'.$t[data][markaNev]." ".$t[data][nev].'</a></strong> ('.$t[data][url].')</div>';
 		}else{
@@ -1688,14 +1675,14 @@ class Shop
 		$msg .= '<div>Kiválasztott időszak visszahíváshoz: <strong>'.(($idoszak == 'egesz_nap')?'9-17 óráig hívható':($idoszak == 'delelott')?'9-12 óráig hívható':'12-17 óráig hívható').'</strong></div>';
 		$msg .= '<div>Megjegyzés</div>';
 		$msg .= '<div><strong>'.(($comment == '')?'-':$comment).'</strong></div>';
-		
-	
-		$mail = new Mailer( 
-			$this->settings['page_title'], 
-			SMTP_USER, 
-			$this->settings['mail_sender_mode'] 
-		);				
-		$mail->add( $this->settings['alert_email'] );	
+
+
+		$mail = new Mailer(
+			$this->settings['page_title'],
+			SMTP_USER,
+			$this->settings['mail_sender_mode']
+		);
+		$mail->add( $this->settings['alert_email'] );
 
 		$arg = array(
 			'settings' 		=> $this->settings
@@ -1704,7 +1691,7 @@ class Shop
 		$arg['content'] = $msg;
 
 		$mail->setSubject( 'Telefonos szaktanácsadás kérése: '.$nev.' ('.$phone.')' );
-		$mail->setMsg( (new Template( VIEW . 'templates/mail/' ))->get( 'clearmail', $arg ) );			
+		$mail->setMsg( (new Template( VIEW . 'templates/mail/' ))->get( 'clearmail', $arg ) );
 		$re = $mail->sendMail();
 
 		$this->logMessage(array(
@@ -1715,11 +1702,11 @@ class Shop
 			'uzenet_targy' 	=> 'Telefonos szaktanácsadás kérés',
 			'uzenet' 		=> $msg
 		));
-		
-		
-		return 'Köszönjük megkeresését. Hamarosan felvesszük Önnel a kapcsolatot!';	
+
+
+		return 'Köszönjük megkeresését. Hamarosan felvesszük Önnel a kapcsolatot!';
 	}
-	
+
 	const ORDER_COOKIE_KEY_STEP = 'orderStep';
 
 	public function doOrder($post, $arg = array()) {
@@ -1728,28 +1715,28 @@ class Shop
 		$gets 	= \Helper::GET();
 		$step 	= $gets[1];
 		$step 	= (!$step) ? 0 : $step;
-		
+
 		$post_str = json_encode($post, JSON_UNESCAPED_UNICODE);
 
 		switch($step){
 			case 0:
 				$err 		= false;
 				$inputErr 	= array();
-				
+
 				if($nev == ''){
 					$err 		= 'Alapvető adatok megadása kötelező vagy jelentkezzen be.';
 					$inputErr[] = 'nev';
 				}
-				
+
 				if($email == ''){
 					$err 		= 'Alapvető adatok megadása kötelező vagy jelentkezzen be.';
 					$inputErr[] = 'email';
 				}
-				
-				
+
+
 				if($err){
 					$errArr[input] = $inputErr;
-					throw new OrderException($err, $errArr);	
+					throw new OrderException($err, $errArr);
 				}else{
 					setcookie(self::ORDER_COOKIE_KEY_STEP,$step+1,time()+3600*24,'/');
 					\Helper::setStoredPOSTData('order_step_'.($step+1),$post_str);
@@ -1758,7 +1745,7 @@ class Shop
 			case 1:
 				$err 		= false;
 				$inputErr 	= array();
-				
+
 				if($szam_nev == ''){
 					$err 		= 'Alapvető adatok megadása kötelező vagy jelentkezzen be.';
 					$inputErr[] = 'szam_nev';
@@ -1803,15 +1790,15 @@ class Shop
 					$err 		= 'Alapvető adatok megadása kötelező vagy jelentkezzen be.';
 					$inputErr[] = 'szall_phone';
 				}
-				
+
 				if($err){
 					$errArr[input] = $inputErr;
-					throw new OrderException($err, $errArr);	
+					throw new OrderException($err, $errArr);
 				}else{
 					setcookie(self::ORDER_COOKIE_KEY_STEP,$step+1,time()+3600*24,'/');
 					\Helper::setStoredPOSTData('order_step_'.($step+1),$post_str);
 				}
-			break;	
+			break;
 			case 2:
 				$err 		= false;
 				$inputErr 	= array();
@@ -1822,8 +1809,8 @@ class Shop
 
 				if($err){
 					$errArr[input] = $inputErr;
-					throw new OrderException($err, $errArr);	
-				}else{				
+					throw new OrderException($err, $errArr);
+				}else{
 					setcookie(self::ORDER_COOKIE_KEY_STEP,$step+1,time()+3600*24,'/');
 
 					\Helper::setStoredPOSTData( 'order_step_'.($step+1) ,$post_str );
@@ -1838,14 +1825,14 @@ class Shop
 				}
 				if($err){
 					$errArr[input] = $inputErr;
-					throw new OrderException($err, $errArr);	
+					throw new OrderException($err, $errArr);
 				}else{
 					setcookie(self::ORDER_COOKIE_KEY_STEP,$step+1,time()+3600*24,'/');
 					\Helper::setStoredPOSTData('order_step_'.($step+1),$post_str);
 				}
 			break;
 			case 4:
-				$mid 	= \Helper::getMachineID(); 
+				$mid 	= \Helper::getMachineID();
 				$err 		= false;
 				$inputErr 	= array();
 
@@ -1853,14 +1840,14 @@ class Shop
 					$err 		= 'Megrendelés leadásához el kell fogadni az Általános Szerződési Feltételeket!';
 					$inputErr[] = 'aszf_on';
 				}
-			
+
 				if($err)
 				{
 					$errArr[input] = $inputErr;
-					throw new OrderException($err, $errArr);	
+					throw new OrderException($err, $errArr);
 				}else
 				{
-					$go 					= true;					
+					$go 					= true;
 					$orderID 				= 0;
 					$uid 					= ($orderUserID == '') ? 'NULL' : $orderUserID;
 					$total 					= 0;
@@ -1873,17 +1860,17 @@ class Shop
 					$coupon_code 			= ($coupon_id)? $coupon_id : NULL;
 					$used_cash 				= (isset($virtual_cash)) ? $virtual_cash : 0;
 
-					if ( $used_cash ) 
+					if ( $used_cash )
 					{
 						$kedvezmeny_ft = $used_cash;
 					}
 
 					/**
-					 * Partner ajánló rendszer levonás 
+					 * Partner ajánló rendszer levonás
 					 * */
-					$partner_ref = (new PartnerReferrer ( $referer_partner_id, array( 
-						'db' 		=> $this->db, 
-						'settings' 	=> $this->settings 
+					$partner_ref = (new PartnerReferrer ( $referer_partner_id, array(
+						'db' 		=> $this->db,
+						'settings' 	=> $this->settings
 					)))
 					->setExcludedUser( $uid )
 					->load();
@@ -1902,16 +1889,16 @@ class Shop
 						));
 						$coupon->get($coupon_code);
 
-						if ($coupon->isRunning()) 
+						if ($coupon->isRunning())
 						{
 							$allow_coupon_discount = true;
 						}
 					}
 
-					
+
 					$cart = array();
 					$cart_data = $this->db->query("
-						SELECT 
+						SELECT
 							c.*,
 							t.nev,
 							t.meret,
@@ -1921,15 +1908,15 @@ class Shop
 							IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,
 							t.referer_price_discount,
 							m.neve as markaNev
-						FROM shop_kosar as c 
+						FROM shop_kosar as c
 						LEFT OUTER JOIN shop_termekek as t ON t.ID = c.termekID
 						LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 						WHERE c.gepID = $mid");
 					$cart = $cart_data->fetchAll(\PDO::FETCH_ASSOC);
-					
+
 					if( count($cart) == 0 ){
 						return false;
-					}		
+					}
 
 					$referer_partner_id =($referer_partner_id) ? "'".$referer_partner_id."'" : 'NULL';
 					$coupon_code 		= ($coupon_code) ? "'".$coupon_code."'" : 'NULL';
@@ -1957,8 +1944,8 @@ class Shop
 						$coupon_code,
 						$used_cash
 						);";
-												
-						$this->db->query($iq);												
+
+						$this->db->query($iq);
 
 						$orderID 	= $this->db->lastInsertId();
 						$accessKey	= md5($orderID.'.'.$email);
@@ -1968,13 +1955,13 @@ class Shop
 								'accessKey' => $accessKey
 							),
 							"ID = $orderID"
-						);	
+						);
 
-						if ( $used_cash ) 
+						if ( $used_cash )
 						{
 							// Kedvezmény levonása
-							if ( $orderUserID ) 
-							{						
+							if ( $orderUserID )
+							{
 								$this->db->query("UPDATE ".\PortalManager\Users::TABLE_NAME." SET cash = cash - ".$used_cash." WHERE ID = ".$orderUserID);
 
 								// Log cash
@@ -1989,7 +1976,7 @@ class Shop
 									)
 								);
 							}
-						}					
+						}
 					}
 
 					// Copy items to order items and connect with order parent
@@ -1997,15 +1984,15 @@ class Shop
 						$temp_cart 		= array();
 
 						foreach($cart as $d)
-						{	
+						{
 							$kedv = 0;
 
-							if( $kedvezmeny > 0 ) 
+							if( $kedvezmeny > 0 )
 							{
 								//\PortalManager\Formater::discountPrice( $d[ar], $kedvezmeny );
 							}
 
-							if( $allow_partner_discount ) 
+							if( $allow_partner_discount )
 							{
 								$kedv 			= $d['referer_price_discount'];
 								$kedvezmeny_ft 	+= $d['referer_price_discount'] * $d['me'];
@@ -2016,11 +2003,11 @@ class Shop
 								if ($coupon->thisProductAllowed($d['raktar_articleid']))
 								{
 									$kedv 			= $coupon->calcPrice( $d['ar'] );
-									$kedvezmeny_ft += $coupon->calcPrice( $d['ar'] ) * $d['me']; 
-								} 
-								
+									$kedvezmeny_ft += $coupon->calcPrice( $d['ar'] ) * $d['me'];
+								}
+
 							}
-							
+
 							$total += ( $d[ar] * $d[me] );
 
 							$this->db->insert('order_termekek',
@@ -2042,7 +2029,7 @@ class Shop
 						// A teljes megrendelésből vonja le a kupon kedvezményt
 						if ($allow_coupon_discount && $coupon->isOffForAllProduct())
 						{
-							$kedvezmeny_ft = $coupon->calcPrice( $total ); 
+							$kedvezmeny_ft = $coupon->calcPrice( $total );
 						}
 
 						// Kedvezmény mentése
@@ -2052,28 +2039,28 @@ class Shop
 						unset( $temp_cart );
 					}
 
-					
+
 					// Clear shoping cart by machineID
 					if($go){
-						$this->db->query("DELETE FROM shop_kosar WHERE gepID = $mid");	
+						$this->db->query("DELETE FROM shop_kosar WHERE gepID = $mid");
 					}
 						// Alert orders and admin about new order
 						$orderData = $this->db->query("SELECT * FROM orders WHERE ID = $orderID")->fetch(\PDO::FETCH_ASSOC);
-						
+
 						// Admin alert
-						$total 		= 0;						
-					
+						$total 		= 0;
+
 						$is_pickpackpont 	= ( $this->getSzallitasiModeData($atvetel,'nev') 	== $this->settings['flagkey_pickpacktransfer_id'] ) ? true : false;
 						$is_eloreutalas 	= ( $this->getFizetesiModeData($fizetes,'nev') 		== 'Banki átutalás' ) ? true : false;
 						$is_payu 			= ( $this->getFizetesiModeData($fizetes,'nev') 		== 'Bankkártyás fizetés (PayU)' ) ? true : false;
-					
+
 						// Értesítő e-mail az adminisztrátornak
-						$mail = new Mailer( 
-							$this->settings['page_title'], 
-							SMTP_USER, 
-							$this->settings['mail_sender_mode'] 
-						);				
-						$mail->add( $this->settings['alert_email'] );	
+						$mail = new Mailer(
+							$this->settings['page_title'],
+							SMTP_USER,
+							$this->settings['mail_sender_mode']
+						);
+						$mail->add( $this->settings['alert_email'] );
 
 						$arg = array(
 							'settings' 		=> $this->settings,
@@ -2096,18 +2083,18 @@ class Shop
 							'megjegyzes' 	=> $comment
 						);
 						$mail->setSubject( 'Értesítő: Új megrendelés érkezett' );
-						$mail->setMsg( (new Template( VIEW . 'templates/mail/' ))->get( 'order_new_admin', $arg ) );			
+						$mail->setMsg( (new Template( VIEW . 'templates/mail/' ))->get( 'order_new_admin', $arg ) );
 						$re = $mail->sendMail();
-						
-						// User alert						
-						$total 		= 0;
-						$mail = new Mailer( 
-							$this->settings['page_title'], 
-							$this->settings['email_noreply_address'], 
-							$this->settings['mail_sender_mode'] 
-						);		
 
-						$mail->add( $email );	
+						// User alert
+						$total 		= 0;
+						$mail = new Mailer(
+							$this->settings['page_title'],
+							$this->settings['email_noreply_address'],
+							$this->settings['mail_sender_mode']
+						);
+
+						$mail->add( $email );
 
 						$arg = array(
 							'settings' 		=> $this->settings,
@@ -2133,7 +2120,7 @@ class Shop
 						);
 
 						$mail->setSubject( 'Megrendelését fogadtuk: '.$orderData[azonosito] );
-						$mail->setMsg( (new Template( VIEW . 'templates/mail/' ))->get( 'order_new_user', $arg ) );			
+						$mail->setMsg( (new Template( VIEW . 'templates/mail/' ))->get( 'order_new_user', $arg ) );
 						$re = $mail->sendMail();
 
 						// Feliratkozás
@@ -2143,11 +2130,11 @@ class Shop
 						}
 
 						// Kupon felhasználtság
-						if ($allow_coupon_discount) 
+						if ($allow_coupon_discount)
 						{
 							$coupon->used();
 						}
-						
+
 						// Clear cookies
 						setcookie('__order_step_1poststr','',time()-3600);
 						setcookie('__order_step_2poststr','',time()-3600);
@@ -2156,29 +2143,29 @@ class Shop
 						setcookie('orderStep','',time()-3600);
 						setcookie('partner_code','',time()-3600);
 						setcookie('coupon_code','',time()-3600);
-						
+
 						setcookie('lastOrderedKey',$accessKey,time()+3600);
 				}
 			break;
-		} 
-		
+		}
+
 		return $step+1;
-		
+
 	}
 
 	public function getOrderData( $key, $by = 'accessKey'){
-		
+
 		$q = "SELECT o.* FROM orders as o WHERE o.$by = '$key'";
 		extract($this->db->q($q));
-		
+
 		$data[items] = $this->getOrderItems($data[ID]);
-		
+
 		return $data;
 	}
 
 	private function getOrderItems($orderID){
 		if($orderID == '') return false;
-		$q = "SELECT 
+		$q = "SELECT
 			ok.*,
 			t.nev,
 			(ok.egysegAr * ok.me) as subAr,
@@ -2192,16 +2179,16 @@ class Shop
 			otp.nev as allapotNev,
 			otp.szin as allapotSzin,
 			(SELECT kedvezmeny_szazalek FROM orders WHERE ID = $orderID) as kedvezmeny_szazalek
-		FROM order_termekek as ok 
+		FROM order_termekek as ok
 		LEFT OUTER JOIN shop_termekek as t ON t.ID = ok.termekID
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN order_termek_allapot as otp ON ok.allapotID = otp.ID
 		WHERE ok.orderKey = $orderID";
-		
-		$arg[multi] = '1'; 
+
+		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
 
-		
+
 		$bdata = array();
 		foreach ($data as $d) {
 			$kedvezmenyes = ($d[kedvezmeny_szazalek] > 0) ? true : false;
@@ -2213,211 +2200,211 @@ class Shop
 			$bdata[] = $d;
 		}
 
-		
+
 		return $bdata;
 	}
 	private function getFizetesiModeData($id, $row = false){
 		$q = "SELECT * FROM shop_fizetesi_modok WHERE ID = $id";
-		
+
 		extract($this->db->q($q));
 		if(!$row){
 			return $data;
 		}else{
 			return $data[$row];
 		}
-		
+
 	}
 	private function getSzallitasiModeData($id, $row = false){
 		$q = "SELECT * FROM shop_szallitasi_mod WHERE ID = $id";
-		
+
 		extract($this->db->q($q));
 		if(!$row){
 			return $data;
 		}else{
 			return $data[$row];
 		}
-		
+
 	}
 	public function getFizetesiModok(){
-		$q = "SELECT 
+		$q = "SELECT
 			f.*,
 			(SELECT GROUP_CONCAT(ID) as IDS FROM `shop_szallitasi_mod` WHERE FIND_IN_SET(f.ID,fizetesi_mod) > 0) as in_szallitas_mod
 		FROM shop_fizetesi_modok as f WHERE f.allapot = 1";
 		extract($this->db->q($q,array('multi' => '1')));
 		$back = array();
-		
+
 		foreach($data as $d){
 			$d['in_szallitas_mod'] = explode(',',$d[in_szallitas_mod]);
 			$back[] = $d;
 		}
-		
+
 		return $back;
 	}
-	
+
 	function getArgepTermekek(){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
 
 
 		$back = array();
-		$q = $this->db->query("SELECT 
-			t.ID, 
+		$q = $this->db->query("SELECT
+			t.ID,
 			t.szuper_akcios,
 			t.termek_kategoria,
-			CONCAT(m.neve,' ',t.nev) as nev, 
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			CONCAT(m.neve,' ',t.nev) as nev,
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			t.leiras,
 			szall.elnevezes as szallitas,
 			FULLIMG(t.profil_kep) as kep
-		FROM 
-			shop_termekek as t 
+		FROM
+			shop_termekek as t
 		LEFT OUTER JOIN shop_szallitasi_ido as szall ON szall.ID = t.szallitasID
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
-		WHERE 
-			t.argep = 1 and 
-			t.lathato = 1 
-		ORDER BY 
+		WHERE
+			t.argep = 1 and
+			t.lathato = 1
+		ORDER BY
 			id DESC;");
 		$d = $q->fetchAll(\PDO::FETCH_ASSOC);
-		
+
 		foreach($d as $id){
 			$id[param] = $this->getTermekParameter($id[ID],$id[termek_kategoria]);
 			$back[] = $id;
 		}
-		
-		return $back;	
+
+		return $back;
 	}
-	
+
 	function getArukeresoTermekek(){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
 
 		$back = array();
-		$q = $this->db->query("SELECT 
-			t.ID, 
+		$q = $this->db->query("SELECT
+			t.ID,
 			t.szuper_akcios,
 			m.neve as markaNev,
 			tk.e_nev as kategoriaNev,
 			t.termek_kategoria,
-			t.nev, 
-			IF(t.egyedi_ar IS NOT NULL, 
-				t.egyedi_ar, 
+			t.nev,
+			IF(t.egyedi_ar IS NOT NULL,
+				t.egyedi_ar,
 				getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))
 			) as ar,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			t.leiras,
 			szall.elnevezes as szallitas,
 			FULLIMG(t.profil_kep) as kep
-		FROM 
-			shop_termekek as t 
+		FROM
+			shop_termekek as t
 		LEFT OUTER JOIN shop_szallitasi_ido as szall ON szall.ID = t.szallitasID
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		LEFT OUTER JOIN shop_termek_kategoriak as tk ON tk.ID = t.termek_kategoria
-		WHERE 
-			t.argep = 1 and 
-			t.lathato = 1 
-		ORDER BY 
+		WHERE
+			t.argep = 1 and
+			t.lathato = 1
+		ORDER BY
 			id DESC;");
 		$d = $q->fetchAll(\PDO::FETCH_ASSOC);
-		
+
 		foreach($d as $id){
 			$id[param] = $this->getTermekParameter($id[ID],$id[termek_kategoria]);
 			$back[] = $id;
 		}
-		
-		return $back;	
+
+		return $back;
 	}
-	
+
 	public function getKedvezmenyesAr($ar){
 		$kedv 	= 0;
 		$newAr 	= 0;
-		
-		// Kedvezmény sávok		
-		$sv = "SELECT * FROM torzsvasarloi_kedvezmeny ORDER BY ar_from ASC;";	
-		
+
+		// Kedvezmény sávok
+		$sv = "SELECT * FROM torzsvasarloi_kedvezmeny ORDER BY ar_from ASC;";
+
 		extract($this->db->q($sv,array('multi' => '1')));
-		
+
 		foreach($data as $d){
-			$from 	= (int)$d[ar_from];	
+			$from 	= (int)$d[ar_from];
 			$to 	= (int)$d[ar_to];
 			$k 		= (float)$d[kedvezmeny];
-			
+
 			if($to === 0) $to = 999999999;
-			
+
 			if($ar >= $from && $ar <= $to){
 				$kedv = $k;
-				break;	
+				break;
 			}
-			
+
 		}
-		
+
 		$newAr = round(($ar - ($ar * ($kedv / 100))) / 5 ) * 5;
-		
+
 		return $newAr;
 	}
-	
+
 	function logTermekView($termekID){
 		$date = date('Y-m-d');
 		$c = $this->db->query("SELECT 1 FROM stat_nezettseg_termek WHERE datum = '$date' and termekID = $termekID")->rowCount();
-		
+
 		if($c == 0){
 			$this->db->insert("stat_nezettseg_termek",
 				array(
 					'termekID' => $termekID,
 					'datum' => $date
-				)				
+				)
 			);
 		}else{
 			$this->db->query("UPDATE stat_nezettseg_termek SET me = me + 1 WHERE termekID = $termekID and datum = '$date'");
 		}
 	}
-	
-	
+
+
 	function logKategoriaView($cat_id = NULL){
 		$date 	= date('Y-m-d');
-				
+
 		$cq = "SELECT 1 FROM stat_nezettseg_kategoria WHERE datum = '$date' and kategoriaID = $cat_id";
-		
+
 		$c = $this->db->query($cq)->rowCount();
-				
+
 		if($c == 0){
 			$this->db->insert("stat_nezettseg_kategoria",
 				array(
 					'kategoriaID' => $cat_id,
 					'datum' => $date
-				)				
+				)
 			);
 		}else{
 			$this->db->query("UPDATE stat_nezettseg_kategoria SET me = me + 1 WHERE datum = '$date' and kategoriaID = $kategoria");
 		}
 	}
-	
+
 	function logSearching($searchString){
 		$date 	= date('Y-m-d');
 		$txt 	= trim($searchString);
-		
+
 		$c = $this->db->query("SELECT 1 FROM stat_kereses WHERE datum = '$date' and szoveg = '$txt'")->rowCount();
-		
+
 		if($c == 0 && trim($txt) != ''){
 			$this->db->insert("stat_kereses",
-				array('szoveg' => $txt,'datum' => $date)			
+				array('szoveg' => $txt,'datum' => $date)
 			);
 		}else{
 			$this->db->query("UPDATE stat_kereses SET me = me + 1 WHERE szoveg = '$txt' and datum = '$date'");
 		}
 	}
-	
+
 	function logLastViewedTermek($termek_id){
 		$mid = \Helper::getMachineID();
-		
+
 		if($termek_id == '' || $mid == '') return false;
-		
+
 		$list = $this->db->query("SELECT * FROM `shop_utoljaraLatottTermek` WHERE mID = '$mid'  and termekID = '$termek_id' LIMIT 0,10");
-		
+
 		if($list->rowCount() == 0){
 			$this->db->insert('shop_utoljaraLatottTermek',
 				array('mID' => $mid,'termekID' => $termek_id)
@@ -2430,12 +2417,12 @@ class Shop
 			"mID = '$mid' and termekID = '$termek_id'");
 		}
 	}
-	
+
 	function getLastViewedTermek($mID, $limit = 5, $arg = array()){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			v.*,
 			CONCAT(m.neve,' ',t.nev) as termekNev,
 			FULLIMG(t.profil_kep) as profil_kep,
@@ -2449,24 +2436,24 @@ class Shop
 				getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 			getTermekAr(t.marka, t.brutto_ar)) as brutto_ar,
 			IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar
-		FROM `shop_utoljaraLatottTermek` as v 
+		FROM `shop_utoljaraLatottTermek` as v
 		LEFT OUTER JOIN shop_termekek as t ON t.ID = v.termekID
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		WHERE v.mID = '$mID' and t.ID IS NOT NULL
 		ORDER BY v.idopont DESC
 		LIMIT 0,$limit";
-		
+
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-	
+
 		return $data;
 	}
-	
+
 	function getMostViewedTermekek($limit = 10){
 		$akcios_plus_szaz = AKCIOS_BRUTTO_AR_PLUSZ_SZAZALEK;
 		$apsz = $akcios_plus_szaz / 100 + 1;
-		
-		$q = "SELECT 
+
+		$q = "SELECT
 			t.ID as termekID,
 			CONCAT(m.neve,' ',t.nev) as termekNev,
 			FULLIMG(t.profil_kep) as profil_kep,
@@ -2480,8 +2467,8 @@ class Shop
 				getTermekAr(t.marka, (t.brutto_ar * ".$apsz."))),
 			getTermekAr(t.marka, t.brutto_ar)) as brutto_ar,
 			IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,
-			(SELECT sum(me) FROM `stat_nezettseg_termek` WHERE termekID = t.ID and datediff(now(),datum) < 60) as v 
-		FROM `shop_termekek` as t 
+			(SELECT sum(me) FROM `stat_nezettseg_termek` WHERE termekID = t.ID and datediff(now(),datum) < 60) as v
+		FROM `shop_termekek` as t
 		LEFT OUTER JOIN shop_markak as m ON m.ID = t.marka
 		WHERE t.ID IS NOT NULL
 		ORDER BY v DESC, t.nev ASC
@@ -2489,20 +2476,20 @@ class Shop
 
 		$arg[multi] = '1';
 		extract($this->db->q($q,$arg));
-	
+
 		return $data;
 	}
-	
+
 	function orderAlreadyPaidViaPayPal($accessKey){
 		$check = $this->db->query("SELECT paypal_fizetve FROM orders WHERE accessKey = '$accessKey'")->fetch(\PDO::FETCH_COLUMN);
-		
+
 		if($check == 1){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
+
 	function setOrderPaidByPayPal($accessKey){
 		// Log
 			$this->db->update("orders",
@@ -2512,25 +2499,25 @@ class Shop
 				),
 			"accessKey = '$accessKey'"
 			);
-			
+
 		// Admin alert
 		$order = $this->getOrderData($accessKey);
-		
+
 		$vegosszeg 	= 0;
 		$param 		= array();
-		$msg 		= ''; 
-		$msg 		.= '<div><strong>'.$order[azonosito].' megrendelés kifizetésre került PayPal-on keresztül!</strong></div>'; 
-		$msg 		.= '<br /><br />'; 
+		$msg 		= '';
+		$msg 		.= '<div><strong>'.$order[azonosito].' megrendelés kifizetésre került PayPal-on keresztül!</strong></div>';
+		$msg 		.= '<br /><br />';
 		$msg 		.= '<div>Megrendelés: <a href="http://cp.goldfishing.hu/megrendelesek/?ID='.$order[ID].'">http://cp.goldfishing.hu/megrendelesek/?ID='.$order[ID].'</a></div>';
-		
-		foreach($order[items] as $d): 
-			$vegosszeg += $d[subAr]; 
+
+		foreach($order[items] as $d):
+			$vegosszeg += $d[subAr];
 		endforeach;
-		
+
 		if($order[szallitasi_koltseg] > 0) $vegosszeg += $order[szallitasi_koltseg];
 		if($order[kedvezmeny] > 0) $vegosszeg -= $order[kedvezmeny];
-		
-		$msg 		.= '<div><h3>Információk</h3></div>'; 
+
+		$msg 		.= '<div><h3>Információk</h3></div>';
 		$msg 		.= '<table width="100%" border="1" style="border-collapse:collapse; border:2px solid #dddddd; background:#ffffff;" cellpadding="10" cellspacing="0">';
 		$msg 		.= '<tbody>';
 			$msg 		.= '<tr>';
@@ -2544,14 +2531,14 @@ class Shop
 		$msg 		.= '</tbody>';
 		$msg 		.= '</table>';
 		$msg 		.= '<br /><br />';
-		$msg 		.= 'A megrendelés állapota automatikusan <strong>"PayPal visszaigazolásra vár"</strong> állapotra lett állítva!'; 
-		
+		$msg 		.= 'A megrendelés állapota automatikusan <strong>"PayPal visszaigazolásra vár"</strong> állapotra lett állítva!';
+
 		$msg 		.= '<br /><br />';
-		$msg 		.= '<span style="color:#CC0000;">A tranzakció tájékoztató jellegű. A befizetést a PayPal fiókjában is ellenőrizni kell, hogy a befizetés megtörtént-e.</span>'; 
-		
+		$msg 		.= '<span style="color:#CC0000;">A tranzakció tájékoztató jellegű. A befizetést a PayPal fiókjában is ellenőrizni kell, hogy a befizetés megtörtént-e.</span>';
+
 		$param[msg] 		= $msg;
 		$param[elnevezes] 	= 'Értesítő';
-		
+
 		$remsg = \Helper::smtpMail(array(
 			'recepiens' => array(ALERT_EMAIL),
 			'msg' 	=> $msg,
@@ -2560,24 +2547,24 @@ class Shop
 			'sub' 	=> 'PayPal befizetés: '.$order[azonosito].' megrendelés'
 		));
 	}
-	
+
 	public $messageType = array('requestAsk','recall','contactMsg','contactRecall');
 	function logMessage($opts = array()){
 		$item_id 		= 'NULL';
-		
+
 		extract($opts);
-		
+
 		if($felado_nev == '' || $uzenet_targy == '' || $uzenet == '' || $tipus == '') return false;
-	
+
 		if(!in_array($tipus,$this->messageType)) return false;
-		
+
 		$this->db->insert("uzenetek",
 			array(
-				'item_id' => $item_id, 
-				'felado_email' => $felado_email, 
-				'felado_nev' => $felado_nev, 
-				'uzenet_targy' => $uzenet_targy, 
-				'uzenet' => $uzenet, 
+				'item_id' => $item_id,
+				'felado_email' => $felado_email,
+				'felado_nev' => $felado_nev,
+				'uzenet_targy' => $uzenet_targy,
+				'uzenet' => $uzenet,
 				'tipus' => $tipus
 			)
 		);
@@ -2590,7 +2577,7 @@ class Shop
 
 		foreach ($file_list as $group => $files) {
 			if( $files )
-			foreach ( $files as $file ) 
+			foreach ( $files as $file )
 			{
 				if( !$file['watched'] )
 				{
@@ -2604,7 +2591,7 @@ class Shop
 					);
 				}
 			}
-		}		
+		}
 	}
 
 	public function getDocumentGroupes()
@@ -2624,40 +2611,40 @@ class Shop
 		// Felhasználó konténerei, amibe benne van
 		$user_container_ids = array();
 
-		if($user) 
+		if($user)
 		{
 			$user_containers 	= $this->db->squery($iq = "SELECT container_id FROM ".\PortalManager\Users::TABLE_CONTAINERS_XREF." WHERE user_id = :id;", array( 'id' => $user[ID] ))->fetchAll(\PDO::FETCH_ASSOC);
-			
-			if (count($user_containers) > 0) 
+
+			if (count($user_containers) > 0)
 			{
 				foreach ($user_containers as $c) {
 					$user_container_ids[] = $c['container_id'];
 				}
 			}
 		}
-		
+
 
 		if( true )
-		foreach ( $files->getFolderItems() as $file ) 
+		foreach ( $files->getFolderItems() as $file )
 		{
 			$file['hashname'] = md5( $file['name'] );
 
 			// Check
 			$cq = "SELECT d.ID, d.cim, d.feltoltve, d.lathato, d.szaktanacsado_only, d.groupkey, d.user_group_in, d.user_container_in, (SELECT count(ID) FROM shop_documents_click WHERE doc_id = d.ID) as clicks FROM shop_documents as d WHERE 1=1 ";
-	
+
 			if( !$arg['showHided'] ) {
-				$cq .= " and d.lathato = 1 ";	
+				$cq .= " and d.lathato = 1 ";
 			}
 
 			$cq .= " and d.hashname = '{$file[hashname]}'";
 
 			if( isset($arg['user_group_in']) ) {
-				$cq .= " and d.user_group_in LIKE '%".$arg['user_group_in']."%' ";	
+				$cq .= " and d.user_group_in LIKE '%".$arg['user_group_in']."%' ";
 			}
-	
+
 			$c = $this->db->query( $cq );
 
-			if( $c->rowCount() != 0 ) 
+			if( $c->rowCount() != 0 )
 			{
 				$data = $c->fetch(\PDO::FETCH_ASSOC);
 
@@ -2675,8 +2662,8 @@ class Shop
 
 				$temp[$file['hashname']] = $file;
 
-			} 
-			elseif( $arg['showOffline'] ) 
+			}
+			elseif( $arg['showOffline'] )
 			{
 				$temp[$file['hashname']] = $file;
 			}
@@ -2687,11 +2674,11 @@ class Shop
 		$eq = "SELECT d.*, (SELECT count(ID) FROM shop_documents_click WHERE doc_id = d.ID) as clicks FROM shop_documents as d WHERE 1=1 ";
 
 		if( isset($arg['showOffline']) ) {
-			$eq .= " and d.lathato = 1";	
+			$eq .= " and d.lathato = 1";
 		}
 
 		if( isset($arg['user_group_in']) ) {
-			$eq .= " and d.user_group_in LIKE '%".$arg['user_group_in']."%' ";	
+			$eq .= " and d.user_group_in LIKE '%".$arg['user_group_in']."%' ";
 		}
 
 		$eq .= " ORDER BY sorrend ASC;";
@@ -2709,7 +2696,7 @@ class Shop
 					$cont_loc = explode(",",$d['user_container_in']);
 					$cont_loc_allow = true;
 
-					foreach ($cont_loc as $cid ) 
+					foreach ($cont_loc as $cid )
 					{
 						if (!$cont_loc_allow) {
 							break;
@@ -2727,11 +2714,11 @@ class Shop
 
 
 
-				if ($d['tipus'] == 'local') 
+				if ($d['tipus'] == 'local')
 				{
 					$row = array_merge($row, $temp[$d['hashname']]);
 
-					switch ( $row['extension'] ) 
+					switch ( $row['extension'] )
 					{
 						case 'doc': case 'docx':
 							$icon = 'file-word-o';
@@ -2752,17 +2739,17 @@ class Shop
 							$icon = 'external-link';
 						break;
 					}
-				} else 
+				} else
 				{
 					$row['extension'] = 'link';
 				}
 
 				// Check watched
 				$watched 	= false;
-				if( $user ) 
+				if( $user )
 				{
 					$cq = "SELECT 1 FROM shop_documents_viewed WHERE felh_id = '{$user[ID]}' and doc_id = '{$d['ID']}';";
-					
+
 					$is_watched = $this->db->query($cq)->fetchColumn();
 
 					if( $is_watched ) {
@@ -2781,16 +2768,16 @@ class Shop
 				$row['watched'] 		= $watched;
 
 				$docs[] = $row;
-			}	
+			}
 		}
 
 
 		// Stacking by group
-		if ( isset($arg['stacked']) ) 
+		if ( isset($arg['stacked']) )
 		{
 			$stack = array();
 
-			if ($docs) 
+			if ($docs)
 			foreach ( $docs as $d ) {
 				$stack[$d['doc_groupkey']][] = $d;
 			}
@@ -2798,16 +2785,16 @@ class Shop
 			// Reset
 			$docs = array();
 
-			foreach ($this->document_groups as $key => $value) 
+			foreach ($this->document_groups as $key => $value)
 			{
 				if($stack[$key])
 				{
 					$docs[$key] = $stack[$key];
-				}	
+				}
 			}
 			unset($stack);
 		}
-		
+
 
 		return $docs;
 	}
@@ -2818,7 +2805,7 @@ class Shop
 
 		if( empty( $name ) ) throw new \Exception( 'Kérjük, hogy adja meg a regisztrálandó fájl nevét!' );
 
-		$this->db->insert( 
+		$this->db->insert(
 			'shop_documents',
 			array(
 				'hashname' 	=> md5($filename),

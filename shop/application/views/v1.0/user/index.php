@@ -1,4 +1,4 @@
-<div class="account page-width">	
+<div class="account page-width">
     <? if( $this->user['alerts']['has_alert'] > 0 ): ?>
     <div class="alert-view">
         <h2>Értesítések</h2>
@@ -24,7 +24,7 @@
         <div class="grid-row grid-row-80">
             <h1>Megrendeléseim</h1>
             <div class="orderpage">
-                <div class="">                
+                <div class="">
                     <div class="flatInfoBox">
                         <div class="" align="center">
                             <div style="color:#d41c4f;; font-size:1.5em;"><?=count($this->orders[progress])?> db</div>
@@ -34,7 +34,7 @@
                             <div style="color:#444;; font-size:1.5em;"><?=count($this->orders[done])?> db</div>
                             <div>lezárt megrendelés</div>
                         </div>
-                        <? if(true): ?>
+                        <? if(false): ?>
                         <div class="" align="center">
                             <div style="color:#7CC359; font-size:1.5em;"><?=$this->user[data][cash]?></div>
                             <div>virtuális egyenleg</div>
@@ -67,8 +67,8 @@
                                                 <span class="payu-paidonly">Fizetve. Visszaigazolásra vár.</span>
                                                 <? elseif($d['payu_fizetve'] == 1 && $d['payu_teljesitve'] == 1): ?>
                                                 <span class="payu-paid-done">Fizetve. Elfogadva.</span>
-                                                <? endif; ?> 
-                                            <? endif; ?>  
+                                                <? endif; ?>
+                                            <? endif; ?>
                                         </td>
                                         <td align="center"><?=$d[itemNums]?> db</td>
                                         <td align="center"><strong><?=Helper::cashFormat($d[totalPrice]+$d[szallitasi_koltseg]-$d[kedvezmeny])?> Ft</strong></td>
@@ -87,7 +87,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="a-up"><a href="#top" class="right">lap tetejére <i class="fa fa-angle-up"></i></a></div>                    
+                        <div class="a-up"><a href="#top" class="right">lap tetejére <i class="fa fa-angle-up"></i></a></div>
                      </div>
                 </div>
 
@@ -129,7 +129,7 @@
                             </tbody>
                         </table>
                         </div>
-                        <div class="a-up"><a href="#top" class="right">lap tetejére <i class="fa fa-angle-up"></i></a></div>  
+                        <div class="a-up"><a href="#top" class="right">lap tetejére <i class="fa fa-angle-up"></i></a></div>
                      </div>
                 </div>
 

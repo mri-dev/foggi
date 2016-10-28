@@ -282,49 +282,30 @@
 	                                    </div>
 	                                    <? endif; ?>
 	                                </div>
-	                                <? if( !empty($this->user['kedvezmenyek']) && false ): ?>
-	                                <br>
-	                                <div class="row np">
-	                                    <div class="col-sm-12">
-	                                        <div class="discount-info">
-	                                            <div class="head">Kedvezmények vásárlásai után</div>
-	                                            <div class="row np">
-	                                            	<div class="col-sm-6 left">
-	                                            		<div class="list">
-			                                        		<? foreach( $this->user['kedvezmenyek'] as $kedv ): ?>
-															<div><?=$kedv['nev']?>: <span class="num"><?=$kedv['kedvezmeny']?>%</span> </div>
-			                                        		<? endforeach; ?>
-			                                        	</div>
-	                                            	</div>
-	                                            	<div class="col-sm-6 center">
-	                                            		<strong>Az Ön kedvezménye:</strong>
-			                                            <div class="dc-num"><?=$this->user[kedvezmeny]?>%</div>
-	                                            	</div>
-	                                            </div>
-
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                                <? endif; ?>
 	                            </div>
 	                        <? endif; ?>
 	                    </div>
 	                    <div class="col-sm-6 col col2">
 	                    	<div class="col2In">
+													<? if( !empty($this->user['kedvezmenyek']) && true ): ?>
+													<div class="row np">
+															<div class="col-sm-12">
+																	<div class="discount-info">
+																			<div class="head">Kedvezmények</div>
+																			<div class="row np">
+																				<div class="col-sm-8 left">
+																					<strong>Az Ön kedvezménye:</strong>
+																				</div>
+																				<div class="col-sm-4 right"><div class="dc-num"><?=$this->user[kedvezmeny]?>%</div></div>
+																			</div>
+																	</div>
+															</div>
+													</div>
+													<? endif; ?>
 	                            <div class="cartInfo">
-	                            	<? $vcash = $this->storedString[0][virtual_cash]; ?>
-
 	                                <div class="tetel"><?=$k[itemNum]?> db tétel</div>
 	                                <div class="totalPrice">
-	                                	<? if($this->kosar[kedvezmeny] > 0 || (is_numeric($vcash) && $vcash != "0" && isset($vcash))): ?>
-	                                		<?
-		                                		if((is_numeric($vcash) && $vcash != "0" && isset($vcash))) {
-		                                			$this->kosar[totalPrice_before_discount] 	= $this->kosar['totalPrice'];
-		                                			$calc_final_total 							= $this->kosar['totalPrice'] - (int)$vcash;
-		                                			$this->kosar[kedvezmeny] 					= $vcash;
-		                                		}
-
-	                                		?>
+	                                	<?  if($this->kosar[kedvezmeny] > 0): ?>
 	                                		<div class="standardPrice">Eredeti ár: <strong><?=Helper::cashFormat($this->kosar[totalPrice_before_discount])?> Ft</strong></div>
 	                                    	<div class="kedvPrice">kedvezményesen <strong><?=Helper::cashFormat($calc_final_total)?> Ft</strong></div>
 	                                    	<div class="discountPrice"><span>-<?=Helper::cashFormat($this->kosar[kedvezmeny])?> Ft</span></div>
@@ -722,37 +703,6 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <?
-                        // Cash - egyenleg
-                        if($this->storedString[0][virtual_cash] != 0):
-                        ?>
-
-						<div class="row np topDiv">
-	                    	<div class="col-sm-12">
-	                        	<div class="p10">
-	                            	<h4>Felhasznált virtuális egyenleg</h4>
-	                                <div>
-	                                	<strong><?=$this->storedString[0][virtual_cash]?> Ft</strong>-ot felhasznál virtuális egyenlegéből ennél a vásárlásnál kedvezményként levonva!
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                	<? endif;?>
-
-	                    <? if( $this->partner_referer->isValid() ): ?>
-						<div class="row np topDiv">
-	                    	<div class="col-sm-12">
-	                        	<div class="p10">
-	                            	<h4>Ajánló partner</h4>
-	                                <div>
-	                                	<strong><?=$this->partner_referer->getPartnerName()?></strong> <em>(<?=$this->partner_referer->getPartnerCode()?>)</em>
-	                                	<input type="hidden" name="referer_partner_id" value="<?=$this->partner_referer->getPartnerCode()?>">
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <? endif; ?>
-
 	                    <? if( $this->coupon->isRunning() ): ?>
 						<div class="row np topDiv">
 	                    	<div class="col-sm-12">
@@ -766,8 +716,6 @@
 	                        </div>
 	                    </div>
 	                    <? endif; ?>
-
-
 						<div class="row np topDiv">
 	                    	<div class="col-sm-12">
 	                        	<div class="p10">
