@@ -21,7 +21,7 @@
             color: #d9256e;
         }
         .width {
-            width: 600px;
+            width: 980px;
              margin: 0 auto;
         }
         .pad {

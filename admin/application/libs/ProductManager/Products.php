@@ -775,7 +775,7 @@ class Products
 			$d['hasonlo_termek_ids']= $this->getProductRelatives( $d['product_id'] );
 			$d['parameters'] 		= $this->getParameters( $d['product_id'], $d['alapertelmezett_kategoria'] );
 			$d['inKatList'] 		= $in_cat;
-			$d['ar'] 				= $arInfo['ar'];
+			$d['ar'] 							= $arInfo['ar'];
 			$d['akcios_fogy_ar']	= $akcios_arInfo['ar'];
 			$d['arres_szazalek'] 	= $arInfo['arres'];
 
@@ -832,11 +832,6 @@ class Products
 				}
 
 			}
-		}
-
-		// Kedvezményes ár csökkentés
-		if( $this->user && $this->user[kedvezmeny] > 0 ) {
-			\PortalManager\Formater::discountPrice( $re[ar], $this->user[kedvezmeny] );
 		}
 
 		return $re;

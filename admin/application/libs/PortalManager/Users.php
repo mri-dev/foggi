@@ -26,10 +26,7 @@ class Users
 	const USERGROUP_SALES 		= 'sales';
 
 	private $user_groupes = array(
-		'user' 		=> 'Felhasználók',
-		'partner' 	=> 'Partner (besorolás előtt, alapé.)',
-		'reseller' 	=> 'Viszonteladó',
-		'sales' 	=> 'Üzletkötő'
+		'user' 		=> 'Felhasználók'
 	);
 
 	public 	$user 		= false;

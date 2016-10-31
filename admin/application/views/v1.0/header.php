@@ -195,7 +195,7 @@
                 <!-- <li class="<?=($this->gets[0] == 'hirek')?'on':''?>"><a href="/hirek" title="Hírek"><span class="ni">5</span><i class="fa fa-paper-plane-o"></i> Hírek</a></li>-->
                 <li class="<?=($this->gets[0] == 'kategoriak')?'on':''?>"><a href="/kategoriak" title="Kategóriák"><span class="ni">6</span><i class="fa fa-bars"></i> Kategóriák</a></li>
                 <li class="<?=($this->gets[0] == 'markak')?'on':''?>"><a href="/markak" title="Márkák"><span class="ni">7</span><i class="fa fa-bookmark"></i> Márkák</a></li>
-                <!-- <li class="<?=($this->gets[0] == 'kedvezmenyek' || $this->gets[0] == 'elorendeles_kedvezmenyek')?'on':''?>"><a href="/kedvezmenyek" title="Törzsvásárlói kedvezmények"><span class="ni">8</span><i class="fa fa-bullhorn"></i> Kedvezmények</a></li>-->
+                <li class="<?=($this->gets[0] == 'kedvezmenyek' || $this->gets[0] == 'elorendeles_kedvezmenyek')?'on':''?>"><a href="/kedvezmenyek" title="Törzsvásárlói kedvezmények"><span class="ni">8</span><i class="fa fa-bullhorn"></i> Kedvezmények</a></li>
                 <li class="<?=($this->gets[0] == 'stat')?'on':''?>"><a href="/stat" title="Statisztikák"><span class="ni">8</span><i class="fa fa-bar-chart-o"></i> Statisztikák</a></li>
 				<li class="<?=($this->gets[0] == 'forgalom')?'on':''?>"><a href="/forgalom" title="Forgalmak"><span class="ni">8</span><i class="fa fa-signal"></i> Forgalmak</a></li>
 				<!-- <li class="<?=($this->gets[0] == 'ajanloszoveg')?'on':''?>"><a href="/ajanloszoveg" title="Ajánló felirat"><span class="ni">8</span><i class="fa fa-quote-right"></i> Ajánló feliratok</a></li>-->

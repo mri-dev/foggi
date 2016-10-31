@@ -726,20 +726,12 @@
 	                            </div>
 	                        </div>
 	                    </div>
-
-	                    <? if( $k[has_request_price] > 0 ): ?>
-	                    <div class="has-requested-price">
-				        	<i class="fa fa-exclamation-triangle"></i>
-				        	<h4>FIGYELEM!</h4>
-				        	<div>A "Termékek ára", "Szállítási költség" és a "Kedvezmény összege" adat nem mérvadó, csak tájékoztató jellegű, mivel megrendelt termékei közt van olyan termék, ahol <a href="/kapcsolat" target="_blank">érdeklődni</a> kell a vételár felől!</div>
-				        </div>
-				    	<? endif; ?>
 	                    <div class="row np">
 	                    	<div class="col-sm-12 price">
 	                       		<div class="p10">
 	                            	<div class="p inf">
 	                                	<span class="n">Termékek ára:</span>
-	                                    <span class="a"><span class="ar"><?=($this->kosar[kedvezmeny] > 0 && ($k[discount][partner] || $k[discount][coupon])) ? Helper::cashFormat($k[totalPrice_before_discount]) : Helper::cashFormat($k[totalPrice])?></span> Ft</span>
+	                                    <span class="a"><span class="ar"><?=($this->kosar[kedvezmeny] > 0) ? Helper::cashFormat($k[totalPrice_before_discount]) : Helper::cashFormat($k[totalPrice])?></span> Ft</span>
 	                                </div>
 	                                <? if( true ): ?>
 	                                <div class="p inf">
@@ -747,24 +739,15 @@
 	                                    <span class="a"><span class="ar"><?=($this->kosar[kedvezmeny]> 0)? '<span class="kedv">'.Helper::cashFormat($this->kosar[kedvezmeny]).' Ft</span>':'</span>&mdash;'?></span>
 	                                </div>
 	                           		<? endif; ?>
-	                           		<? if( $this->user['data']['user_group'] == \PortalManager\Users::USERGROUP_RESELLER && false): ?>
-	                                <div class="p inf">
-	                                	<span class="n">Kedvezmény:</span>
-	                                    <span class="a"><span class="ar"><?=($this->user[kedvezmeny]> 0)? '<span class="kedv">'.$this->user[kedvezmeny].'%</span>':'</span>&mdash;'?></span>
-	                                </div>
-	                           		<? endif; ?>
 	                            	<div class="p">
 	                                	<span class="n">Szállítási költség:</span>
 	                                    <span class="a"><span class="ar"><?=($szallitasiKoltseg > 0)?'+'.Helper::cashFormat($szallitasiKoltseg):'0'?></span> Ft</span>
 	                                </div>
 	                                <div class="p end">
-	                                	<?
-	                                    	if($szallitasiKoltseg > 0){	$vegosszeg += $szallitasiKoltseg; }
-											//if($kedvezmeny > 0){	$vegosszeg -= $kedvezmeny; }
-										?>
+	                                	<? if($szallitasiKoltseg > 0){	$vegosszeg += $szallitasiKoltseg; } ?>
 	                                	<span class="n">Végösszeg:</span>
 	                                    <span class="a">bruttó <span class="ar"><?=Helper::cashFormat($vegosszeg)?></span> Ft</span>
-	                                    <input type="hidden" name="kedvezmeny" value="<?=($this->kosar[kedvezmeny] > 0)?1:0?>" />
+	                                    <input type="hidden" name="kedvezmeny" value="<?=($this->kosar[kedvezmeny] > 0)?$this->user['kedvezmeny']:0?>" />
 	                                    <input type="hidden" name="szallitasi_koltseg" value="<?=$szallitasiKoltseg?>" />
 	                               	</div>
 	                            </div>

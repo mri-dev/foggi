@@ -15,16 +15,18 @@
                 $vegosszeg = 0;
                 $termek_ar_total = 0;
                 if(!empty($o[items])):
+                $calc_kedv = 0;
 
                 foreach($o[items] as $d):
                     $vegosszeg += $d[subAr];
-                    $termek_ar_total += $d[subAr];
+                    $termek_ar_total += $d[origin_price_sum];
+                    $calc_kedv += $d[egysegArKedvezmeny];
                 endforeach;
 
                 if($o[szallitasi_koltseg] > 0) $vegosszeg += $o[szallitasi_koltseg];
-              //  if($o[kedvezmeny] > 0) $vegosszeg -= $o[kedvezmeny];
 
-                $discount = $o[kedvezmeny_szazalek];
+                $o['kedvezmeny'] = $calc_kedv;
+
             ?>
             <div class="box orderpage">
                 <div class="p10 head">
@@ -94,8 +96,22 @@
                                     </td>
                                     <td class="center"><span style="color:<?=$d[allapotSzin]?>;"><strong><?=$d[allapotNev]?></strong></span></td>
                                     <td class="center"><span><?=$d[me]?></span></td>
-                                    <td class="center"><span><?=Helper::cashFormat($d[egysegAr])?> Ft</span></td>
-                                    <td class="center"><span><?=Helper::cashFormat($d[subAr])?> Ft</span></td>
+                                    <td class="center">
+                                      <? if($d['egysegArKedvezmeny'] != 0): ?>
+                                      <div class="oldar">
+                                        <?=Helper::cashFormat($d[origin_price_each])?> Ft
+                                      </div>
+                                      <? endif; ?>
+                                      <div class="newar"><?=Helper::cashFormat($d[egysegAr])?> Ft</div>
+                                    </td>
+                                    <td class="center">
+                                      <? if($d['egysegArKedvezmeny'] != 0): ?>
+                                      <div class="oldar">
+                                        <?=Helper::cashFormat($d[origin_price_sum])?> Ft
+                                      </div>
+                                      <? endif; ?>
+                                      <div class="newar"><?=Helper::cashFormat($d[subAr])?> Ft</div>
+                                    </td>
                                 </tr>
                                 <? endforeach; ?>
                                 <tr>
@@ -112,7 +128,7 @@
                                 </tr>
                                 <tr style="font-size:18px;">
                                     <td class="right" colspan="4"><strong>Végösszeg</strong></td>
-                                    <td class="center"><span><strong><?=Helper::cashFormat($vegosszeg - $o[kedvezmeny])?> Ft</strong></span></td>
+                                    <td class="center"><span><strong><?=Helper::cashFormat($vegosszeg)?> Ft</strong></span></td>
                                 </tr>
                             </tbody>
                         </table>

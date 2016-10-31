@@ -17,7 +17,12 @@ class termek extends Controller{
 
 			$this->out( 'product', $product );
 
-			
+			/*
+			echo '<pre>';
+			print_r($this->view->product);
+			echo '</pre>';
+			*/
+
 			// Nincs kép a termékről - átirányítás
 			if( strpos( $product['profil_kep'] , 'no-product-img' ) !== false ) {
 				//Helper::reload('/');

@@ -30,11 +30,6 @@ class kosar extends Controller{
 				Helper::reload('/kosar/');
 			}
 
-			/* * /
-			echo '<pre>';
-				print_r($this->view->user);
-			echo '</pre>';
-			/* */
 
 			/* * /
 			$this->ppp = $this->model->openLib('PickPackPont',array(
@@ -112,6 +107,11 @@ class kosar extends Controller{
 				$this->view->canOrder = false;
 			}*/
 
+			/* * /
+			echo '<pre>';
+				print_r($this->view->kosar);
+			echo '</pre>';
+			/* */
 
 			if(Post::on('orderState'))
 			{

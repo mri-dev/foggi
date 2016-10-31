@@ -616,6 +616,17 @@ i.edit:hover{
 	font-style:italic;
 	color: #999;
 }
+.termeklista .oldar {
+	font-weight: 400;
+  font-style: italic;
+  font-size: 12px;
+  color: #acacac;
+  text-decoration: line-through;
+}
+.termeklista .car {
+	font-weight: bold;
+  color: #4caf50;
+}
 .termeklista .item-number .number {
 	color: #222;
 }

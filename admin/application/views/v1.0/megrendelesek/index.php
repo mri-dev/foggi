@@ -87,8 +87,6 @@ $nevek = array(
             <td>
                 <div class="ind feat">
                 <? if( !is_null($d['coupon_code']) ): ?><i class="fa fa-ticket" title="Felhasznált kuponkód"></i><? endif; ?>
-                <? if( !is_null($d['referer_code']) ): ?><i class="fa fa-users" title="Ajánló partnerkód kedvezmény"></i><? endif; ?>
-                <? if( $d['used_cash'] != 0 ): ?><i class="fa fa-money" title="Felhasznált virtuális egyenleg"></i><? endif; ?>
                 </div>
 
 				<input type="hidden" name="accessKey[<?=$d[ID]?>]" value="<?=$d[accessKey]?>" />
@@ -130,7 +128,7 @@ $nevek = array(
                 <?=$this->fizetes[$d[fizetesiModID]][nev]?>
             </td>
             <td class="center"><?=$d[items][tetel]?></td>
-            <td class="center"><strong><?=Helper::cashFormat($d[items][total]+$d[szallitasi_koltseg]+($d[kedvezmeny]*-1))?> Ft</strong></td>
+            <td class="center"><strong><?=Helper::cashFormat($d[items][total]+$d[szallitasi_koltseg])?> Ft</strong></td>
             <td class="center"><?=Helper::cashFormat($d['kedvezmeny'])?> Ft</td>
             <td class="center"><?=\PortalManager\Formater::dateFormat($d[idopont], $this->settings['date_format'])?></td>
             <td class="center"><button name="filterList" title="Részletek" mid="<?=$d[ID]?>" type="button" class="btn btn-default btn-sm watch"><i class="fa fa-eye"></i></button></td>
@@ -155,14 +153,19 @@ $nevek = array(
                         		</tr>
                         	</thead>
                     		<tbody>
-                            	<?
-                                $c_total = 0;
-                                foreach($d[items][data] as $item): $c_total += $item[subAr]; ?>
+                          <?
+                          $c_total = 0;
+													$o_total = 0;
+
+                          foreach($d[items][data] as $item):
+														$c_total += $item[subAr];
+														$o_total += $item[oldar_sub];
+													?>
                     			<tr>
                                 	<td width="35"><div class="img"><img src="<?=\PortalManager\Formater::productImage($item[profil_kep], 75, \ProductManager\Products::TAG_IMG_NOPRODUCT)?>" alt="" /></div></td>
                     				<td>
 									   <a href="<?=HOMEDOMAIN.'termek/'.\PortalManager\Formater::makeSafeUrl($item[termekNev],'_-'.$item[termekID])?>" target="_blank"><?=($item[termekNev]) ?: '-törölt termék-'?></a>
-                                       <div class="item-number">#<span class="number"><?=$item['termekID']?></span> &nbsp; Cikkszám: <span class="number"><?=$item['cikkszam']?></span> &nbsp; articleid: <span class="number"><?=$item['raktar_articleid']?></span> &nbsp; variantid: <span class="number"><?=$item['raktar_variantid']?></span></div>
+                                       <div class="item-number">#<span class="number"><?=$item['termekID']?></span> &nbsp; Cikkszám: <span class="number"><?=$item['cikkszam']?></span></div>
                                     </td>
                                     <td class="center">
                                         <strong><?=$item['meret']?></strong>
@@ -175,11 +178,15 @@ $nevek = array(
                                         <input type="hidden" value="<?=$item[me]?>" name="prev_termekMe[<?=$d[ID]?>][<?=$item[ID]?>]" />
                                     </td>
                                     <td class="center">
-                                        <?=Helper::cashFormat($item[egysegAr])?> Ft
+																			<div class="oldar"><?=Helper::cashFormat($item[oldar_each])?> Ft</div>
+																			<div class="car"><?=Helper::cashFormat($item[egysegAr])?> Ft</div>
                                     	<input style="display: none;" type="number" name="termekAr[<?=$d[ID]?>][<?=$item[ID]?>]" value="<?=round($item[egysegAr])?>" min="0" class="form-control" />
                                         <input type="hidden" value="<?=round($item[egysegAr])?>" name="prev_termekAr[<?=$d[ID]?>][<?=$item[ID]?>]" />
 									</td>
-                                    <td class="center"><?=Helper::cashFormat($item[subAr])?> Ft</td>
+                                    <td class="center">
+																			<div class="oldar"><?=Helper::cashFormat($item[oldar_sub])?> Ft</div>
+																			<div class="car"><?=Helper::cashFormat($item[subAr])?> Ft</div>
+																		</td>
                                     <td class="center" width="200">
                                     <select class="form-control" name="termekAllapot[<?=$d[ID]?>][<?=$item[ID]?>]" style="max-width:200px;">
 										<? foreach($this->allapotok[termek] as $m):  ?>
@@ -192,7 +199,10 @@ $nevek = array(
                                 <? endforeach; ?>
                                 <tr style="background:#f3f3f3;">
                                     <td class="right" colspan="6">Termékek összesített ára:</td>
-                                    <td class="center"><strong><?=Helper::cashFormat($c_total)?> Ft</strong></td>
+                                    <td class="center">
+																			<? if($o_total != 0): ?><strike><?=Helper::cashFormat($o_total)?> Ft</strike> <br><? endif; ?>
+																			<strong><?=Helper::cashFormat($c_total)?> Ft</strong>
+																		</td>
                                     <td class="right" colspan="2">
                                         <a href="javascript:void(0);" onclick="addNewItem(<?=$d[ID]?>);">termék hozzáadás <i class="fa fa-plus"></i></a>
                                     </td>
@@ -238,14 +248,15 @@ $nevek = array(
                             </div>
                         </div>
 
+												<? if( false ): ?>
                         <div class="row">
                         	<div class="col-md-10 selectCol"><strong>Kedvezmény (Ft):</strong></div>
                             <div class="col-md-2">
-                            <input type="number" class="form-control" name="kedvezmeny[<?=$d[ID]?>]" min="0" value="<?=$d[kedvezmeny]?>" />
-                            <input type="hidden" value="<?=$d[kedvezmeny]?>" name="prev_kedvezmeny[<?=$d[ID]?>]" />
+                            <input type="number" class="form-control" name="kedvezmeny[<?=$d[ID]?>]" min="0" value="0" />
+                            <input type="hidden" value="0" name="prev_kedvezmeny[<?=$d[ID]?>]" />
                             </div>
                         </div>
-
+											<? endif; ?>
                         <div class="row">
                         	<div class="col-md-9 selectCol"><strong>Szállítási költség (Ft):</strong></div>
                             <div class="col-md-3">

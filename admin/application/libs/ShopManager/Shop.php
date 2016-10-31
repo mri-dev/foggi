@@ -1031,10 +1031,12 @@ class Shop
 			t.nev as termekNev,
 			t.szin,
 			t.meret,
+			t.akcios,
 			t.raktar_articleid,
 			getTermekUrl(t.ID,'".DOMAIN."') as url,
 			ta.elnevezes as allapot,
 			t.profil_kep,
+			getTermekAr(t.marka, t.brutto_ar) as brutto_ar,
 			IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,
 			(IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) * c.me) as sum_ar,
 			t.referer_price_discount,
@@ -1048,6 +1050,8 @@ class Shop
 		$arg[multi] = '1';
 		extract($this->db->q($q, $arg));
 		$dt = array();
+
+		$has_discounted_items = 0;
 
 		foreach($data as $d){
 			if ($this->settings['round_price_5'] == '1')
@@ -1063,35 +1067,40 @@ class Shop
 				'current_sum' 	=> $d[ar] * $d[me]
 			);
 
-			if ($this->user && $this->user['kedvezmeny'] > 0) {
-				$kedvezmenyes = true;
-			}
+			if ($d['akcios'] == 0) {
+				if ($this->user && $this->user['kedvezmeny'] > 0) {
+					$kedvezmenyes = true;
+				}
 
-			// Kupon, ha termékekre van
-			if( $coupon && !$coupon->isOffForAllProduct() )
-			{
-				// Ha bizonyos termékcsalád részesül csak kedvezményben
-				if( $coupon->isProductExluded() )
+				// Kupon, ha termékekre van
+				if( $coupon && !$coupon->isOffForAllProduct() )
 				{
-					if( $coupon->thisProductAllowed( $d['raktar_articleid'] ) )
+					// Ha bizonyos termékcsalád részesül csak kedvezményben
+					if( $coupon->isProductExluded() )
 					{
-						$kedvezmenyes = false;
-						$d['prices']['old_each'] 		= $d[ar];
-						$d['prices']['old_sum'] 		= $d[ar] * $d[me];
+						if( $coupon->thisProductAllowed( $d['raktar_articleid'] ) )
+						{
+							$kedvezmenyes = false;
+							$d['prices']['old_each'] 		= $d[ar];
+							$d['prices']['old_sum'] 		= $d[ar] * $d[me];
 
-						$d['prices']['current_each'] 	= $coupon->discountPrice( $d['ar'] );
-						$d['prices']['current_sum'] 	= $coupon->discountPrice( $d['ar'] )  * $d['me'];
+							$d['prices']['current_each'] 	= $coupon->discountPrice( $d['ar'] );
+							$d['prices']['current_sum'] 	= $coupon->discountPrice( $d['ar'] )  * $d['me'];
+						}
 					}
 				}
-			}
 
-			// Törzsvásárlói kedvezmény
-			if ($kedvezmenyes) {
-				$d['prices']['old_each'] 		= $d[ar];
-				$d['prices']['old_sum'] 		= $d[ar] * $d[me];
+				// Törzsvásárlói kedvezmény
+				if ($kedvezmenyes) {
+					$d['prices']['old_each'] 		= $d[ar];
+					$d['prices']['old_sum'] 		= $d[ar] * $d[me];
 
-				$d['prices']['current_each'] 	= $d['ar'] - ($d['ar'] / 100 * $this->user['kedvezmeny']);
-				$d['prices']['current_sum'] 	= $d['sum_ar'] - ($d['sum_ar'] / 100 * $this->user['kedvezmeny']);
+					$d['prices']['current_each'] 	= $d['ar'] - ($d['ar'] / 100 * $this->user['kedvezmeny']);
+					$d['prices']['current_sum'] 	= $d['sum_ar'] - ($d['sum_ar'] / 100 * $this->user['kedvezmeny']);
+				}
+
+			} else {
+				$has_discounted_items++;
 			}
 
 			if( $d['prices']['old_each'] != 0 && $d['prices']['old_each'] != $d['prices']['current_each']  )
@@ -1102,8 +1111,20 @@ class Shop
 				$d['discounted'] 		= false;
 			}
 
+			// Standard akciós ár
+			if($d['akcios'] != 0) {
+				$d['prices']['old_each'] 		= $d[brutto_ar];
+				$d['prices']['old_sum'] 		= $d[brutto_ar] * $d[me];
+
+				$d['prices']['current_each'] 	= $d['ar'];
+				$d['prices']['current_sum'] 	= $d['ar']  * $d['me'];
+				$d['discounted'] 	= true;
+
+				$kedvezmeny 		+= $d['prices']['old_sum'] - $d['prices']['current_sum'];
+			}
+
 			$itemNum 	+= $d[me];
-			$totalPrice += $d[ar] * $d[me];
+			$totalPrice += $d[brutto_ar] * $d[me];
 
 			$dt[] = $d;
 		}
@@ -1113,16 +1134,18 @@ class Shop
 			$totalPrice = $totalPrice - $kedvezmeny;
 		}
 
-		if( $coupon && $coupon->isOffForAllProduct() )
-		{
-			$kedvezmeny = $coupon->calcPrice( $totalPrice );
-			$totalPrice_before_discount = $totalPrice;
-			$totalPrice = $totalPrice - $kedvezmeny;
-		}
-		else if($coupon)
-		{
-			$totalPrice_before_discount = $totalPrice;
-			$totalPrice = $totalPrice - $kedvezmeny;
+		if($has_discounted_items == 0){
+			if( $coupon && $coupon->isOffForAllProduct() )
+			{
+				$kedvezmeny = $coupon->calcPrice( $totalPrice );
+				$totalPrice_before_discount = $totalPrice;
+				$totalPrice = $totalPrice - $kedvezmeny;
+			}
+			else if($coupon)
+			{
+				$totalPrice_before_discount = $totalPrice;
+				$totalPrice = $totalPrice - $kedvezmeny;
+			}
 		}
 
 		$re[itemNum]			= $itemNum;
@@ -1858,26 +1881,6 @@ class Shop
 					$allow_coupon_discount 	= false;
 					$referer_partner_id 	= ($referer_partner_id)? $referer_partner_id : NULL;
 					$coupon_code 			= ($coupon_id)? $coupon_id : NULL;
-					$used_cash 				= (isset($virtual_cash)) ? $virtual_cash : 0;
-
-					if ( $used_cash )
-					{
-						$kedvezmeny_ft = $used_cash;
-					}
-
-					/**
-					 * Partner ajánló rendszer levonás
-					 * */
-					$partner_ref = (new PartnerReferrer ( $referer_partner_id, array(
-						'db' 		=> $this->db,
-						'settings' 	=> $this->settings
-					)))
-					->setExcludedUser( $uid )
-					->load();
-
-					if( $partner_ref->isValid() ) {
-						$allow_partner_discount = true;
-					}
 
 					/**
 					 * Kupon ellenőrzés
@@ -1904,7 +1907,9 @@ class Shop
 							t.meret,
 							t.szin,
 							t.raktar_articleid,
+							t.akcios,
 							getTermekUrl(t.ID,'".$this->settings['domain']."') as url,
+							getTermekAr(t.marka, t.brutto_ar) as brutto_ar,
 							IF(t.egyedi_ar IS NOT NULL, t.egyedi_ar, getTermekAr(t.marka, IF(t.akcios,t.akcios_brutto_ar,t.brutto_ar))) as ar,
 							t.referer_price_discount,
 							m.neve as markaNev
@@ -1925,7 +1930,7 @@ class Shop
 					if($go){
 						$szamlazasi_keys = \Helper::getArrayValueByMatch($post,'szam_');
 						$szallitasi_keys = \Helper::getArrayValueByMatch($post,'szall_');
-						$iq = "INSERT INTO orders(nev,azonosito,email,userID,gepID,szallitasiModID,fizetesiModID,kedvezmeny,szallitasi_koltseg,szamlazasi_keys,szallitasi_keys,pickpackpont_uzlet_kod,comment,postapont,referer_code,coupon_code, used_cash) VALUES(
+						$iq = "INSERT INTO orders(nev,azonosito,email,userID,gepID,szallitasiModID,fizetesiModID,kedvezmeny,szallitasi_koltseg,szamlazasi_keys,szallitasi_keys,pickpackpont_uzlet_kod,comment,postapont,coupon_code) VALUES(
 						'$nev',
 						nextOrderID(),
 						'$email',
@@ -1940,9 +1945,7 @@ class Shop
 						$pppkod,
 						'$comment',
 						$pp_pont,
-						$referer_partner_id,
-						$coupon_code,
-						$used_cash
+						$coupon_code
 						);";
 
 						$this->db->query($iq);
@@ -1956,27 +1959,6 @@ class Shop
 							),
 							"ID = $orderID"
 						);
-
-						if ( $used_cash )
-						{
-							// Kedvezmény levonása
-							if ( $orderUserID )
-							{
-								$this->db->query("UPDATE ".\PortalManager\Users::TABLE_NAME." SET cash = cash - ".$used_cash." WHERE ID = ".$orderUserID);
-
-								// Log cash
-								$this->db->insert(
-									'cash_log',
-									array(
-										'felh_id' 		=> $orderUserID,
-										'referer' 		=> 'Egyenleg felhasználás',
-										'referer_id' 	=> $orderID,
-										'cash' 			=> $used_cash,
-										'direction' 	=> 'out'
-									)
-								);
-							}
-						}
 					}
 
 					// Copy items to order items and connect with order parent
@@ -1987,25 +1969,25 @@ class Shop
 						{
 							$kedv = 0;
 
-							if( $kedvezmeny > 0 )
-							{
-								//\PortalManager\Formater::discountPrice( $d[ar], $kedvezmeny );
-							}
-
-							if( $allow_partner_discount )
-							{
-								$kedv 			= $d['referer_price_discount'];
-								$kedvezmeny_ft 	+= $d['referer_price_discount'] * $d['me'];
-							}
-
-							if ($allow_coupon_discount && !$coupon->isOffForAllProduct())
-							{
-								if ($coupon->thisProductAllowed($d['raktar_articleid']))
+							if ($d['akcios'] == 0) {
+								if ($allow_coupon_discount && !$coupon->isOffForAllProduct())
 								{
-									$kedv 			= $coupon->calcPrice( $d['ar'] );
-									$kedvezmeny_ft += $coupon->calcPrice( $d['ar'] ) * $d['me'];
+									if ($coupon->thisProductAllowed($d['raktar_articleid']))
+									{
+										$kedv 			= $coupon->calcPrice( $d['ar'] );
+										$kedvezmeny_ft += $coupon->calcPrice( $d['ar'] ) * $d['me'];
+									}
+								} else {
+									if( $kedvezmeny > 0 )
+									{
+										$oriar = $d['ar'];
+										\PortalManager\Formater::discountPrice( $d[ar], $kedvezmeny );
+										$kedv = $oriar - $d['ar'];
+										$kedvezmeny_ft += ($kedv * $d['me']);
+									}
 								}
-
+							} else {
+								$kedv = ($d['brutto_ar'] - $d['ar']);
 							}
 
 							$total += ( $d[ar] * $d[me] );
@@ -2022,6 +2004,8 @@ class Shop
 									'egysegArKedvezmeny'=> $kedv
 								)
 							);
+
+							$d['egysegArKedvezmeny'] = $kedv;
 
 							$temp_cart[] = $d;
 						}
@@ -2042,7 +2026,7 @@ class Shop
 
 					// Clear shoping cart by machineID
 					if($go){
-						$this->db->query("DELETE FROM shop_kosar WHERE gepID = $mid");
+						//$this->db->query("DELETE FROM shop_kosar WHERE gepID = $mid");
 					}
 						// Alert orders and admin about new order
 						$orderData = $this->db->query("SELECT * FROM orders WHERE ID = $orderID")->fetch(\PDO::FETCH_ASSOC);
@@ -2191,11 +2175,10 @@ class Shop
 
 		$bdata = array();
 		foreach ($data as $d) {
-			$kedvezmenyes = ($d[kedvezmeny_szazalek] > 0) ? true : false;
-			if( $kedvezmenyes ) {
-				\PortalManager\Formater::discountPrice( $d[ar], $d[kedvezmeny_szazalek] );
-				\PortalManager\Formater::discountPrice( $d[subAr], $d[kedvezmeny_szazalek] );
-				\PortalManager\Formater::discountPrice( $d[egysegAr], $d[kedvezmeny_szazalek] );
+			$kedvezmenyes = ($d[egysegArKedvezmeny] > 0) ? true : false;
+			if ($kedvezmenyes) {
+				$d['origin_price_each'] = $d['egysegAr'] + $d['egysegArKedvezmeny'];
+				$d['origin_price_sum'] = $d['origin_price_each'] * $d['me'];
 			}
 			$bdata[] = $d;
 		}

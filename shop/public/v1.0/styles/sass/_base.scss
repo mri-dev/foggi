@@ -1123,7 +1123,7 @@ h1.stitle, h3.stitle {
 
 .cart-float .sub .tipus {
 	color: #8c8c8c;
-	font-size:0.8em;
+	font-size:0.7em;
 }
 .cart-float .sub .tipus .val{
 	color: #333333;
@@ -1133,6 +1133,13 @@ h1.stitle, h3.stitle {
 	color: saturate(darken($color-gold, 10%), 10);
 	font-size:0.95em;
 	font-weight: bold;
+}
+.cart-float .sub .oldar {
+	color: red;
+	font-size:0.8em;
+	font-weight: 400;
+	font-style: italic;
+	text-decoration: line-through;
 }
 .cart-float .floating {
 	display: none;
@@ -2147,6 +2154,18 @@ h1.stitle, h3.stitle {
 	.items-table {
 		padding: 5px;
 		color: #444444;
+		font-size: 0.85em;
+
+		.oldar{
+			text-decoration: line-through;
+			color: #888888;
+			font-style: italic;
+		}
+
+		.newar{
+			font-weight: bold;
+			color: $color-gold;
+		}
 
 		table {
 			margin: 0;
@@ -2318,6 +2337,10 @@ table.table{
 			font-size: 0.9em;
 			vertical-align: middle;
 			color: black;
+		}
+
+		.order-status{
+			font-size: 0.8em;
 		}
 	}
 
