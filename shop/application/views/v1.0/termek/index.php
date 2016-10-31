@@ -30,17 +30,7 @@
                 </div>
                 <? } ?>
             </div>
-            <? if($this->product['links']): ?>
-            <div class="links">
-                <div class="divider"></div>
-                <ul>
-                    <? foreach( $this->product['links'] as $link ) : ?>
-                    <li><a target="_blank" href="<?=$link['link']?>"><?=$link['title']?> <i class="fa fa-chevron-circle-right"></i></a></li>
-                    <? endforeach; ?>
-                </ul>
-                <div class="clr"></div>
-            </div>
-         <? endif; ?>
+
         </div>
         <div class="data-view">
             <div class="cimkek">
@@ -177,6 +167,16 @@
     <div class="info">
       <div class="grid-layout">
         <div class="grid-row grid-row-40">
+            <? if($this->product['links']): ?>
+            <div class="links">
+              <ul>
+                  <? foreach( $this->product['links'] as $link ) : ?>
+                  <li><a target="_blank" href="<?=$link['link']?>"><?=$link['title']?> <i class="fa fa-chevron-circle-right"></i></a></li>
+                  <? endforeach; ?>
+              </ul>
+              <div class="clr"></div>
+            </div>
+            <? endif; ?>
             <h3>Paraméterek</h3>
             <? if($this->product['parameters']): ?>
             <div class="parameters">
@@ -204,6 +204,17 @@
               <?=Product::rewriteImageTinyMCE($this->product['rovid_leiras'])?>
             <? endif; ?>
           </div>
+          <?
+          $keywords = explode(" ", $this->product['kulcsszavak']);
+          if($keywords):
+          ?>
+          <ul class="keywords">
+          <? foreach ($keywords as $key) { ?>
+            <li><a href="/kereses/<?=$key?>">#<?=$key?></a></li>
+          <? } ?>
+          </ul>
+          <div class="clr"></div>
+          <? endif; ?>
         </div>
       </div>
     </div>
