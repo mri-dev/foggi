@@ -206,7 +206,7 @@
           </div>
           <?
           $keywords = explode(" ", $this->product['kulcsszavak']);
-          if($keywords):
+          if(!empty($this->product['kulcsszavak']) && $keywords):
           ?>
           <ul class="keywords">
           <? foreach ($keywords as $key) { ?>

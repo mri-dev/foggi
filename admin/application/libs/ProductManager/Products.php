@@ -486,14 +486,14 @@ class Products
 								p.garancia_honap,
 								p.termek_site_url,
 								p.ajandek,
+								p.alapertelmezett_kategoria,
 								IF(p.egyedi_ar IS NOT NULL,
 									p.egyedi_ar,
 									getTermekAr(p.marka, IF(p.akcios,p.akcios_brutto_ar,p.brutto_ar))
 								) as ar,
 
 								p.fotermek,
-								(SELECT GROUP_CONCAT(kategoria_id) FROM shop_termek_in_kategoria WHERE termekID = p.ID ) as in_cat,
-								(SELECT neve FROM shop_termek_kategoriak WHERE ID = p.alapertelmezett_kategoria ) as alap_kategoria
+								(SELECT GROUP_CONCAT(kategoria_id) FROM shop_termek_in_kategoria WHERE termekID = p.ID ) as in_cat
 		FROM					shop_termekek as p
 		WHERE 					1 = 1
 		";
@@ -686,15 +686,12 @@ class Products
 				$qry .= " ORDER BY nev ASC, fotermek DESC, ID DESC ";
 			}
 		}
-
-
-
 		// LIMIT
 		$current_page = ($arg['page'] ?: 1);
 		$start_item = $current_page * $this->product_limit_per_page - $this->product_limit_per_page;
 		$qry .= " LIMIT ".$start_item.",".$this->product_limit_per_page.";";
 
-		//echo $qry . '<br>';
+		//echo $qry . '<br><br>';
 
 		$this->qry_str = $qry;
 
@@ -771,10 +768,22 @@ class Products
 			// Kategória lista, ahol szerepel a termék
 			$in_cat = $this->getCategoriesWhereProductIn( $d['product_id'] );
 
+			// Alapértelmezett kategória adatok
+			$main_cat = false;
+			if ($in_cat) {
+				foreach ($in_cat as $def_kat) {
+					if($def_kat['id'] == $d['alapertelmezett_kategoria']) {
+						$main_cat = $def_kat;
+						break;
+					}
+				}
+			}
+
 			$d['link'] 				= DOMAIN.'termek/'.\PortalManager\Formater::makeSafeUrl( $d['product_nev'], '_-'.$d['product_id'] );
 			$d['hasonlo_termek_ids']= $this->getProductRelatives( $d['product_id'] );
 			$d['parameters'] 		= $this->getParameters( $d['product_id'], $d['alapertelmezett_kategoria'] );
 			$d['inKatList'] 		= $in_cat;
+			$d['main_cat'] 			= $main_cat;
 			$d['ar'] 							= $arInfo['ar'];
 			$d['akcios_fogy_ar']	= $akcios_arInfo['ar'];
 			$d['arres_szazalek'] 	= $arInfo['arres'];

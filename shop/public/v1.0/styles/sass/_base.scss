@@ -1162,8 +1162,20 @@ h1.stitle, h3.stitle {
 		color: $color-pr;
 	}
 	.subtitles {
-		padding: 0 15px 15px 15px;
+		padding: 5px 0 10px 0;
+		color: #aaaaaa;
 		line-height:150%;
+	}
+}
+
+.contact-info-table{
+	margin: -10px;
+	td {
+		padding: 10px;
+
+		strong{
+			color: #333333;
+		}
 	}
 }
 

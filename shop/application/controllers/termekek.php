@@ -75,7 +75,7 @@ class termekek extends Controller {
 				'in_cat' 	=> $cat->getId(),
 				'meret' 	=> $_GET['meret'],
 				'order' 	=> $order,
-				'limit' 	=> 40,
+				'limit' 	=> 50,
 				'page' 		=> Helper::currentPageNum()
 			);
 			$products = (new Products( array(

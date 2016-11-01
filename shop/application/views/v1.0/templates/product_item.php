@@ -25,7 +25,7 @@
 
 				$szinek = rtrim($szinek, ', ');
 			?>
-			<div class="def_cat"><?=$alap_kategoria?><? if($color_count > 1): ?><span class="color-n" title="Színek: <?=$szinek?>"> &bull; <?=$color_count?> színvariáció</span><? endif; ?></div>
+			<div class="def_cat"><?=$main_cat['neve']?><? if($color_count > 1): ?><span class="color-n" title="Színek: <?=$szinek?>"> &bull; <?=$color_count?> színvariáció</span><? endif; ?></div>
 			<div class="sizes">
 				<ul>
 				<? foreach($hasonlo_termek_ids['colors'][$szin]['size_set'] as $meretek ): ?>

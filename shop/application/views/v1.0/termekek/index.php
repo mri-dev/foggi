@@ -1,8 +1,8 @@
-<? if( $this->category->getName() ): ?>
+<? if( $this->category->getName() || true ): ?>
     <div class="category-listing page-width">
         <? $this->render('templates/slideshow'); ?>
         <div class="list-view webshop-product-top">
-            <? if($this->parent_menu&& count($this->parent_menu) > 0): ?>
+            <? if($this->parent_menu && count($this->parent_menu) > 0): ?>
             <div class="sub-categories">
                 <div class="title">
                     <h3><? $subk = ''; foreach($this->parent_row as $sc) { $subk .= $sc.' / '; } echo rtrim($subk,' / '); ?> alkategóriái</h3>
@@ -11,7 +11,7 @@
                      <? endif; ?>
                 </div>
                 <?
-                    foreach( $this->parent_menu as $cat ):
+                foreach( $this->parent_menu as $cat ):
                 ?><div class="item">
                   <div class="item-wrapper">
                     <div class="img"><a href="<?=$cat['link']?>"><img src="<?=rtrim(IMGDOMAIN,"/").$cat['kep']?>" alt="<?=$cat['neve']?>"></a></div>
@@ -38,7 +38,7 @@
                     </form>
                     <div class="clr"></div>
                 </div>
-                <h1><?=$this->category_title?></h1>
+                <h1><?=($this->category_title)?$this->category_title:'Összes termék'?></h1>
             </div>
             <div class="divider"></div>
             <div class="products">
@@ -50,20 +50,14 @@
                 </div>
                 <? else: ?>
                     <div class="grid-container">
-
-                    <? /* foreach ( $this->product_list as $p ) {
-                        $p['itemhash'] = hash( 'crc32', microtime() );
-                        $p['sizefilter'] = ( count($this->products->getSelectedSizes()) > 0 ) ? true : false;
-                        echo $this->template->get( 'product_list_item', $p );
-                    }*/ ?>
-                        <div class="items">
-                            <? foreach ( $this->product_list as $p ) {
-                                $p['itemhash'] = hash( 'crc32', microtime() );
-                                $p['sizefilter'] = ( count($this->products->getSelectedSizes()) > 0 ) ? true : false;
-                                $p = array_merge( $p, (array)$this );
-                                echo $this->template->get( 'product_item', $p );
-                            } ?>
-                        </div>
+                      <div class="items">
+                          <? foreach ( $this->product_list as $p ) {
+                              $p['itemhash'] = hash( 'crc32', microtime() );
+                              $p['sizefilter'] = ( count($this->products->getSelectedSizes()) > 0 ) ? true : false;
+                              $p = array_merge( $p, (array)$this );
+                              echo $this->template->get( 'product_item', $p );
+                          } ?>
+                      </div>
                     </div>
                     <div class="clr"></div>
                     <? /*$this->navigator*/ ?>

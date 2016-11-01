@@ -2350,7 +2350,13 @@ class Shop
 	function logKategoriaView($cat_id = NULL){
 		$date 	= date('Y-m-d');
 
+		if (!$cat_id) {
+			return false;
+		}
+
 		$cq = "SELECT 1 FROM stat_nezettseg_kategoria WHERE datum = '$date' and kategoriaID = $cat_id";
+
+		//echo $cq;
 
 		$c = $this->db->query($cq)->rowCount();
 

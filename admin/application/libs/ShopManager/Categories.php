@@ -249,8 +249,13 @@ class Categories
 
 		$sid = $id;
 
+		if (!$sid || $sid == '') {
+			return $row;
+		}
+
 		while( $has_parent && $limit > 0 ) {
 			$q 		= "SELECT ".$return_row.", szulo_id, deep FROM shop_termek_kategoriak WHERE ID = ".$sid.";";
+			//echo $q;
 			$qry 	= $this->db->query($q);
 			$data 	= $qry->fetch(\PDO::FETCH_ASSOC);
 
