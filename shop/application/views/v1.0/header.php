@@ -32,7 +32,19 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <header>
-	<div class="pw">
+  <div class="pw show-on-mobile mobile-header">
+    <div class="menu-switcher" mb-event="true" data-mb='{ "event": "toggleOnClick", "target" : ".general-sidebar" }'><i class="fa fa-bars"></i></div>
+    <div class="logo">
+      <a href="<?=$this->settings['page_url']?>"><img src="<? echo IMG.'foggi_logo_wfoggitext_white_wobg.svg'; ?>" alt="<?=$this->settings['page_title']?>"></a>
+    </div>
+		<div class="cart" mb-event="true" data-mb='{ "event": "toggleOnClick", "target" : "#mb-cart" }'>
+			<a href="/kosar"><i class="fa fa-shopping-cart "></i> <span class="cart-item-num-v">0</span></a>
+		</div>
+		<div class="ct"><a title="Kapcsolat" href="/p/kapcsolat"><i class="fa fa-phone"></i></a></div>
+		<div class="acv"><a title="Ügyfélkapu" href="/user"><i class="fa fa-user"></i></a></div>
+		<div class="clr"></div>
+  </div>
+	<div class="pw hide-on-mobile">
     <div class="topper">
   		<div class="grid-layout grid-np">
   			<div class="grid-row grid-row-20 left vra-bottom"></div>
@@ -69,8 +81,7 @@
     </div>
 	</div>
 </header>
-
-<div class="pw">
+<div class="pw hide-on-mobile">
   <nav>
       <ul class="menu">
         <? foreach ( $this->menu_header->tree as $menu ): ?>

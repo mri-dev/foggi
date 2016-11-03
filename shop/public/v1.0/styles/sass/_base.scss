@@ -5,6 +5,10 @@
 	position: relative;
 }
 
+body.noscroll { 
+  overflow: hidden !important;
+}
+
 .form-text {
 	line-height: 1;
 	font-size: 0.9em;
@@ -3767,7 +3771,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 					background: #c4303a;
 					color: white;
 					position: absolute;
-					z-index: 999;
+					z-index: 99;
 					top: -15px;
 					right: -5px;
 					line-height: 50px;
