@@ -5,7 +5,7 @@
 	position: relative;
 }
 
-body.noscroll { 
+body.noscroll {
   overflow: hidden !important;
 }
 
@@ -829,7 +829,7 @@ h1.stitle, h3.stitle {
 				}
 			}
 			#addtocart{
-				z-index: 200;
+				z-index: 1;
 				position: relative;
 			}
 		}

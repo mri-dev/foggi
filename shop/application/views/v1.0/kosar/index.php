@@ -253,9 +253,8 @@
 	                            <div class="info-for-register">
 	                            	<div><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
 	                            	<strong>Regisztráljon és lépjen be vásárláshoz!</strong><br><br>
-									Ajánlórendszerünknek köszönhetően akár ingyen is hozzájuthat termékeinkhez. <br>
-									Regisztráljon, mielőtt vásárolna, és már első vásárlása után igénybe veheti ajánlórendszerünket. <br>
-									<a href="<?=$this->settings['blog_url']?>/ajanlorendszer">részletek ></a>
+																Törzsvásárlói kedvezményünknek köszönhetően jelentős kedvezményhez juthat minden vásárlása során. <br>
+																<a href="/p/torzsvasarloi-program">részletek ></a>
 	                            </div>
 	                        </div>
 	                        <? else: ?>

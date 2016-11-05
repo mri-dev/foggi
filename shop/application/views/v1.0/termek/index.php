@@ -78,6 +78,7 @@
                 </div>
               </div>
               <? endforeach; ?>
+              <div class="clr"></div>
             </div>
             <? endif; ?>
 
@@ -106,7 +107,7 @@
                 </div>
             </div>
             <br><br>
-            <div class="grid-layout">
+            <div class="grid-layout kpm grid-np">
                 <div class="grid-row grid-row-50">
                     <div class="prices">
                         <div class="base">
@@ -165,8 +166,9 @@
     </div>
     <div class="divider"></div>
     <div class="info">
-      <div class="grid-layout">
+      <div class="grid-layout grid-layout-mobile-paddingoff">
         <div class="grid-row grid-row-40">
+          <div class="mobile-padding-hor">
             <? if($this->product['links']): ?>
             <div class="links">
               <ul>
@@ -192,29 +194,32 @@
               A termékhez nem tartozik paraméter.
             </div>
           <? endif; ?>
+          </div>
         </div>
         <div class="grid-row grid-row-60">
-          <h3>Termékleírás</h3>
-          <div class="product-desc">
-            <? if($this->product['rovid_leiras'] == ""): ?>
-            <div class="no-result">
-              Nem található termékleírás.
+          <div class="mobile-padding-hor">
+            <h3>Termékleírás</h3>
+            <div class="product-desc">
+              <? if($this->product['rovid_leiras'] == ""): ?>
+              <div class="no-result">
+                Nem található termékleírás.
+              </div>
+              <? else: ?>
+                <?=Product::rewriteImageTinyMCE($this->product['rovid_leiras'])?>
+              <? endif; ?>
             </div>
-            <? else: ?>
-              <?=Product::rewriteImageTinyMCE($this->product['rovid_leiras'])?>
+            <?
+            $keywords = explode(" ", $this->product['kulcsszavak']);
+            if(!empty($this->product['kulcsszavak']) && $keywords):
+            ?>
+            <ul class="keywords">
+            <? foreach ($keywords as $key) { ?>
+              <li><a href="/kereses/<?=$key?>">#<?=$key?></a></li>
+            <? } ?>
+            </ul>
+            <div class="clr"></div>
             <? endif; ?>
           </div>
-          <?
-          $keywords = explode(" ", $this->product['kulcsszavak']);
-          if(!empty($this->product['kulcsszavak']) && $keywords):
-          ?>
-          <ul class="keywords">
-          <? foreach ($keywords as $key) { ?>
-            <li><a href="/kereses/<?=$key?>">#<?=$key?></a></li>
-          <? } ?>
-          </ul>
-          <div class="clr"></div>
-          <? endif; ?>
         </div>
       </div>
     </div>
