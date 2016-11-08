@@ -508,6 +508,12 @@ class Products
 			$whr .= $add;
 			$size_whr .= $add;
 
+			if ($this->db->settings['stock_orderallow'] == 1) {
+				$add = " and p.raktar_keszlet != 0 ";
+				$whr .= $add;
+				$size_whr .= $add;
+			}
+
 			if(!empty($arg['meret']) && $arg['meret'][0] != ''){
 				$add = " and p.meret IN ('".trim(implode("','",$arg['meret']))."') ";
 				$whr .= $add;
@@ -1122,7 +1128,14 @@ class Products
 						t.profil_kep,
 						t.meret
 		FROM 			shop_termekek as t
-		WHERE 			t.lathato = 1 and profil_kep IS NOT NULL and t.raktar_articleid = (SELECT raktar_articleid FROM shop_termekek WHERE ID = $product_id)
+		WHERE
+			t.lathato = 1 ";
+		if ($this->db->settings['stock_orderallow'] == 1) {
+			$q .= " and t.raktar_keszlet != 0 ";
+		}
+		$q .= "
+		and	profil_kep IS NOT NULL
+		and t.raktar_articleid = (SELECT raktar_articleid FROM shop_termekek WHERE ID = $product_id)
 		";
 
 		$q .= " ORDER BY

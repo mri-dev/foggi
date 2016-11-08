@@ -164,7 +164,8 @@ header {
 					position: relative;
 					display: block;
 					padding: 8px 10px;
-					font-size: 1.3em;
+					font-size: 1.25em;
+					letter-spacing: -2px;
 					text-transform: uppercase;
 					text-decoration: none;
 					color: saturate($color-pr, 10);

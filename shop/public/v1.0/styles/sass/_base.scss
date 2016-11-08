@@ -805,7 +805,7 @@ h1.stitle, h3.stitle {
 			margin-top: 15px;
 
 			.item-count{
-				z-index: 100;
+				z-index: 10;
 				margin-right: -28px;
 				height: 55px;
 		    line-height: 55px;
@@ -829,7 +829,7 @@ h1.stitle, h3.stitle {
 				}
 			}
 			#addtocart{
-				z-index: 1;
+				z-index: 20;
 				position: relative;
 			}
 		}
@@ -928,6 +928,27 @@ h1.stitle, h3.stitle {
 				font-size: 0.8em;
 				color: #888888;
 			}
+		}
+
+		.simple-size{
+			label {
+				font-size: 0.9em;
+			}
+			.size-txt {
+				margin-top: 5px;
+				font-size: 1.8em;
+				font-weight: bold;
+				color: $color-pr;
+			}
+		}
+
+		.out-of-stock{
+			margin-top: 25px;
+	    color: #fff;
+	    background: #ea9820;
+	    padding: 10px;
+	    border-radius: 25px;
+	    font-size: 0.85em;
 		}
 
 		.prices {
@@ -1113,7 +1134,7 @@ h1.stitle, h3.stitle {
 			width: 100%;
 
 			td{
-				padding: 5px 0;
+				padding: 15px 0;
 			}
 
 			tr td:nth-child(even) {

@@ -97,6 +97,13 @@
                         <? } ?>
                         </div>
                     </div>
+                  <? else: ?>
+                  <div class="simple-size">
+                    <label>Méret:</label>
+                    <div class="size-txt">
+                      <?=$this->product['meret']?>
+                    </div>
+                  </div>
                   <? endif; ?>
                 </div>
                 <div class="grid-row grid-row-50">
@@ -138,6 +145,7 @@
                     </div>
                 </div>
             </div>
+            <? if( $this->product['keszletID'] != $this->settings['flagkey_itemstatus_outofstock'] && $this->product['raktar_keszlet'] > 0 ): ?>
             <div class="add-to-card">
                 <input type="text" id="add_cart_num" style="display:none;" value="0" cart-count="<?=$this->product['ID']?>" />
                 <div class="grid-layout grid-np">
@@ -156,12 +164,15 @@
                     </div>
                   </div>
                   <div class="grid-row grid-row-60">
-                    <? if( $this->product['keszletID'] != $this->settings['flagkey_itemstatus_outofstock'] ): ?>
                     <button id="addtocart" cart-data="<?=$this->product['ID']?>" title="Kosárba" class="tocart cart-btn"><?=__('kosárba teszem')?> <i class="fa fa-shopping-basket"></i></button>
-                    <? endif; ?>
                   </div>
                 </div>
             </div>
+            <? else: ?>
+            <div class="center out-of-stock">
+              A termék jelenleg nem rendelhető.
+            </div>
+            <? endif; ?>
         </div>
     </div>
     <div class="divider"></div>
