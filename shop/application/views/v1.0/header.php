@@ -44,26 +44,28 @@
 		<div class="acv"><a title="Ügyfélkapu" href="/user"><i class="fa fa-user"></i></a></div>
 		<div class="clr"></div>
   </div>
-	<div class="pw hide-on-mobile">
+	<div class="hide-on-mobile">
     <div class="topper">
-  		<div class="grid-layout grid-np">
-  			<div class="grid-row grid-row-20 left vra-bottom"></div>
-  			<div class="grid-row grid-row-80 center vra-top">
-  				<div class="short-menu right hide-on-mobile">
-  					<ul>
-              <? if(!$this->user): ?>
-              <li class="reg"><a href="/user/regisztracio">Regisztráció</a></li>
-              <? endif; ?>
-              <li class="login"><? if($this->user): ?><a href="/user/"><i class="fa fa-user"></i> Belépve, mint <strong><?=$this->user['data']['nev']?></strong>!</a><? else: ?><a href="/user/belepes"><i class="fa fa-user"></i> Bejelentkezés</a><? endif; ?></li>
-              <? if($this->user): ?>
-              <li class="logout"><a href="/user/logout">Kijelentkezés <i class="fa fa-sign-out"></i></a></li>
-              <? endif; ?>
-            </ul>
-  				</div>
-  			</div>
-  		</div>
+      <div class="pw">
+    		<div class="grid-layout grid-np">
+    			<div class="grid-row grid-row-20 left vra-bottom"></div>
+    			<div class="grid-row grid-row-80 center vra-top">
+    				<div class="short-menu right hide-on-mobile">
+    					<ul>
+                <? if(!$this->user): ?>
+                <li class="reg"><a href="/user/regisztracio">Regisztráció</a></li>
+                <? endif; ?>
+                <li class="login"><? if($this->user): ?><a href="/user/"><i class="fa fa-user"></i> Belépve, mint <strong><?=$this->user['data']['nev']?></strong>!</a><? else: ?><a href="/user/belepes"><i class="fa fa-user"></i> Bejelentkezés</a><? endif; ?></li>
+                <? if($this->user): ?>
+                <li class="logout"><a href="/user/logout">Kijelentkezés <i class="fa fa-sign-out"></i></a></li>
+                <? endif; ?>
+              </ul>
+    				</div>
+    			</div>
+    		</div>
+      </div>
     </div>
-    <div class="main-elements">
+    <div class="main-elements pw">
   		<div class="grid-layout grid-np">
   			<div class="grid-row grid-row-25 center vra-bottom">
   				<div class="logo"><a href="<?=$this->settings['page_url']?>"><img src="<? echo IMG.'foggi_logo_wtext_pink.svg'; ?>" alt="<?=$this->settings['page_title']?>"></a></div>
@@ -81,9 +83,9 @@
     </div>
 	</div>
 </header>
-<div class="pw hide-on-mobile">
-  <nav>
-      <ul class="menu">
+<div class="hide-on-mobile">
+  <nav class="">
+      <ul class="menu pw">
         <? foreach ( $this->menu_header->tree as $menu ): ?>
           <li class="menu-item<?=(strpos($menu['css_class'],'icons') !== false || $menu['kep']) ? ' has-icon':''?><?=(strlen($menu['nev']) > 50)?' two-row':''?> <?=$menu['css_class']?>">
           <? if( $menu['tipus'] == 'template' ): ?>
