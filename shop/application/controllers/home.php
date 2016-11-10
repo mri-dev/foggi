@@ -10,7 +10,7 @@ class home extends Controller{
 			$temp 			= new Template( VIEW . 'templates/' );
 
 			$order = array(
-				'by' => 'sorrend',
+				'by' => 'rand()',
 				'how' => 'ASC'
 			);
 

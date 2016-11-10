@@ -534,6 +534,10 @@ h1.stitle, h3.stitle {
 		.images {
 			width: 40%;
 
+			.slick-track {
+		    height: 90px;
+			}
+
 			.main-img {
 				img {
 					width: 100%;
@@ -3624,6 +3628,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 	}
 }
 
+
 .trans{
 	-webkit-transition: all .4s;
 	-moz-transition: all .4s;
@@ -3663,13 +3668,21 @@ input[type=email][required].ng-touched.ng-valid + span:before
 
 			.image {
 				float: left;
-				width: 25%;
+				width: 50px;
+				height: 50px;
 				@include border-radius(50px);
 				overflow: hidden;
+				position: relative;
 
 				img{
-					max-width: 100%;
-					width: 100%;
+					max-width: 110%;
+					width: 110%;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					-webkit-transform: translate(-50%, -50%);
+					-moz-transform: translate(-50%, -50%);
+					transform: translate(-50%, -50%);
 				}
 			}
 
@@ -3779,7 +3792,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		.item {
 			position: relative;
 			flex-basis: calc(100% / 3);
-			padding: 0 10px;
+			padding: 0 10px 20px 10px;
 
 			.item-wrapper {
 				background: #ffffff;
@@ -3817,7 +3830,10 @@ input[type=email][required].ng-touched.ng-valid + span:before
 					border-radius: 5px 5px 0 0;
 
 					img {
-						height: 100%;
+						height: auto;
+						max-height: initial;
+						width: 110%;
+						max-width: 110%;
 						position: absolute;
 						left: 50%;
 						top: 50%;
