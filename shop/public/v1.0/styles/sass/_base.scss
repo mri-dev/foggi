@@ -3850,15 +3850,23 @@ input[type=email][required].ng-touched.ng-valid + span:before
 					position: relative;
 				}
 
+				.title{
+					display: table;
+					width: 100%;
+				}
+
 				.title a {
 					color: $color-pr;
 					text-transform: uppercase;
 					font-family: $font-cond;
 					font-weight: bold;
-					font-size: 1.2em;
+					font-size: 1em;
 					line-height: 1;
 					padding: 8px;
-					display: block;
+					display: table-cell;
+					width: 100%;
+					vertical-align: middle;
+					text-align: center;
 					height: 50px;
 					overflow: hidden;
 				}
@@ -3867,12 +3875,13 @@ input[type=email][required].ng-touched.ng-valid + span:before
 					font-weight: bold;
 					padding: 4px 8px;
 					font-size:0.9em;
-
-					.color-n {
-						color: darken($color-gold, 10%);
-						font-size: 0.8em;
-						padding-left: 5px;
-					}
+					text-align: center;
+				}
+				.color-n {
+					color: darken($color-gold, 10%);
+					font-size: 0.8em;
+					margin: 4px 0;
+					text-align: center;
 				}
 				.sizes {
 					margin: 0 6px;
@@ -3882,6 +3891,7 @@ input[type=email][required].ng-touched.ng-valid + span:before
 						padding: 0;
 						display: flex;
 						flex-wrap: wrap;
+						justify-content: center;
 
 						li {
 							flex-basis: calc(100% / 6);
