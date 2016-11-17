@@ -59,7 +59,7 @@ class termek extends Controller{
 				$this->out( 'related_list', $related->getList() );
 			}
 
-			$title = $product['nev'].' | '.$product['csoport_kategoria'];
+			$title = $product['nev'].' | '.$product['in_cat_names'][0];
 
 			$this->shop->logTermekView(Product::getTermekIDFromUrl());
 			$this->shop->logLastViewedTermek(Product::getTermekIDFromUrl());

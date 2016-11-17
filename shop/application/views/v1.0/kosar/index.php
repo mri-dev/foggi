@@ -428,7 +428,7 @@
 	                    	<div class="col-sm-12">
 	                        	<ul class="atvetel">
 	                            	<? foreach($this->szallitas as $d): ?>
-	                        		<li><input <?=($this->storedString[2][atvetel] == $d[ID])?'checked':''?> id="atvet_<?=$d[ID]?>" type="radio" name="atvetel" value="<?=$d[ID]?>" <?=($d[ID] == 2 && $no_ppp_itemNum != 0)?'disabled':''?>/><label for="atvet_<?=$d[ID]?>"><?=$d[nev]?> <em><?=Product::transTime($d[ID])?></em><? if($d[ID] == 2 && $no_ppp_itemNum != 0): ?><br /><span class="subtitle"><?=$no_ppp_itemNum?> db termék nem szállítható Pick Pack Pontra</span><? endif; ?></label>
+	                        				<li><input <?=($this->storedString[2][atvetel] == $d[ID])?'checked':''?> id="atvet_<?=$d[ID]?>" type="radio" name="atvetel" value="<?=$d[ID]?>" <?=($d[ID] == 2 && $no_ppp_itemNum != 0)?'disabled':''?>/><label for="atvet_<?=$d[ID]?>"><?=$d[nev]?> <span class="tprice">+<?=$d[koltseg]?> Ft</span> <em class="transtime"><?=Product::transTime($d[ido])?></em><? if($d[ID] == 2 && $no_ppp_itemNum != 0): ?><br /><span class="subtitle"><?=$no_ppp_itemNum?> db termék nem szállítható Pick Pack Pontra</span><? endif; ?></label>
 	                                <?
 	                                // PICK PACK PONT ÁTVÉTEL FORM
 	                                if( $d['ID'] == $this->settings['flagkey_pickpacktransfer_id'] ): ?>
@@ -445,22 +445,22 @@
 	                                	<input type="hidden" id="ugyfelform_iranyitoszam" value="<?=($this->orderExc)?$_POST[szall_irsz]:(($this->storedString[1])?$this->storedString[1][szall_irsz]:$this->user[szallitasi_adat][irsz])?>">
 	                                	<input type="hidden" id="valasztott_postapont" name="pp_selected" value="">
 	                                	<!-- Postapont választó (Ügyfél oldalra beépítendő rész) -->
-										<div id="postapontvalasztoapi"></div>
-										<div class="clr"></div>
-										<script type="text/javascript">
-											ppapi.setMarkers('20_molkut', false);
-											ppapi.setMarkers('30_csomagautomata', false);
-											ppapi.linkZipField('ugyfelform_iranyitoszam'); //<-- A megrendelő form input elemének a megjelölése (beállítása a kiválasztó számára)
-											ppapi.insertMap('postapontvalasztoapi'); //<-- PostaPont választó API beillesztése ( ilyen azonosítóval rendelkező DOM objektumba)
-											ppapi.onSelect = function(data){ //<-- Postapont kiválasztásra bekövetkező esemény lekötése
-												// Minta! A kiválasztott PostaPont adatainak visszaírása a megrendelő form rejtett mezőjébe.
-												$('#valasztott_postapont').val( data['name']+" ("+data['zip'] + " " + data['county']+", "+data['address']+")" );
-												$('#selected_pp_data_info').html( data['name']+" ("+data['zip'] + " " + data['county']+", "+data['address']+")" )
-												console.log(jQuery.param(data));
-											};
-										</script>
-										<div id="pp-data-info">Kiválasztott PostaPont: <span id="selected_pp_data_info">nincs kiválasztva!</span></div>
-										<!-- E:Postapont választó -->
+																		<div id="postapontvalasztoapi"></div>
+																		<div class="clr"></div>
+																		<script type="text/javascript">
+																			ppapi.setMarkers('20_molkut', false);
+																			ppapi.setMarkers('30_csomagautomata', false);
+																			ppapi.linkZipField('ugyfelform_iranyitoszam'); //<-- A megrendelő form input elemének a megjelölése (beállítása a kiválasztó számára)
+																			ppapi.insertMap('postapontvalasztoapi'); //<-- PostaPont választó API beillesztése ( ilyen azonosítóval rendelkező DOM objektumba)
+																			ppapi.onSelect = function(data){ //<-- Postapont kiválasztásra bekövetkező esemény lekötése
+																				// Minta! A kiválasztott PostaPont adatainak visszaírása a megrendelő form rejtett mezőjébe.
+																				$('#valasztott_postapont').val( data['name']+" ("+data['zip'] + " " + data['county']+", "+data['address']+")" );
+																				$('#selected_pp_data_info').html( data['name']+" ("+data['zip'] + " " + data['county']+", "+data['address']+")" )
+																				console.log(jQuery.param(data));
+																			};
+																		</script>
+																		<div id="pp-data-info">Kiválasztott PostaPont: <span id="selected_pp_data_info">nincs kiválasztva!</span></div>
+																		<!-- E:Postapont választó -->
 	                                </div>
 	                            	<? endif; ?>
 	                                </li>

@@ -2030,11 +2030,20 @@ h1.stitle, h3.stitle {
 	display:block;
 	margin:0;
 	padding:25px;
-	font-size:25px;
+	font-size:18px;
 	cursor:pointer;
 	line-height:22px;
 	border-bottom:1px inset #e2e2e2;
 	border-top:1px solid #fff;
+}
+.nextOrded .atvetel > li > input[type=radio] + label .tprice{
+	font-size: 11px;
+	color: #fff;
+	background: #636363;
+	padding: 2px 5px 3px 5px;
+	border-radius: 15px;
+	line-height: 1;
+	vertical-align: middle;
 }
 .nextOrded .atvetel > li:last-child > input[type=radio] + label{
 	border-bottom:none;
@@ -3999,11 +4008,16 @@ input[type=email][required].ng-touched.ng-valid + span:before
 
 .share-box {
 	position: fixed;
-	right:0;
-	top: 80px;
+  right: 0;
+  top: 80px;
+  border: 5px solid rgba(0, 0, 0, 0.52);
+  border-right: 0;
+  -webkit-border-radius: 5px 0 0 5px;
+	-moz-border-radius: 5px 0 0 5px;
+	border-radius: 5px 0 0 5px;
 
 	div {
-		background: #738a8d;
+		background: #4e4e4e;
 		a {
 			font-size: 24px;
 			display: block;
@@ -4013,13 +4027,13 @@ input[type=email][required].ng-touched.ng-valid + span:before
 		}
 	}
 	div.facebook {
-		background:#305891;
+		background:#3569b5;
 	}
 	div.googleplus {
-		background:#DD5146;
+		background:#ea4032;
 	}
 	div.twitter {
-		background:#2ca8d2
+		background:#13baf3;
 	}
 }
 
