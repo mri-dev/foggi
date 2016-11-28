@@ -31,6 +31,7 @@ class csv extends Controller{
 			$fields = array();
 			// Fejrész
 			$fields[] = array(
+				'Gyűjtőkód',
 				'Törzskód',
 				'Variánskód',
 				'Cikkszám',
@@ -44,8 +45,10 @@ class csv extends Controller{
 			);
 
 			foreach ( $products_list as $p ) {
+				$pid = substr($p['raktar_articleid'], 0, 2);
 				$xcode = explode("-", $p['cikkszam']);
 				$fields[] = array(
+					$pid,
 					$xcode[0],
 					$xcode[1],
 					$p['cikkszam'],

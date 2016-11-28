@@ -313,7 +313,7 @@ body.noscroll {
 		display: inline-block;
 		*display: inline;
 		zoom: 1;
-		width: 25%;
+		width: 20%;
 		padding: 5px;
 
 		.item-wrapper {
@@ -329,7 +329,7 @@ body.noscroll {
 			    display: block;
 			    padding: 10px 0;
 	    		text-align: center;
-	    		font-size: 1.1em;
+	    		font-size: 0.85em;
 					background: $color-pr;
 	    		color: white;
 			}
@@ -851,7 +851,7 @@ h1.stitle, h3.stitle {
 				*display: inline;
 				zoom: 1;
 				float: left;
-				width: 20%;
+				width: calc(100% / 3);
 				margin: 0 -2px;
 
 				.cwrap{
@@ -863,11 +863,20 @@ h1.stitle, h3.stitle {
 					}
 
 					.img{
+						overflow: hidden;
 						width: 100%;
+						position: relative;
+						height: 120px;
 
 						img{
-							max-width: 100%;
-							width: 100%;
+							position: absolute;;
+							max-width: 115%;
+							width: 115%;
+							left: 50%;
+							top: 50%;
+							-webkit-transform: translate(-50%, -50%);
+							-moz-transform: translate(-50%, -50%);
+							transform: translate(-50%, -50%);
 						}
 					}
 

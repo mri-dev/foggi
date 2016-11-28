@@ -256,6 +256,7 @@
 						<option value="action_akcio_szaz">Akciós termék, ár csökkentés (% alapján)</option>
                         <option value="action_uploadimage">Képek frissítése, új kép feltöltése a termékekhez</option>
                         <option value="action_addtocategory">Termékek kategóriákba csatolása</option>
+                        <option value="action_removecategory">Összes kategória lecsatolás</option>
                         <option value="action_defaultcategory">Alapértelmezett kategória cseréje</option>
                         <option value="action_footer_listing">Lábrész megjelenés állapot cseréje</option>
 						<option value="" disabled></option>

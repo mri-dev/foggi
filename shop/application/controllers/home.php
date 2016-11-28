@@ -32,7 +32,7 @@ class home extends Controller{
 			// Kiemelt termékek
 			$arg = array(
 				'order' 	=> $order,
-				'limit' 	=> 3,
+				'limit' 	=> 6,
 				'kiemelt' => true,
 				'page' 		=> 1
 			);

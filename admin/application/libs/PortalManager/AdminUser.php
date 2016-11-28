@@ -2735,7 +2735,7 @@ class AdminUser
 		}
 
 		if($action){
-			if( $action != $prefix.'variacio') {
+			if( $action != $prefix.'variacio' && $action != $prefix.'removecategory') {
 				if(strpos($action,$prefix.'value') === 0){
 					if($_POST[$prefix.'value'] == ''){
 						throw new \Exception('Művelet nem lett végrehajtva, mert nem lett új érték megadva.');
@@ -2767,6 +2767,9 @@ class AdminUser
 						}
 					}
 
+				break;
+				case $prefix.'removecategory':
+					$query = "DELETE FROM shop_termek_in_kategoria WHERE termekID IN (".implode($_POST[selectedItem],', ').") ";
 				break;
 				case $prefix.'addtocategory':
 					$catid = $_POST[$prefix.'addtocategory'];
