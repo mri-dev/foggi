@@ -1756,7 +1756,6 @@ class Shop
 					$inputErr[] = 'email';
 				}
 
-
 				if($err){
 					$errArr[input] = $inputErr;
 					throw new OrderException($err, $errArr);
@@ -2026,7 +2025,7 @@ class Shop
 
 					// Clear shoping cart by machineID
 					if($go){
-						//$this->db->query("DELETE FROM shop_kosar WHERE gepID = $mid");
+						$this->db->query("DELETE FROM shop_kosar WHERE gepID = $mid");
 					}
 						// Alert orders and admin about new order
 						$orderData = $this->db->query("SELECT * FROM orders WHERE ID = $orderID")->fetch(\PDO::FETCH_ASSOC);

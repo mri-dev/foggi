@@ -150,8 +150,6 @@
 
 					<? // PayPal fizetés
 					if($this->fizetes[Helper::getFromArrByAssocVal($this->fizetes,'ID',$this->orderInfo[fizetesiModID])][nev] == 'PayPal' && $this->orderInfo[paypal_fizetve] == 0):
-
-
 					?>
 						<div style="padding:10px 0;">
 
@@ -165,8 +163,8 @@
 	            </div>
 	        </div>
 	       	<? endif; ?>
-			<a name="step"></a>
-	        <? if(count($k[items]) > 0): ?>
+					<a name="step"></a>
+	        <? if(count($k[items]) > 0 && $this->gets[1] != 'done'): ?>
 					<div>
 						<div class="coupon-code">
 							<label for="cuponcode">Kuponkód érvényesítése</label>
@@ -210,7 +208,7 @@
 							</div>
 						</div>
 					</div>
-			<div class="nextOrded">
+					<div class="nextOrded">
 	            <div class="box">
 	                <h2>Termékek megrendelése</h2>
 	                <input type="hidden" name="no_ppp_itemNum" value="<?=$no_ppp_itemNum?>" />
@@ -319,8 +317,6 @@
 	                        </div>
 	                    </div>
 	                </div>
-
-	                <pre><? //print_r($this->kosar); ?></pre>
 
 	            	</div>
 	                <!--/ORDER STEP 0.-->

@@ -9,7 +9,7 @@
 				<div class="grid-row grid-row-20">
 					<div class="cont-info">
 						<div class="logo">
-							<img src="<?=IMG?>foggi_logo_pink.svg" alt="<?=$this->settings[page_title]?>" />
+							<img src="<?=IMG?>foggi_logo_pink_wtext.svg" alt="<?=$this->settings[page_title]?>" />
 						</div>
 						<div class="address">
 							<?=$this->settings[page_author_address]?>
