@@ -13,11 +13,11 @@
 					<h3>Raktár adatok</h3>
 					<div class="row">
 						<div class="col-md-6">
-							<label for="raktar_articleid">articleid</label>
+							<label for="raktar_articleid">Törzskód</label>
 							<input type="text" name="raktar_articleid" id="raktar_articleid" value="<?=$this->termek[raktar_articleid]?>" class="form-control">
 						</div>
 						<div class="col-md-6">
-							<label for="raktar_variantid">variantid</label>
+							<label for="raktar_variantid">Variánskód</label>
 							<input type="text" name="raktar_variantid" id="raktar_variantid" value="<?=$this->termek[raktar_variantid]?>" class="form-control">
 						</div>
 					</div>
@@ -26,7 +26,6 @@
 
 				<div class="con">
 					<h3>Alapadatok</h3>
-
 					<div class="row checkprim" style="padding:0 10px;">
 						<div class="col-md-4">
 							<label><input type="checkbox" name="akcios" id="akciosTgl" onclick="javascript:if($(this).is(':checked')){$('#vakcios').show(0);}else{$('#vakcios').hide(0);}" <?=($_COOKIE[cr_akcios] == 'on' && false)?'checked':''?>  /> Akciós</label>
@@ -34,15 +33,17 @@
 						<div class="col-md-4">
 							 <label><input type="checkbox" name="ujdonsag" <?=($_COOKIE[cr_ujdonsag] == 'on')?'checked':''?>  /> Újdonság</label>
 						</div>
-						<div class="col-md-4">
-							<label><input type="checkbox" name="argep" <?=($_COOKIE[cr_argep] == 'on')?'checked':'checked'?>  /> ÁRGÉP listába</label>
-						</div>
-						<div class="col-md-4">
-							<label><input type="checkbox" name="arukereso" <?=($_COOKIE[cr_arukereso] == 'on')?'checked':'checked'?>  /> ÁRUKERESŐ listába</label>
-						</div>
-						<div class="col-md-4">
-							<label><input type="checkbox" <?=($_COOKIE[cr_pickpackszallitas] == 'on')?'checked':'checked'?> name="pickpackszallitas" /> Pick Pack Pont-ra szállítható</label>
-						</div>
+						<?php if (false): ?>
+							<div class="col-md-4">
+								<label><input type="checkbox" name="argep" <?=($_COOKIE[cr_argep] == 'on')?'checked':'checked'?>  /> ÁRGÉP listába</label>
+							</div>
+							<div class="col-md-4">
+								<label><input type="checkbox" name="arukereso" <?=($_COOKIE[cr_arukereso] == 'on')?'checked':'checked'?>  /> ÁRUKERESŐ listába</label>
+							</div>
+							<div class="col-md-4">
+								<label><input type="checkbox" <?=($_COOKIE[cr_pickpackszallitas] == 'on')?'checked':'checked'?> name="pickpackszallitas" /> Pick Pack Pont-ra szállítható</label>
+							</div>
+						<?php endif; ?>
 						<div class="col-md-4">
 							<label><input type="checkbox" <?=($_COOKIE[cr_kiemelt] == 'on')?'checked':'checked'?> name="kiemelt" /> Kiemelt termék</label>
 						</div>
@@ -61,9 +62,15 @@
 							<label for="nev">Termék neve*</label>
 							<input type="text" class="form-control required reqInput" name="nev" id="nev" value="<?=($this->err)?$_POST[nev]:''?>">
 						</div>
+						<?php if (false): ?>
+							<div class="form-group col-md-3">
+								<label for="csoport_kategoria">Termék alcíme</label>
+								<input type="text" class="form-control" name="csoport_kategoria" id="csoport_kategoria" value="<?=($this->err)?$_POST[csoport_kategoria]:''?>">
+							</div>
+						<?php endif; ?>
 						<div class="form-group col-md-3">
-							<label for="csoport_kategoria">Termék alcíme</label>
-							<input type="text" class="form-control" name="csoport_kategoria" id="csoport_kategoria" value="<?=($this->err)?$_POST[csoport_kategoria]:''?>">
+							<label for="raktar_keszlet">Raktárkészlet</label>
+							<input type="number" class="form-control" name="raktar_keszlet" value="<?=($this->err) ? $_POST['raktar_keszlet'] : '0'?>" id="raktar_keszlet">
 						</div>
 						<div class="form-group col-md-3 <?=($this->err && $_POST[marka] == '')?'has-error':''?>">
 							<label for="nev">Termék márka*</label>
@@ -88,19 +95,17 @@
 							<label for="szin">Szín</label>
 							<input type="text" class="form-control" name="szin" id="szin" value="<?=($this->err)?$_POST[szin]:''?>">
 						</div>
-						<div class="form-group col-md-3">
-							<label for="raktar_keszlet">Raktárkészlet</label>
-							<input type="number" class="form-control" name="raktar_keszlet" value="<?=($this->err) ? $_POST['raktar_keszlet'] : '0'?>" id="raktar_keszlet">
-						</div>
-						<div class="form-group col-md-3">
-							<label for="fotermek">Főtermék <?=\PortalManager\Formater::tooltip('Több szín és méret esetén kijelölhetjük, hogy melyik legyen az alapértelmezett, ami megjelenjen a terméklistázásban. A Főtermék-nek NEM jelölt termékek nem fognak megjelenni a listában, hanem csak mint variáció a kapcsolódó terméklapon!')?></label>
-							<input type="checkbox" class="form-control" name="fotermek" value="1" id="fotermek" value="<?=($this->err && $_POST[fotermek] == 'on')?'checked="checked"':''?>">
-						</div>
+						<?php if (false): ?>
+							<div class="form-group col-md-3">
+								<label for="fotermek">Főtermék <?=\PortalManager\Formater::tooltip('Több szín és méret esetén kijelölhetjük, hogy melyik legyen az alapértelmezett, ami megjelenjen a terméklistázásban. A Főtermék-nek NEM jelölt termékek nem fognak megjelenni a listában, hanem csak mint variáció a kapcsolódó terméklapon!')?></label>
+								<input type="checkbox" class="form-control" name="fotermek" value="1" id="fotermek" value="<?=($this->err && $_POST[fotermek] == 'on')?'checked="checked"':''?>">
+							</div>
+						<?php endif; ?>
 						<div class="form-group col-md-2">
 							<label for="sorrend">Sorrend</label>
 							<input type="number" class="form-control" name="sorrend" id="sorrend" value="<?=($this->err) ? $_POST['sorrend'] : '100'?>">
 						</div>
-						<div class="form-group col-md-10">
+						<div class="form-group col-md-12">
 							<label for="kulcsszavak">Kulcsszavak: <?=\PortalManager\Formater::tooltip('A kulcsszavak meghatározása fontos dolog, mivel ezek alapján tud pontosabb keresési találatot kapni a felhasználó. <br> <strong>A kulcsszavakat szóközzel elválasztva adja meg. Pl.: fekete úszó rövidnadrág</strong>')?></label>
 							<input type="text" class="form-control" placeholder="" name="kulcsszavak" id="kulcsszavak" value="<?=($this->err) ? $_POST['kulcsszavak'] : ''?>">
 						</div>
@@ -173,6 +178,7 @@
 							</div>
 						</div>
 						<div class="info">A végfelhasználói ár az aktuálisan kiválasztott <a href="/markak" target="_blank" title="Márka árrések beállítása">márka árrései alapján</a> kerül automatikus kiszámításra!</div>
+						<?php if (false): ?>
 						<br>
 						<div>
 							<div class="left">
@@ -185,6 +191,7 @@
 								</div>
 							</div>
 						</div>
+						<?php endif; ?>
 					</div>
 				</div>
 
@@ -221,12 +228,14 @@
 
 				<div class="con">
 					<h3>Tulajdonságok</h3>
+					<?php if (false): ?>
 					<div class="row">
 						<div class="form-group col-md-12">
 							<label for="garancia">Garancia (hónap; -1 = élettartam)</label>
 							<input class="form-control" type="number" id="garancia" value="<?=($this->err)?$_POST[garancia_honap]:''?>" min="-1" name="garancia_honap">
 						</div>
 					</div>
+					<?php endif; ?>
 					<div class="row np">
 						<div class="col-md-12">
 							<div class="form-group col-md-6 <?=($this->err && $_POST[szallitasID] == '')?'has-error':''?>">

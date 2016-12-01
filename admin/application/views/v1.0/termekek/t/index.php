@@ -74,6 +74,7 @@
 						<div class="col-md-4">
 							 <label><input type="checkbox" name="ujdonsag" <?=($this->termek['ujdonsag'] == 1)?'checked':''?>/> Újdonság</label>
 						</div>
+						<?php if (false): ?>
 						<div class="col-md-4">
 							<label><input type="checkbox" name="argep" <?=($this->termek['argep'] == 1)?'checked':''?>/> ÁRGÉP listába</label>
 						</div>
@@ -83,6 +84,7 @@
 						<div class="col-md-4">
 							<label><input type="checkbox" <?=($this->termek['pickpackszallitas'] == 1)?'checked':''?> name="pickpackszallitas" /> Pick Pack Pont-ra szállítható</label>
 						</div>
+						<?php endif; ?>
 						<div class="col-md-4">
 							<label><input type="checkbox" <?=($this->termek['kiemelt'] == 1)?'checked':''?> name="kiemelt" /> Kiemelt termék</label>
 						</div>
@@ -96,11 +98,11 @@
 					<h3>Raktár adatok</h3>
 					<div class="row">
 						<div class="col-md-6">
-							<label for="raktar_articleid">articleid</label>
+							<label for="raktar_articleid">Törzskód</label>
 							<input type="text" name="raktar_articleid" id="raktar_articleid" value="<?=$this->termek[raktar_articleid]?>" class="form-control">
 						</div>
 						<div class="col-md-6">
-							<label for="raktar_variantid">variantid</label>
+							<label for="raktar_variantid">Variánskód</label>
 							<input type="text" name="raktar_variantid" id="raktar_variantid" value="<?=$this->termek[raktar_variantid]?>" class="form-control">
 						</div>
 					</div>
@@ -171,10 +173,12 @@
 							<label for="nev">Termék neve*</label>
 							<input type="text" class="form-control" name="nev" id="nev" value="<?=$this->termek[nev]?>">
 						</div>
-						<div class="form-group col-md-3">
-							<label for="csoport_kategoria">Termék alcíme</label>
-							<input type="text" class="form-control" name="csoport_kategoria" id="csoport_kategoria" value="<?=$this->termek[csoport_kategoria]?>">
-						</div>
+						<?php if (false): ?>
+							<div class="form-group col-md-3">
+								<label for="csoport_kategoria">Termék alcíme</label>
+								<input type="text" class="form-control" name="csoport_kategoria" id="csoport_kategoria" value="<?=$this->termek[csoport_kategoria]?>">
+							</div>
+						<?php endif; ?>
 						<div class="form-group col-md-3">
 							<label for="nev">Termék márka*</label>
 							<select name="marka" id="marka" class="form-control">
@@ -184,6 +188,11 @@
 								<option value="<?=$d[ID]?>" <?=($this->termek[marka] == $d[ID])?'selected':''?> nb="<?=$d[brutto]?>"><?=$d[neve]?> (<?=($d[brutto] == '1')?'Bruttó':'Nettó'?>)</option>
 								<? endforeach; ?>
 							</select>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="raktar_keszlet">Raktárkészlet</label>
+							<input type="number" class="form-control" name="raktar_keszlet" value="<?=$this->termek['raktar_keszlet']?>" id="raktar_keszlet">
 						</div>
 					</div>
 
@@ -198,19 +207,17 @@
 							<label for="szin">Szín</label>
 							<input type="text" class="form-control" name="szin" id="szin" value="<?=$this->termek['szin']?>">
 						</div>
-						<div class="form-group col-md-3">
-							<label for="raktar_keszlet">Raktárkészlet</label>
-							<input type="number" class="form-control" name="raktar_keszlet" value="<?=$this->termek['raktar_keszlet']?>" id="raktar_keszlet">
-						</div>
-						<div class="form-group col-md-3">
-							<label for="fotermek">Főtermék <?=\PortalManager\Formater::tooltip('Több szín és méret esetén kijelölhetjük, hogy melyik legyen az alapértelmezett, ami megjelenjen a terméklistázásban. A Főtermék-nek NEM jelölt termékek nem fognak megjelenni a listában, hanem csak mint variáció a kapcsolódó terméklapon!')?></label>
-							<input type="checkbox" class="form-control" name="fotermek" id="fotermek" <?=($this->termek && $this->termek['fotermek'] == 1)?'checked="checked"':''?>>
-						</div>
+						<?php if (false): ?>
+							<div class="form-group col-md-3">
+								<label for="fotermek">Főtermék <?=\PortalManager\Formater::tooltip('Több szín és méret esetén kijelölhetjük, hogy melyik legyen az alapértelmezett, ami megjelenjen a terméklistázásban. A Főtermék-nek NEM jelölt termékek nem fognak megjelenni a listában, hanem csak mint variáció a kapcsolódó terméklapon!')?></label>
+								<input type="checkbox" class="form-control" name="fotermek" id="fotermek" <?=($this->termek && $this->termek['fotermek'] == 1)?'checked="checked"':''?>>
+							</div>
+						<?php endif; ?>
 						<div class="form-group col-md-2">
 							<label for="sorrend">Sorrend</label>
 							<input type="number" class="form-control" name="sorrend" id="sorrend" value="<?=$this->termek['sorrend']?>">
 						</div>
-						<div class="form-group col-md-10">
+						<div class="form-group col-md-12">
 							<label for="kulcsszavak">Kulcsszavak: <?=\PortalManager\Formater::tooltip('A kulcsszavak meghatározása fontos dolog, mivel ezek alapján tud pontosabb keresési találatot kapni a felhasználó. <br> <strong>A kulcsszavakat szóközzel elválasztva adja meg. Pl.: fekete úszó rövidnadrág</strong>')?></label>
 							<input type="text" class="form-control" name="kulcsszavak" id="kulcsszavak" value="<?=$this->termek['kulcsszavak']?>">
 						</div>
@@ -250,13 +257,14 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label for="garancia">Garancia (hónap; -1 = élettartam)</label>
-							<input class="form-control" type="number" id="garancia" value="<?=$this->termek['garancia_honap']?>" min="-1" name="garancia">
+					<?php if (false): ?>
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label for="garancia">Garancia (hónap; -1 = élettartam)</label>
+								<input class="form-control" type="number" id="garancia" value="<?=$this->termek['garancia_honap']?>" min="-1" name="garancia">
+							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 
 				</div>
 				<div class="con">
@@ -633,4 +641,3 @@
 	}
 </script>
 <? endif; ?>
-<pre><? //print_r($this->termek); ?></pre>
