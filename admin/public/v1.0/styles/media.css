@@ -38,7 +38,7 @@ input[type=checkbox]{
 body{
 	background:#242424;
 	font-family:'myriadpro', 'PT Sans', sans-serif;
-	font-size:1.43em;
+	font-size:1.3em;
 	height: 100%;
 }
 
@@ -572,16 +572,16 @@ i.edit:hover{
 }
 .table{
 	background:#ffffff;
-	font-size:12px;
+	font-size: 0.9em;
 }
 .table th{
 	background:#f2f2f2;
 	text-align:center;
 }
 .table input[type=text],.table input[type=number],.table select{
-	font-size:12px;
-	padding:3px;
-	height:25px;
+	font-size: 0.9em;
+	padding:0 3px;
+	height:22px;
 }
 .termeklista .img{
 	position:relative;
@@ -598,9 +598,11 @@ i.edit:hover{
 }
 .termeklista .inkat{
 	color:#999;
+  line-height: 1;
+  font-size: 0.9em;
 }
 .termeklista .arres{
-	font-size:11px;
+	font-size:1em;
 	font-style:italic;
 	color:#999;
 }
@@ -612,14 +614,14 @@ i.edit:hover{
 	height:100%
 }
 .termeklista .item-number {
-	font-size:12px;
+	font-size:1em;
 	font-style:italic;
 	color: #999;
 }
 .termeklista .oldar {
 	font-weight: 400;
   font-style: italic;
-  font-size: 12px;
+  font-size: 1em;
   color: #acacac;
   text-decoration: line-through;
 }
@@ -631,7 +633,7 @@ i.edit:hover{
 	color: #222;
 }
 .termeklista .nev{
-	font-size:14px;
+	font-size: 1em;
 	font-weight:bold;
 }
 .termeklista i[class*=check]{
@@ -1910,7 +1912,7 @@ a.page-url,
 	overflow:auto;
 }
 .tbl-container > table {
-	min-width: 1400px;
+	min-width: 1300px;
 	overflow: auto;
 	margin-bottom:0;
 }
